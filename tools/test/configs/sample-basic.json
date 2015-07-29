@@ -1,0 +1,13 @@
+{
+  "devices": {
+    "of:001122334455667788" : {
+      "basic" : {
+        "allowed": false,
+        "name": "Bad Device",
+        "owner": "Luigi"
+      }
+    }
+  },
+  "hosts": {},
+  "links": {}
+}
