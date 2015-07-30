@@ -42,6 +42,7 @@
         <module>utils</module>
         <module>core</module>
         <module>cli</module>
+        <module>web</module>
         <module>providers</module>
         <module>drivers</module>
         <module>openflow</module>
