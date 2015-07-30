@@ -15,24 +15,17 @@
  */
 package org.onosproject.rest.resources;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 
 import org.onosproject.core.ApplicationId;
 import org.onosproject.core.CoreService;
@@ -60,9 +53,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Path("intents")
 public class IntentsWebResource extends AbstractWebResource {
-    @Context
-    UriInfo uriInfo;
-
     private static final Logger log = getLogger(IntentsWebResource.class);
     private static final int WITHDRAW_EVENT_TIMEOUT_SECONDS = 5;
 
@@ -91,14 +81,14 @@ public class IntentsWebResource extends AbstractWebResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{appId}/{key}")
-    public Response getIntentById(@PathParam("appId") String appId,
+    public Response getIntentById(@PathParam("appId") Short appId,
                                   @PathParam("key") String key) {
         final ApplicationId app = get(CoreService.class).getAppId(appId);
 
         Intent intent = get(IntentService.class).getIntent(Key.of(key, app));
         if (intent == null) {
-            long numericalKey = Long.decode(key);
-            intent = get(IntentService.class).getIntent(Key.of(numericalKey, app));
+            intent = get(IntentService.class)
+                    .getIntent(Key.of(Long.parseLong(key), app));
         }
         nullIsNotFound(intent, INTENT_NOT_FOUND);
 
@@ -140,7 +130,7 @@ public class IntentsWebResource extends AbstractWebResource {
      */
     @DELETE
     @Path("{appId}/{key}")
-    public void deleteIntentById(@PathParam("appId") String appId,
+    public void deleteIntentById(@PathParam("appId") Short appId,
                                   @PathParam("key") String keyString) {
         final ApplicationId app = get(CoreService.class).getAppId(appId);
 
@@ -149,7 +139,7 @@ public class IntentsWebResource extends AbstractWebResource {
 
         if (intent == null) {
             intent = service
-                    .getIntent(Key.of(Long.decode(keyString), app));
+                    .getIntent(Key.of(Long.parseLong(keyString), app));
         }
         if (intent == null) {
             // No such intent.  REST standards recommend a positive status code
@@ -184,34 +174,6 @@ public class IntentsWebResource extends AbstractWebResource {
         } finally {
             // clean up the listener
             service.removeListener(listener);
-        }
-    }
-
-    /**
-     * Creates an intent from a POST of a JSON string and attempts to apply it.
-     *
-     * @param stream input JSON
-     * @return status of the request - CREATED if the JSON is correct,
-     * BAD_REQUEST if the JSON is invalid
-     */
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createIntent(InputStream stream) {
-        try {
-            IntentService service = get(IntentService.class);
-            ObjectNode root = (ObjectNode) mapper().readTree(stream);
-            Intent intent = codec(Intent.class).decode(root, this);
-            service.submit(intent);
-            UriBuilder locationBuilder = uriInfo.getBaseUriBuilder()
-                    .path("intents")
-                    .path(Short.toString(intent.appId().id()))
-                    .path(Long.toString(intent.id().fingerprint()));
-            return Response
-                    .created(locationBuilder.build())
-                    .build();
-        } catch (IOException ioe) {
-            throw new IllegalArgumentException(ioe);
         }
     }
 
