@@ -41,7 +41,13 @@ public final class SubnetId {
     public static SubnetId subnetId(String subnetId) {
         return new SubnetId(subnetId);
     }
-
+    /**
+    *
+    * @return subnetId
+    */
+   public String subnetId() {
+       return subnetId;
+   }
     @Override
     public int hashCode() {
         return Objects.hash(subnetId);
