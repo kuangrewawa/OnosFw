@@ -13,11 +13,10 @@
     <artifactId>onos-app-vtn</artifactId>
     <packaging>bundle</packaging>
 
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<properties>
         <onos.app.name>org.onosproject.vtn</onos.app.name>
     </properties>
+    
     <dependencies>
         <dependency>
             <groupId>javax.ws.rs</groupId>
