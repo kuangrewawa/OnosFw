@@ -15,6 +15,8 @@
  */
 package org.onosproject.driver.ovsdb;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.util.Collection;
 import java.util.Set;
 
@@ -34,6 +36,7 @@ import org.onosproject.ovsdb.controller.OvsdbClientService;
 import org.onosproject.ovsdb.controller.OvsdbController;
 import org.onosproject.ovsdb.controller.OvsdbNodeId;
 import org.onosproject.ovsdb.controller.OvsdbPort;
+import org.slf4j.Logger;
 
 import com.google.common.collect.Sets;
 
@@ -42,7 +45,7 @@ import com.google.common.collect.Sets;
  */
 public class OvsdbBridgeConfig extends AbstractHandlerBehaviour
         implements BridgeConfig {
-
+    private final Logger log = getLogger(getClass());
     @Override
     public void addBridge(BridgeName bridgeName) {
         DriverHandler handler = handler();
@@ -124,11 +127,13 @@ public class OvsdbBridgeConfig extends AbstractHandlerBehaviour
         String port = deviceId.toString().substring(lastColon + 1);
         IpAddress ipAddress = IpAddress.valueOf(ip);
         long portL = Long.valueOf(port).longValue();
+        log.info("node ip:{}, port:{}", ipAddress, portL);
         return new OvsdbNodeId(ipAddress, portL);
     }
 
     private OvsdbClientService getOvsdbNode(DriverHandler handler) {
         OvsdbController ovsController = handler.get(OvsdbController.class);
+        log.info("ovsController-----------{}", null == ovsController);
         DeviceId deviceId = handler.data().deviceId();
         OvsdbNodeId nodeId = changeDeviceIdToNodeId(deviceId);
         return ovsController.getOvsdbClient(nodeId);

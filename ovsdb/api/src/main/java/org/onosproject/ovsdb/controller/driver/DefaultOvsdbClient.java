@@ -362,6 +362,7 @@ public class DefaultOvsdbClient
 
     @Override
     public void createBridge(String bridgeName) {
+        log.info("create bridge {}", bridgeName);
         String bridgeUuid = getBridgeUuid(bridgeName);
         DatabaseSchema dbSchema = schema.get(OvsdbConstant.DATABASENAME);
         Bridge bridge = (Bridge) TableGenerator.createTable(dbSchema,
