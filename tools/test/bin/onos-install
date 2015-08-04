@@ -50,7 +50,7 @@ ssh $remote "
     echo 'export ONOS_USER="${ONOS_USER:-sdn}"' >> $ONOS_INSTALL_DIR/options
 
     # Remove any previous ON.Lab bits from ~/.m2 repo.
-    rm -fr ~/.m2/repository/org/onosproject
+    #rm -fr ~/.m2/repository/org/onosproject
 
     [ ! -z "$mvn_settings" ] && cp /tmp/settings.xml ~/.m2/settings.xml
 

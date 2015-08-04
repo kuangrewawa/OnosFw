@@ -393,7 +393,7 @@
             </dependency>
             <dependency>
                 <groupId>org.onosproject</groupId>
-                <artifactId>onos-of-api</artifactId>
+                <artifactId>onos-ovsdb-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
