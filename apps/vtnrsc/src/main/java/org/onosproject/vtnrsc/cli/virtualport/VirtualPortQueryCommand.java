@@ -29,13 +29,21 @@ import org.onosproject.vtnrsc.virtualport.VirtualPortService;
  */
 @Command(scope = "onos", name = "virtualPorts", description = "Supports for querying virtualPort.")
 public class VirtualPortQueryCommand extends AbstractShellCommand {
-    @Option(name = "-v", aliases = "--vPortId", description = "virtualPort ID.", required = false, multiValued = false)
+
+    @Option(name = "-v", aliases = "--vPortId", description = "virtualPort ID.", required = false,
+            multiValued = false)
     String vPortId;
-    @Option(name = "-n", aliases = "--networkId", description = "network ID.", required = false, multiValued = false)
+
+    @Option(name = "-n", aliases = "--networkId", description = "network ID.", required = false,
+            multiValued = false)
     String networkId;
-    @Option(name = "-d", aliases = "--deviceId", description = "device ID.", required = false, multiValued = false)
+
+    @Option(name = "-d", aliases = "--deviceId", description = "device ID.", required = false,
+            multiValued = false)
     String deviceId;
-    @Option(name = "-t", aliases = "--tenantId", description = "tenant ID.", required = false, multiValued = false)
+
+    @Option(name = "-t", aliases = "--tenantId", description = "tenant ID.", required = false,
+            multiValued = false)
     String tenantId;
 
     @Override
