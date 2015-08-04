@@ -206,11 +206,11 @@ public class OvsdbControllerImpl implements OvsdbController {
                 TableUpdate update = updates.result().get(tableName);
                 for (UUID uuid : (Set<UUID>) update.rows().keySet()) {
                     log.info("begin to process table updates {}, {}, {}",
-                             uuid.toString(), databaseName, tableName);
+                             uuid.value(), databaseName, tableName);
                     Row row = clientService.getRow(databaseName, tableName,
-                                                   uuid.toString());
+                                                   uuid.value());
                     clientService.updateOvsdbStore(databaseName, tableName,
-                                                   uuid.toString(),
+                                                   uuid.value(),
                                                    update.getNew(uuid));
                     if (update.getNew(uuid) != null) {
                         boolean isNewRow = (row == null) ? true : false;
