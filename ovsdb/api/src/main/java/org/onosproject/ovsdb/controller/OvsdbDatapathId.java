@@ -17,6 +17,7 @@ package org.onosproject.ovsdb.controller;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Objects;
 
 /**
