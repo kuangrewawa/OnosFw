@@ -31,7 +31,7 @@
 	<modules>
 		<module>api</module>
 		<module>ctl</module>
-		<module>lib</module>
+		<module>rfc</module>
 	</modules>
     <dependencies>
         <dependency>
