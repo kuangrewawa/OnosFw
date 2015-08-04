@@ -52,4 +52,11 @@ public final class OvsdbConstant {
 
     /** Ovsdb port. */
     public static final int OVSDBPORT = 6640;
+
+    /** Ovsdb port. */
+    public static final String INTERFACE = "Interface";
+
+    /** Ovsdb port. */
+    public static final String PORT = "Port";
+
 }
