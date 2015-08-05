@@ -17,7 +17,7 @@ package org.onosproject.ovsdb.controller.driver;
 
 import io.netty.channel.Channel;
 
-import org.onosproject.ovsdb.lib.jsonrpc.Callback;
+import org.onosproject.ovsdb.rfc.jsonrpc.Callback;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

@@ -29,8 +29,20 @@ public final class OvsdbConstant {
     private OvsdbConstant() {
     }
 
-    /** Ovsdb database name. */
+    /** Ovsdb database Open_vSwitch. */
     public static final String DATABASENAME = "Open_vSwitch";
+
+    /** Ovsdb table Bridge. */
+    public static final String BRIDGE = "Bridge";
+
+    /** Ovsdb table Interface. */
+    public static final String INTERFACE = "Interface";
+
+    /** Ovsdb table Controller. */
+    public static final String CONTROLLER = "Controller";
+
+    /** Ovsdb table Port. */
+    public static final String PORT = "Port";
 
     /** Ovsdb bridge name. */
     public static final String INTEGRATION_BRIDGE = "br-int";
@@ -52,11 +64,5 @@ public final class OvsdbConstant {
 
     /** Ovsdb port. */
     public static final int OVSDBPORT = 6640;
-
-    /** Ovsdb port. */
-    public static final String INTERFACE = "Interface";
-
-    /** Ovsdb port. */
-    public static final String PORT = "Port";
 
 }

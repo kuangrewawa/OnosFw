@@ -19,12 +19,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.onlab.packet.IpAddress;
-import org.onosproject.ovsdb.lib.jsonrpc.OvsdbRPC;
-import org.onosproject.ovsdb.lib.message.OperationResult;
-import org.onosproject.ovsdb.lib.message.TableUpdates;
-import org.onosproject.ovsdb.lib.notation.Row;
-import org.onosproject.ovsdb.lib.operations.Operation;
-import org.onosproject.ovsdb.lib.schema.DatabaseSchema;
+
+import org.onosproject.ovsdb.rfc.jsonrpc.OvsdbRPC;
+import org.onosproject.ovsdb.rfc.message.OperationResult;
+import org.onosproject.ovsdb.rfc.message.TableUpdates;
+import org.onosproject.ovsdb.rfc.notation.Row;
+import org.onosproject.ovsdb.rfc.operations.Operation;
+import org.onosproject.ovsdb.rfc.schema.DatabaseSchema;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -129,7 +130,7 @@ public interface OvsdbClientService extends OvsdbRPC {
      *
      * @return port uuid, empty if no uuid is find
      */
-    String getPortUuid(String portName, String bridgeName, String bridgeUUID);
+    String getPortUuid(String portName, String bridgeUUID);
 
     /**
      * Gets the Port uuid.
