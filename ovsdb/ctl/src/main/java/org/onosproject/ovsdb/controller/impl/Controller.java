@@ -173,6 +173,12 @@ public class Controller {
         return ovsdbProviderService;
     }
 
+    /**
+     * Starts controller.
+     *
+     * @param agent OvsdbAgent
+     * @param monitorCallback Callback
+     */
     public void start(OvsdbAgent agent, Callback monitorCallback) {
         this.agent = agent;
         this.monitorCallback = monitorCallback;
@@ -184,6 +190,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Stops controller.
+     *
+     */
     public void stop() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
