@@ -179,7 +179,8 @@ public class Controller {
         try {
             this.run();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Interrupted while waiting to start");
+            Thread.currentThread().interrupt();
         }
     }
 

@@ -26,6 +26,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 
+/**
+ * Channel handler deals with the node connection and dispatches
+ * ovsdb messages to the appropriate locations.
+ */
 public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     protected static final Logger log = LoggerFactory
             .getLogger(OvsdbJsonRpcHandler.class);
