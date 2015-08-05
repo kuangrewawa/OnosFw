@@ -35,7 +35,7 @@ import org.onosproject.vtnrsc.Subnet.Mode;
 import org.onosproject.vtnrsc.subnet.SubnetService;
 
 /**
- * Supports for creating subnets.
+ * Supports for creating subnet.
  */
 @Command(scope = "onos", name = "subnet-create", description = "Supports for creating a subnet")
 public class SubnetCreateCommand extends AbstractShellCommand {

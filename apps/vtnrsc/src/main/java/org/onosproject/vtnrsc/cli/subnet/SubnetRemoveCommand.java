@@ -25,9 +25,9 @@ import org.onosproject.vtnrsc.SubnetId;
 import org.onosproject.vtnrsc.subnet.SubnetService;
 
 /**
- * Supports for removing subnets.
+ * Supports for removing subnet.
  */
-@Command(scope = "onos", name = "subnet-remove", description = "Supports for removing subnets")
+@Command(scope = "onos", name = "subnet-remove", description = "Supports for removing subnet")
 public class SubnetRemoveCommand extends AbstractShellCommand {
 
     @Argument(index = 0, name = "id", description = "Subnet SubnetId Id", required = true,

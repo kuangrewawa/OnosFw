@@ -44,6 +44,7 @@ import com.google.common.collect.Maps;
 @Command(scope = "onos", name = "virtualPort-remove",
         description = "Supports for removing a virtualPort.")
 public class VirtualPortRemoveCommand extends AbstractShellCommand {
+
     @Argument(index = 0, name = "id", description = "virtualPort id.", required = true,
             multiValued = false)
     String id = null;
@@ -53,7 +54,7 @@ public class VirtualPortRemoveCommand extends AbstractShellCommand {
     String networkId = null;
 
     @Argument(index = 2, name = "adminStateUp",
-            description = "administrative status of the virtualPort,which is" + " true or false.",
+            description = "administrative status of the virtualPort which is true or false.",
             required = true, multiValued = false)
     Boolean adminStateUp = false;
 
@@ -83,8 +84,8 @@ public class VirtualPortRemoveCommand extends AbstractShellCommand {
     String deviceId = null;
 
     @Argument(index = 9, name = "fixedIp",
-            description = " a IP address for the port,Include the IP addressand "
-                    + "subnet identity..", required = true, multiValued = false)
+            description = "The IP address for the port,include the IP address and "
+                    + "subnet identity.", required = true, multiValued = false)
     FixedIp fixedIp = null;
 
     @Argument(index = 10, name = "bindingHostId", description = "virtualPort bindingHostId.",

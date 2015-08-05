@@ -35,9 +35,9 @@ import org.onosproject.vtnrsc.Subnet.Mode;
 import org.onosproject.vtnrsc.subnet.SubnetService;
 
 /**
- * Supports for updating subnets.
+ * Supports for updating subnet.
  */
-@Command(scope = "onos", name = "update-subnet", description = "Supports for updating subnets")
+@Command(scope = "onos", name = "update-subnet", description = "Supports for updating subnet")
 public class SubnetUpdateCommand extends AbstractShellCommand {
 
     @Argument(index = 0, name = "id", description = "Subnet SubnetId Id", required = true,
@@ -68,11 +68,11 @@ public class SubnetUpdateCommand extends AbstractShellCommand {
             required = true, multiValued = false)
     String gatewayIp = null;
 
-    @Argument(index = 7, name = "dhcpEnabled", description = "Subnet boolean dhcpEnabled",
+    @Argument(index = 7, name = "dhcpEnabled", description = "Subnet is dhcpEnabled or not",
             required = true, multiValued = false)
     boolean dhcpEnabled = false;
 
-    @Argument(index = 8, name = "shared", description = "Subnet boolean shared", required = true,
+    @Argument(index = 8, name = "shared", description = "Subnet is shared or not", required = true,
             multiValued = false)
     boolean shared = false;
 

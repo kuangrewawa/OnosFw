@@ -27,7 +27,7 @@ import org.onosproject.vtnrsc.virtualport.VirtualPortService;
 /**
  * Supports for querying virtualPorts.
  */
-@Command(scope = "onos", name = "virtualPorts", description = "Supports for querying virtualPort.")
+@Command(scope = "onos", name = "virtualPorts", description = "Supports for querying virtualPorts.")
 public class VirtualPortQueryCommand extends AbstractShellCommand {
 
     @Option(name = "-v", aliases = "--vPortId", description = "virtualPort ID.", required = false,

@@ -53,7 +53,7 @@ public class VirtualPortCreateCommand extends AbstractShellCommand {
     String networkId = null;
 
     @Argument(index = 2, name = "adminStateUp",
-            description = "administrative status of the virtualPort,which is" + " true or false.",
+            description = "administrative status of the virtualPort which is true or false.",
             required = true, multiValued = false)
     Boolean adminStateUp = false;
 
@@ -82,8 +82,8 @@ public class VirtualPortCreateCommand extends AbstractShellCommand {
     String deviceId = null;
 
     @Argument(index = 9, name = "fixedIp",
-            description = " a IP address for the port,Include the IP address "
-                    + "and subnet identity..", required = true, multiValued = false)
+            description = "The IP address for the port,include the IP address "
+                    + "and subnet identity.", required = true, multiValued = false)
     FixedIp fixedIp = null;
 
     @Argument(index = 10, name = "bindingHostId", description = "virtualPort bindingHostId.",

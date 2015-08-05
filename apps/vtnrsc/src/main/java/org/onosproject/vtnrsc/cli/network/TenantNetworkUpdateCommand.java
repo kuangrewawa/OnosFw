@@ -36,15 +36,15 @@ import org.onosproject.vtnrsc.tenantnetwork.TenantNetworkService;
         description = "Supports for updating TenantNetworks")
 public class TenantNetworkUpdateCommand extends AbstractShellCommand {
 
-    @Argument(index = 0, name = "id", description = "TenantNetwork networkid Id", required = true,
+    @Argument(index = 0, name = "id", description = "TenantNetwork network id", required = true,
             multiValued = false)
     String id = null;
 
-    @Argument(index = 1, name = "name", description = "TenantNetwork String name", required = true,
+    @Argument(index = 1, name = "name", description = "TenantNetwork name", required = true,
             multiValued = false)
     String name = null;
 
-    @Argument(index = 2, name = "adminStateUp", description = "TenantNetwork boolean adminStateUp",
+    @Argument(index = 2, name = "adminStateUp", description = "TenantNetwork adminStateUp is true or false",
             required = true, multiValued = false)
     boolean adminStateUp = false;
 
@@ -52,16 +52,16 @@ public class TenantNetworkUpdateCommand extends AbstractShellCommand {
             required = true, multiValued = false)
     String state = null;
 
-    @Argument(index = 4, name = "shared", description = "TenantNetwork boolean shared",
+    @Argument(index = 4, name = "shared", description = "TenantNetwork is shared or not",
             required = true, multiValued = false)
     boolean shared = false;
 
-    @Argument(index = 5, name = "tenantID", description = "TenantNetwork tenantId Id",
+    @Argument(index = 5, name = "tenantID", description = "The tenant id of TenantNetwork",
             required = true, multiValued = false)
     String tenantID = null;
 
     @Argument(index = 6, name = "routerExternal",
-            description = "TenantNetwork boolean routerExternal", required = true,
+            description = "TenantNetwork is routerExternal or not", required = true,
             multiValued = false)
     boolean routerExternal = false;
 
@@ -69,11 +69,11 @@ public class TenantNetworkUpdateCommand extends AbstractShellCommand {
             multiValued = false)
     String type = null;
 
-    @Argument(index = 8, name = "physicalNetwork", description = "TenantNetwork physicalNetwork",
+    @Argument(index = 8, name = "physicalNetwork", description = "The physical network of Tenant",
             required = true, multiValued = false)
     String physicalNetwork = null;
 
-    @Argument(index = 9, name = "segmentationID", description = "TenantNetwork segmentationID Id",
+    @Argument(index = 9, name = "segmentationID", description = "The segmentation id of TenantNetwork",
             required = true, multiValued = false)
     String segmentationID = null;
 

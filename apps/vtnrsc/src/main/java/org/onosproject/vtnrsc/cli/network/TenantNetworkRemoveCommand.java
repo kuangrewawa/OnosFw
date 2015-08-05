@@ -25,7 +25,7 @@ import org.onosproject.vtnrsc.TenantNetworkId;
 import org.onosproject.vtnrsc.tenantnetwork.TenantNetworkService;
 
 /**
- * Supports for removing a TenantNetworks.
+ * Supports for removing TenantNetwork by network id.
  */
 @Command(scope = "onos", name = "tenantNetwork-remove", description = "Supports for removing"
         + "tenantNetwork by tenantNetworkid")
