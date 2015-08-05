@@ -22,7 +22,7 @@ import org.onosproject.ovsdb.controller.driver.OvsdbProviderService;
 
 public class ChannelConnectionListener implements ChannelFutureListener {
 
-    OvsdbProviderService providerService;
+    private final OvsdbProviderService providerService;
 
     /**
      * Constructor from a OvsdbProviderService providerService.
@@ -35,7 +35,6 @@ public class ChannelConnectionListener implements ChannelFutureListener {
 
     @Override
     public void operationComplete(ChannelFuture arg0) throws Exception {
-
         providerService.nodeRemoved();
     }
 }

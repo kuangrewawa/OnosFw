@@ -21,8 +21,8 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
 
-import org.onosproject.ovsdb.lib.jsonrpc.JsonReadContext;
-import org.onosproject.ovsdb.lib.utils.JsonRpcReaderUtil;
+import org.onosproject.ovsdb.rfc.jsonrpc.JsonReadContext;
+import org.onosproject.ovsdb.rfc.utils.JsonRpcReaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

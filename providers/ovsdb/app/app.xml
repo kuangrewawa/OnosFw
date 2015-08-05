@@ -19,7 +19,7 @@
      features="${project.artifactId}">
      <description>${project.description}</description>
 
-    <artifact>mvn:${project.groupId}/onos-ovsdb-lib/${project.version}</artifact>
+    <artifact>mvn:${project.groupId}/onos-ovsdb-rfc/${project.version}</artifact>
     <artifact>mvn:${project.groupId}/onos-ovsdb-api/${project.version}</artifact>
     <artifact>mvn:${project.groupId}/onos-ovsdb-ctl/${project.version}</artifact>
     <artifact>mvn:${project.groupId}/onos-drivers/${project.version}</artifact>
