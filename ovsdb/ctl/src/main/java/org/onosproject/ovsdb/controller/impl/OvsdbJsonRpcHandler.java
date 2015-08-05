@@ -24,15 +24,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
+/**
+ * Channel handler deals with the node connection and dispatches
+ * ovsdb messages to the appropriate locations.
+ */
 public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     protected static final Logger log = LoggerFactory
             .getLogger(OvsdbJsonRpcHandler.class);
     private OvsdbNodeId ovsdbNodeId;
     private OvsdbProviderService ovsdbProviderService;
-    ObjectMapper objectMapper;
 
     /**
      * Constructor from a OvsdbNodeId ovsdbNodeId.
@@ -63,15 +65,6 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     }
 
     /**
-     * Sets the ObjectMapper.
-     *
-     * @param objectMapper the objectMapper to use
-     */
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    /**
      * Gets the OvsdbNodeId instance.
      *
      * @return the instance of the OvsdbNodeId
@@ -81,7 +74,7 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     }
 
     /**
-     * Sets the ObjectMapper.
+     * Sets the ovsdb node id.
      *
      * @param objectMapper the objectMapper to use
      */
@@ -125,7 +118,6 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
             processOvsdbMessage(jsonNode);
         }
         // ctx.channel().close();
-
     }
 
     @Override
@@ -138,6 +130,5 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
 
         log.error("Exception inside channel handling pipeline.", cause);
         context.close();
-
     }
 }

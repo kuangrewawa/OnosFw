@@ -17,7 +17,7 @@ package org.onosproject.ovsdb.controller;
 
 import java.util.concurrent.ConcurrentMap;
 
-import org.onosproject.ovsdb.lib.notation.Row;
+import org.onosproject.ovsdb.rfc.notation.Row;
 
 import com.google.common.collect.Maps;
 

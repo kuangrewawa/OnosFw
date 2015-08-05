@@ -21,8 +21,8 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
 
-import org.onosproject.ovsdb.lib.jsonrpc.JsonReadContext;
-import org.onosproject.ovsdb.lib.utils.JsonRpcReaderUtil;
+import org.onosproject.ovsdb.rfc.jsonrpc.JsonReadContext;
+import org.onosproject.ovsdb.rfc.utils.JsonRpcReaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public class MessageDecoder extends ByteToMessageDecoder {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-    private JsonReadContext context = new JsonReadContext();
+    private final Logger log = LoggerFactory.getLogger(MessageDecoder.class);
+    private final JsonReadContext context = new JsonReadContext();
 
     /**
      * Default constructor.

@@ -20,9 +20,12 @@ import io.netty.channel.ChannelFutureListener;
 
 import org.onosproject.ovsdb.controller.driver.OvsdbProviderService;
 
+/**
+ * The listener class. Handles when the node disconnect.
+ */
 public class ChannelConnectionListener implements ChannelFutureListener {
 
-    OvsdbProviderService providerService;
+    private final OvsdbProviderService providerService;
 
     /**
      * Constructor from a OvsdbProviderService providerService.
@@ -35,7 +38,6 @@ public class ChannelConnectionListener implements ChannelFutureListener {
 
     @Override
     public void operationComplete(ChannelFuture arg0) throws Exception {
-
         providerService.nodeRemoved();
     }
 }
