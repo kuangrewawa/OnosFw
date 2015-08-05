@@ -32,7 +32,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onosproject</groupId>
-            <artifactId>onos-ovsdb-lib</artifactId>
+            <artifactId>onos-ovsdb-rfc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.onosproject</groupId>

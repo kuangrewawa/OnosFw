@@ -34,17 +34,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.onlab.packet.IpAddress;
+import org.onosproject.ovsdb.controller.OvsdbConstant;
 import org.onosproject.ovsdb.controller.OvsdbNodeId;
 import org.onosproject.ovsdb.controller.driver.DefaultOvsdbClient;
 import org.onosproject.ovsdb.controller.driver.OvsdbAgent;
 import org.onosproject.ovsdb.controller.driver.OvsdbProviderService;
-import org.onosproject.ovsdb.lib.jsonrpc.Callback;
+import org.onosproject.ovsdb.rfc.jsonrpc.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * The main controller class. Handles all setup and network listeners -
@@ -53,11 +50,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Controller {
     protected static final Logger log = LoggerFactory
             .getLogger(Controller.class);
-    protected int ovsdbPort = 6640;
+
+    private int ovsdbPort = OvsdbConstant.OVSDBPORT;
+
     private OvsdbAgent agent;
     private Callback monitorCallback;
+
     private static ExecutorService executorService = Executors
             .newFixedThreadPool(10);
+
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     private Class<? extends ServerChannel> serverChannelClass;
@@ -77,9 +78,8 @@ public class Controller {
     private void startAcceptingConnections() throws InterruptedException {
         ServerBootstrap b = new ServerBootstrap();
 
-        b.group(bossGroup, workerGroup)
-        .channel(serverChannelClass)
-        .childHandler(new OnosCommunicationChannelInitializer());
+        b.group(bossGroup, workerGroup).channel(serverChannelClass)
+                .childHandler(new OnosCommunicationChannelInitializer());
         b.option(ChannelOption.SO_BACKLOG, 128);
         b.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
         b.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024);
@@ -106,58 +106,50 @@ public class Controller {
             log.info("New channel created");
             channel.pipeline().addLast(new StringEncoder(CharsetUtil.UTF_8));
             channel.pipeline().addLast(new MessageDecoder());
-            handleNewConnection(channel);
+            handleNewNodeConnection(channel);
 
         }
     }
 
     /**
-     * Gets a new objectMapper.
-     */
-    private ObjectMapper getObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        // Sets the objectMapper which the JSON character string include but the
-        // java object does't include
-        objectMapper
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                           false);
-        // Sets the feature which is not null to JSOn character string
-        objectMapper.setSerializationInclusion(Include.NON_NULL);
-        return objectMapper;
-    }
-
-    /**
-     * Handles the new connection.
+     * Handles the new connection of a node.
      *
      * @param channel the channel to use.
      */
-    private void handleNewConnection(final Channel channel) {
-         executorService.execute(new Runnable() {
-         @Override
-         public void run() {
-        log.info("Handle new Connection");
-        ObjectMapper objectMapper = getObjectMapper();
-        IpAddress ipAddress = IpAddress.valueOf(((InetSocketAddress) channel
-                .remoteAddress()).getAddress().getHostAddress());
-        long port = ((InetSocketAddress) channel.remoteAddress()).getPort();
-        log.info("Get connection from ip address {} : {}",
-                 ipAddress.toString(), port);
-        OvsdbNodeId nodeId = new OvsdbNodeId(ipAddress, port);
-        OvsdbProviderService ovsdbProviderService = getNodeInstance(nodeId,
-                                                                    agent,
-                                                                    monitorCallback,
-                                                                    channel);
-        ovsdbProviderService.setConnection(true);
-        OvsdbJsonRpcHandler ovsdbJsonRpcHandler = new OvsdbJsonRpcHandler(
-                                                                          nodeId);
-        ovsdbJsonRpcHandler.setObjectMapper(objectMapper);
-        ovsdbJsonRpcHandler.setOvsdbProviderService(ovsdbProviderService);
-        channel.pipeline().addLast(ovsdbJsonRpcHandler);
-        ovsdbProviderService.nodeAdded();
-        ChannelFuture closeFuture = channel.closeFuture();
-        closeFuture.addListener(new ChannelConnectionListener(ovsdbProviderService));
-         }
-         });
+    private void handleNewNodeConnection(final Channel channel) {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                log.info("Handle new node connection");
+
+                IpAddress ipAddress = IpAddress
+                        .valueOf(((InetSocketAddress) channel.remoteAddress())
+                                .getAddress().getHostAddress());
+                long port = ((InetSocketAddress) channel.remoteAddress())
+                        .getPort();
+
+                log.info("Get connection from ip address {} : {}",
+                         ipAddress.toString(), port);
+
+                OvsdbNodeId nodeId = new OvsdbNodeId(ipAddress, port);
+                OvsdbProviderService ovsdbProviderService = getNodeInstance(nodeId,
+                                                                            agent,
+                                                                            monitorCallback,
+                                                                            channel);
+                ovsdbProviderService.setConnection(true);
+                OvsdbJsonRpcHandler ovsdbJsonRpcHandler = new OvsdbJsonRpcHandler(
+                                                                                  nodeId);
+                ovsdbJsonRpcHandler
+                        .setOvsdbProviderService(ovsdbProviderService);
+                channel.pipeline().addLast(ovsdbJsonRpcHandler);
+
+                ovsdbProviderService.nodeAdded();
+                ChannelFuture closeFuture = channel.closeFuture();
+                closeFuture
+                        .addListener(new ChannelConnectionListener(
+                                                                   ovsdbProviderService));
+            }
+        });
     }
 
     /**
