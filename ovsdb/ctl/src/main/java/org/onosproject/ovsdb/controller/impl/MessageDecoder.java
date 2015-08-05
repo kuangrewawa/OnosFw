@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public class MessageDecoder extends ByteToMessageDecoder {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-    private JsonReadContext context = new JsonReadContext();
+    private final Logger log = LoggerFactory.getLogger(MessageDecoder.class);
+    private final JsonReadContext context = new JsonReadContext();
 
     /**
      * Default constructor.

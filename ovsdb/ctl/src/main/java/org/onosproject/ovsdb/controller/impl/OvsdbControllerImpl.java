@@ -70,8 +70,8 @@ public class OvsdbControllerImpl implements OvsdbController {
     protected ConcurrentHashMap<OvsdbNodeId, OvsdbClientService> ovsdbClients =
             new ConcurrentHashMap<OvsdbNodeId, OvsdbClientService>();
 
-    protected OvsdbAgent agent = new OvsdbNodeAgent();
-    protected MonitorCallBack updateCallback = new MonitorCallBack();
+    protected OvsdbAgent agent = new InternalOvsdbNodeAgent();
+    protected InternalMonitorCallBack updateCallback = new InternalMonitorCallBack();
 
     protected Set<OvsdbNodeListener> ovsdbNodeListener = new CopyOnWriteArraySet<>();
     protected Set<OvsdbEventListener> ovsdbEventListener = new CopyOnWriteArraySet<>();
@@ -137,9 +137,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      * Implementation of an Ovsdb Agent which is responsible for keeping track
      * of connected node and the state in which they are.
      */
-    public class OvsdbNodeAgent implements OvsdbAgent {
-        private final Logger log = LoggerFactory
-                .getLogger(OvsdbControllerImpl.class);
+    private class InternalOvsdbNodeAgent implements OvsdbAgent {
 
         @Override
         public void addConnectedNode(OvsdbNodeId nodeId,
@@ -170,11 +168,10 @@ public class OvsdbControllerImpl implements OvsdbController {
                         }
                     }
                 } catch (InterruptedException e) {
-
-                    e.printStackTrace();
+                    log.warn("Interrupted while waiting to get message from ovsdb");
+                    Thread.currentThread().interrupt();
                 } catch (ExecutionException e) {
-
-                    e.printStackTrace();
+                    log.error("Exception thrown while to get message from ovsdb");
                 }
 
                 log.info("Add node to north");
@@ -267,42 +264,38 @@ public class OvsdbControllerImpl implements OvsdbController {
             return;
         }
 
-        try {
-            long dpid = getDataPathid(clientService, dbSchema);
-            Set<UUID> intfUuids = (Set<UUID>) port.getInterfacesColumn().data();
-            for (UUID intfUuid : intfUuids) {
+        long dpid = getDataPathid(clientService, dbSchema);
+        Set<UUID> intfUuids = (Set<UUID>) port.getInterfacesColumn().data();
+        for (UUID intfUuid : intfUuids) {
 
-                Row intfRow = clientService.getRow(OvsdbConstant.DATABASENAME,
-                                                   "Interface",
-                                                   intfUuid.toString());
-                Interface intf = (Interface) TableGenerator
-                        .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
+            Row intfRow = clientService
+                    .getRow(OvsdbConstant.DATABASENAME, "Interface",
+                            intfUuid.toString());
+            Interface intf = (Interface) TableGenerator
+                    .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
 
-                String portType = (String) intf.getTypeColumn().data();
-                long localPort = getOfPort(intf);
-                String[] macAndIfaceId = getMacAndIfaceid(intf);
-                if (macAndIfaceId == null) {
-                    return;
-                }
-                DefaultEventSubject eventSubject = new DefaultEventSubject(
-                                                                           MacAddress
-                                                                                   .valueOf(macAndIfaceId[0]),
-                                                                           null,
-                                                                           port.getName(),
-                                                                           localPort,
-                                                                           dpid,
-                                                                           portType,
-                                                                           macAndIfaceId[1]);
-                for (OvsdbEventListener listener : ovsdbEventListener) {
-                    listener.handle(new OvsdbEvent<EventSubject>(eventType,
-                                                                 eventSubject));
-                }
-
+            String portType = (String) intf.getTypeColumn().data();
+            long localPort = getOfPort(intf);
+            String[] macAndIfaceId = getMacAndIfaceid(intf);
+            if (macAndIfaceId == null) {
+                return;
             }
-        } catch (Throwable e) {
+            EventSubject eventSubject = new DefaultEventSubject(
+                                                                MacAddress
+                                                                        .valueOf(macAndIfaceId[0]),
+                                                                null,
+                                                                port.getName(),
+                                                                localPort,
+                                                                dpid,
+                                                                portType,
+                                                                macAndIfaceId[1]);
+            for (OvsdbEventListener listener : ovsdbEventListener) {
+                listener.handle(new OvsdbEvent<EventSubject>(eventType,
+                                                             eventSubject));
+            }
 
-            e.printStackTrace();
         }
+
     }
 
     /**
@@ -312,7 +305,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      * @return attachedMac, ifaceid
      */
     @SuppressWarnings("unchecked")
-    private String[] getMacAndIfaceid(Interface intf) throws Throwable {
+    private String[] getMacAndIfaceid(Interface intf) {
         Map<String, String> externalIds = (Map<String, String>) intf
                 .getExternalIdsColumn().data();
         if (externalIds == null) {
@@ -341,7 +334,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      * @return ofport
      */
     @SuppressWarnings("unchecked")
-    private long getOfPort(Interface intf) throws Throwable {
+    private long getOfPort(Interface intf) {
         Set<Long> ofPorts = (Set<Long>) intf.getOpenFlowPortColumn().data();
         while (ofPorts == null || ofPorts.size() <= 0) {
             log.info("The ofport is null in {}", intf.getName());
@@ -390,7 +383,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      * Implementation of an Callback which is responsible for receiving request
      * infomation from ovsdb.
      */
-    public class MonitorCallBack implements Callback {
+    private class InternalMonitorCallBack implements Callback {
         @Override
         public void update(UpdateNotification upadateNotification) {
             Object key = upadateNotification.context();
@@ -404,18 +397,20 @@ public class OvsdbControllerImpl implements OvsdbController {
             try {
                 processTableUpdates(ovsdbClient, updates, dbName);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.warn("Interrupted while processing table updates");
+                Thread.currentThread().interrupt();
             }
         }
 
         @Override
         public void locked(List<String> ids) {
+            // TODO Auto-generated method stub
 
         }
 
         @Override
         public void stolen(List<String> ids) {
+            // TODO Auto-generated method stub
 
         }
 

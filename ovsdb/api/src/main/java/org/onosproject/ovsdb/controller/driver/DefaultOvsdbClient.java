@@ -238,27 +238,23 @@ public class DefaultOvsdbClient
                                                          OvsdbTable.BRIDGE);
         if (bridge != null) {
             Set<UUID> ports;
-            try {
-                ports = (Set<UUID>) bridge.getPortsColumn().data();
-                if (ports == null || ports.size() == 0) {
-                    log.info("The port uuid is null");
-                    return null;
-                }
 
-                for (UUID uuid : ports) {
-                    Row portRow = getRow(OvsdbConstant.DATABASENAME,
-                                         OvsdbConstant.PORT, uuid.toString());
-                    Port port = (Port) TableGenerator.getTable(dbSchema,
-                                                               portRow,
-                                                               OvsdbTable.PORT);
-                    if (port != null
-                            && portName.equalsIgnoreCase(port.getName())) {
-                        return uuid.toString();
-                    }
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
+            ports = (Set<UUID>) bridge.getPortsColumn().data();
+            if (ports == null || ports.size() == 0) {
+                log.warn("The port uuid is null");
+                return null;
             }
+
+            for (UUID uuid : ports) {
+                Row portRow = getRow(OvsdbConstant.DATABASENAME,
+                                     OvsdbConstant.PORT, uuid.toString());
+                Port port = (Port) TableGenerator.getTable(dbSchema, portRow,
+                                                           OvsdbTable.PORT);
+                if (port != null && portName.equalsIgnoreCase(port.getName())) {
+                    return uuid.toString();
+                }
+            }
+
         }
         return null;
     }
@@ -276,25 +272,21 @@ public class DefaultOvsdbClient
 
         if (port != null) {
             Set<UUID> interfaces;
-            try {
-                interfaces = (Set<UUID>) port.getInterfacesColumn().data();
-                if (interfaces == null || interfaces.size() == 0) {
-                    log.info("The interface uuid is null");
-                    return null;
-                }
 
-                for (UUID uuid : interfaces) {
-                    Row intfRow = getRow(OvsdbConstant.DATABASENAME,
-                                         OvsdbConstant.PORT, uuid.toString());
-                    Interface intf = (Interface) TableGenerator
-                            .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
-                    if (intf != null
-                            && portName.equalsIgnoreCase(intf.getName())) {
-                        return uuid.toString();
-                    }
+            interfaces = (Set<UUID>) port.getInterfacesColumn().data();
+            if (interfaces == null || interfaces.size() == 0) {
+                log.warn("The interface uuid is null");
+                return null;
+            }
+
+            for (UUID uuid : interfaces) {
+                Row intfRow = getRow(OvsdbConstant.DATABASENAME,
+                                     OvsdbConstant.PORT, uuid.toString());
+                Interface intf = (Interface) TableGenerator
+                        .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
+                if (intf != null && portName.equalsIgnoreCase(intf.getName())) {
+                    return uuid.toString();
                 }
-            } catch (Throwable e) {
-                e.printStackTrace();
             }
 
         }
@@ -310,13 +302,13 @@ public class DefaultOvsdbClient
         OvsdbRowStore rowStore = getRowStore(OvsdbConstant.DATABASENAME,
                                              OvsdbConstant.BRIDGE);
         if (rowStore == null) {
-            log.info("The bridge uuid is null");
+            log.debug("The bridge uuid is null");
             return null;
         }
 
         ConcurrentMap<String, Row> bridgeTableRows = rowStore.getRowStore();
         if (bridgeTableRows == null) {
-            log.info("The bridge uuid is null");
+            log.debug("The bridge uuid is null");
             return null;
         }
 
@@ -325,15 +317,11 @@ public class DefaultOvsdbClient
             Bridge bridge = (Bridge) TableGenerator
                     .getTable(dbSchema, bridgeTableRows.get(uuid),
                               OvsdbTable.BRIDGE);
-            try {
 
-                if (bridge.getName().equals(bridgeName)) {
-                    return uuid;
-                }
-
-            } catch (Throwable e) {
-                e.printStackTrace();
+            if (bridge.getName().equals(bridgeName)) {
+                return uuid;
             }
+
         }
 
         return null;
@@ -347,7 +335,7 @@ public class DefaultOvsdbClient
         OvsdbRowStore rowStore = getRowStore(OvsdbConstant.DATABASENAME,
                                              OvsdbConstant.CONTROLLER);
         if (rowStore == null) {
-            log.info("The controller uuid is null");
+            log.debug("The controller uuid is null");
             return null;
         }
 
@@ -358,15 +346,11 @@ public class DefaultOvsdbClient
                 Controller controller = (Controller) TableGenerator
                         .getTable(dbSchema, controllerTableRows.get(uuid),
                                   OvsdbTable.CONTROLLER);
-                String target;
-                try {
-                    target = (String) controller.getTargetColumn().data();
-                    if (target.equalsIgnoreCase(controllerTarget)) {
-                        return uuid;
-                    }
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                String target = (String) controller.getTargetColumn().data();
+                if (target.equalsIgnoreCase(controllerTarget)) {
+                    return uuid;
                 }
+
             }
         }
         return null;
@@ -379,7 +363,7 @@ public class DefaultOvsdbClient
         OvsdbRowStore rowStore = getRowStore(OvsdbConstant.DATABASENAME,
                                              OvsdbConstant.DATABASENAME);
         if (rowStore == null) {
-            log.info("The bridge uuid is null");
+            log.debug("The bridge uuid is null");
             return null;
         }
         ConcurrentMap<String, Row> ovsTableRows = rowStore.getRowStore();
@@ -391,12 +375,9 @@ public class DefaultOvsdbClient
                 OpenVSwitch ovs = (OpenVSwitch) TableGenerator
                         .getTable(dbSchema, ovsTableRows.get(uuid),
                                   OvsdbTable.OPENVSWITCH);
-                try {
-                    if (((TableSchema) ovs.getTbSchema()).name().equals(dbName)) {
-                        return uuid;
-                    }
-                } catch (Throwable e) {
-                    e.printStackTrace();
+
+                if (((TableSchema) ovs.getTbSchema()).name().equals(dbName)) {
+                    return uuid;
                 }
             }
 
@@ -410,7 +391,7 @@ public class DefaultOvsdbClient
 
         String bridgeUuid = getBridgeUuid(bridgeName);
         if (bridgeUuid == null) {
-            log.error("Could not find bridge {} in {}", bridgeName,
+            log.error("Can't find bridge {} in {}", bridgeName,
                       nodeId.getIpAddress());
             return;
         }
@@ -420,17 +401,15 @@ public class DefaultOvsdbClient
 
         Port port = (Port) TableGenerator
                 .createTable(dbSchema, OvsdbTable.PORT);
-        try {
-            port.setName(portName);
-            if (portUuid == null) {
-                insertRow(OvsdbConstant.PORT, "_uuid", OvsdbConstant.BRIDGE,
-                          "ports", bridgeUuid, port.getRow());
-            } else {
-                updateRow("Port", "_uuid", portUuid, port.getRow());
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
+
+        port.setName(portName);
+        if (portUuid == null) {
+            insertRow(OvsdbConstant.PORT, "_uuid", OvsdbConstant.BRIDGE,
+                      "ports", bridgeUuid, port.getRow());
+        } else {
+            updateRow("Port", "_uuid", portUuid, port.getRow());
         }
+
         return;
     }
 
@@ -453,11 +432,11 @@ public class DefaultOvsdbClient
     @Override
     public void createBridge(String bridgeName) {
 
-        log.info("create bridge {}", bridgeName);
+        log.debug("create bridge {}", bridgeName);
 
         DatabaseSchema dbSchema = schema.get(OvsdbConstant.DATABASENAME);
         if (dbSchema == null) {
-            log.info("The schema is nullr");
+            log.warn("The schema is nullr");
             return;
         }
 
@@ -484,29 +463,25 @@ public class DefaultOvsdbClient
 
         String bridgeUuid = getBridgeUuid(bridgeName);
         if (bridgeUuid == null) {
-            log.info("Create a new bridge");
-            try {
+            log.debug("Create a new bridge");
 
-                bridge.setName(bridgeName);
-                bridgeUuid = insertRow(OvsdbConstant.BRIDGE, "_uuid",
-                                       OvsdbConstant.DATABASENAME, "bridges",
-                                       ovsUuid, bridge.getRow());
+            bridge.setName(bridgeName);
+            bridgeUuid = insertRow(OvsdbConstant.BRIDGE, "_uuid",
+                                   OvsdbConstant.DATABASENAME, "bridges",
+                                   ovsUuid, bridge.getRow());
 
-                if (bridgeUuid != null) {
-                    Port port = (Port) TableGenerator
-                            .createTable(dbSchema, OvsdbTable.PORT);
-                    if (port != null) {
-                        log.info("the bridge port is not null {}", bridgeUuid);
-                        port.setName(bridgeName);
+            if (bridgeUuid != null) {
+                Port port = (Port) TableGenerator.createTable(dbSchema,
+                                                              OvsdbTable.PORT);
+                if (port != null) {
+                    log.debug("the port is not null");
+                    port.setName(bridgeName);
 
-                        insertRow("Port", "_uuid", "Bridge", "ports",
-                                  bridgeUuid, port.getRow());
-                    }
+                    insertRow("Port", "_uuid", "Bridge", "ports", bridgeUuid,
+                              port.getRow());
                 }
-
-            } catch (Throwable e) {
-                e.printStackTrace();
             }
+
         } else {
             log.info("Update a bridge");
             updateRow("Bridge", "_uuid", bridgeUuid, bridge.getRow());
@@ -535,39 +510,35 @@ public class DefaultOvsdbClient
         DatabaseSchema dbSchema = schema.get(OvsdbConstant.DATABASENAME);
         Controller controller = (Controller) TableGenerator
                 .createTable(dbSchema, OvsdbTable.CONTROLLER);
-        try {
-            if (controller != null) {
-                controller.setTarget(target);
-                controllerUuid = getControllerUuid(OvsdbConstant.CONTROLLER,
-                                                   target);
-                if (controllerUuid == null) {
 
-                    insertRow(OvsdbConstant.CONTROLLER, "_uuid",
-                              OvsdbConstant.BRIDGE, "controller", bridgeUuid,
-                              controller.getRow());
+        if (controller != null) {
+            controller.setTarget(target);
+            controllerUuid = getControllerUuid(OvsdbConstant.CONTROLLER, target);
+            if (controllerUuid == null) {
 
-                } else {
+                insertRow(OvsdbConstant.CONTROLLER, "_uuid",
+                          OvsdbConstant.BRIDGE, "controller", bridgeUuid,
+                          controller.getRow());
 
-                    Bridge bridge = (Bridge) TableGenerator
-                            .createTable(dbSchema, OvsdbTable.BRIDGE);
-                    Set<UUID> controllerUuids = new HashSet<>();
-                    controllerUuids.add(UUID.uuid(controllerUuid));
-                    bridge.setController(controllerUuids);
-                    updateRow("Controller", "_uuid", bridgeUuid,
-                              bridge.getRow());
+            } else {
 
-                }
+                Bridge bridge = (Bridge) TableGenerator
+                        .createTable(dbSchema, OvsdbTable.BRIDGE);
+                Set<UUID> controllerUuids = new HashSet<>();
+                controllerUuids.add(UUID.uuid(controllerUuid));
+                bridge.setController(controllerUuids);
+                updateRow("Controller", "_uuid", bridgeUuid, bridge.getRow());
+
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
         }
+
     }
 
     @Override
     public void dropBridge(String bridgeName) {
         String bridgeUUID = getBridgeUuid(bridgeName);
         if (bridgeUUID == null) {
-            log.info("Could not find bridge in node", nodeId.getIpAddress());
+            log.warn("Could not find bridge in node", nodeId.getIpAddress());
             return;
         }
         deleteRow(OvsdbConstant.BRIDGE, "_uuid", bridgeUUID,
@@ -579,7 +550,7 @@ public class DefaultOvsdbClient
 
         String bridgeUuid = getBridgeUuid(OvsdbConstant.INTEGRATION_BRIDGE);
         if (bridgeUuid == null) {
-            log.info("Could not find bridge {} and Could not create tunnel. ",
+            log.warn("Could not find bridge {} and Could not create tunnel. ",
                      OvsdbConstant.INTEGRATION_BRIDGE);
             return;
         }
@@ -601,6 +572,13 @@ public class DefaultOvsdbClient
             updateRow(OvsdbConstant.PORT, "_uuid", portUuid, port.getRow());
         }
 
+        // When a tunnel is created, A row is inserted into port table and
+        // interface table of the ovsdb node.
+        // and the following step is to get the interface uuid from local store
+        // in controller node.
+        // but it need spend some time synchronising data between node and
+        // controller.
+        // so loop to judge if interfaceUUid is null is necessary.
         String interfaceUuid = null;
         for (int i = 0; i < 10; i++) {
             interfaceUuid = getInterfaceUuid(portUuid, portName);
@@ -608,7 +586,8 @@ public class DefaultOvsdbClient
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.warn("Interrupted while waiting to get interfaceUuid");
+                    Thread.currentThread().interrupt();
                 }
             } else {
                 break;
@@ -619,13 +598,13 @@ public class DefaultOvsdbClient
             OvsdbRowStore rowStore = getRowStore(OvsdbConstant.DATABASENAME,
                                                  OvsdbConstant.INTERFACE);
             if (rowStore == null) {
-                log.info("The bridge uuid is null");
+                log.debug("The bridge uuid is null");
                 return;
             }
 
             ConcurrentMap<String, Row> intfTableRows = rowStore.getRowStore();
             if (intfTableRows == null) {
-                log.info("The bridge uuid is null");
+                log.debug("The bridge uuid is null");
                 return;
             }
 
@@ -633,19 +612,17 @@ public class DefaultOvsdbClient
                     .getTable(dbSchema, intfTableRows.get(interfaceUuid),
                               OvsdbTable.INTERFACE);
             if (tunInterface != null) {
-                try {
-                    tunInterface.setType(OvsdbConstant.TYPEVXLAN);
-                    Map<String, String> options = Maps.newHashMap();
-                    options.put("key", "flow");
-                    options.put("local_ip", srcIp.toString());
-                    options.put("remote_ip", dstIp.toString());
-                    tunInterface.setOptions(options);
-                    updateRow(OvsdbConstant.INTERFACE, "_uuid", interfaceUuid,
-                              tunInterface.getRow());
-                    log.info("Tunnel added success", tunInterface);
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
+
+                tunInterface.setType(OvsdbConstant.TYPEVXLAN);
+                Map<String, String> options = Maps.newHashMap();
+                options.put("key", "flow");
+                options.put("local_ip", srcIp.toString());
+                options.put("remote_ip", dstIp.toString());
+                tunInterface.setOptions(options);
+                updateRow(OvsdbConstant.INTERFACE, "_uuid", interfaceUuid,
+                          tunInterface.getRow());
+                log.info("Tunnel added success", tunInterface);
+
             }
         }
 
@@ -658,7 +635,7 @@ public class DefaultOvsdbClient
         String portName = getTunnelName(OvsdbConstant.TYPEVXLAN, dstIp);
         String bridgeUuid = getBridgeUuid(OvsdbConstant.INTEGRATION_BRIDGE);
         if (bridgeUuid == null) {
-            log.info("Could not find bridge {} in {}", bridgeName,
+            log.warn("Could not find bridge {} in {}", bridgeName,
                      nodeId.getIpAddress());
             return;
         }
@@ -808,9 +785,10 @@ public class DefaultOvsdbClient
 
             return results.get(0).getUuid().value();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Interrupted while waiting to get result");
+            Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            log.error("Exception thrown while to get result");
         }
 
         return null;
@@ -835,11 +813,9 @@ public class DefaultOvsdbClient
 
         Interface inf = (Interface) TableGenerator
                 .createTable(dbSchema, OvsdbTable.INTERFACE);
-        try {
-            inf.setName(portName);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+
+        inf.setName(portName);
+
         TableSchema intfTableSchema = dbSchema
                 .getTableSchema(OvsdbConstant.INTERFACE);
         Insert insert = new Insert(intfTableSchema, OvsdbConstant.INTERFACE,
@@ -888,9 +864,11 @@ public class DefaultOvsdbClient
             if (input != null) {
                 try {
                     log.info("input message: {}", input.get().toString());
-                } catch (InterruptedException | ExecutionException e) {
-
-                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    log.warn("Interrupted while waiting to get message");
+                    Thread.currentThread().interrupt();
+                } catch (ExecutionException e) {
+                    log.error("Exception thrown while to get message");
                 }
             }
             return Futures.transform(input, rowFunction);
@@ -956,100 +934,84 @@ public class DefaultOvsdbClient
     @Override
     public ListenableFuture<JsonNode> getSchema(List<String> dbnames) {
         String id = java.util.UUID.randomUUID().toString();
-        try {
-            String getSchemaString = JsonRpcWriterUtil
-                    .getSchemaStr(id, dbnames);
 
-            SettableFuture<JsonNode> sf = SettableFuture.create();
+        String getSchemaString = JsonRpcWriterUtil.getSchemaStr(id, dbnames);
 
-            requestResult.put(id, sf);
-            requestMethod.put(id, "getSchema");
+        SettableFuture<JsonNode> sf = SettableFuture.create();
 
-            channel.writeAndFlush(getSchemaString);
-            return sf;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return null;
+        requestResult.put(id, sf);
+        requestMethod.put(id, "getSchema");
+
+        channel.writeAndFlush(getSchemaString);
+        return sf;
+
     }
 
     @Override
     public ListenableFuture<List<String>> echo() {
         String id = java.util.UUID.randomUUID().toString();
-        try {
-            String echoString = JsonRpcWriterUtil.echoStr(id);
 
-            SettableFuture<List<String>> sf = SettableFuture.create();
+        String echoString = JsonRpcWriterUtil.echoStr(id);
 
-            requestResult.put(id, sf);
-            requestMethod.put(id, "echo");
+        SettableFuture<List<String>> sf = SettableFuture.create();
 
-            channel.writeAndFlush(echoString);
-            return sf;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return null;
+        requestResult.put(id, sf);
+        requestMethod.put(id, "echo");
+
+        channel.writeAndFlush(echoString);
+        return sf;
+
     }
 
     @Override
     public ListenableFuture<JsonNode> monitor(DatabaseSchema dbSchema,
                                               String monitorId) {
         String id = java.util.UUID.randomUUID().toString();
-        try {
-            String monitorString = JsonRpcWriterUtil.monitorStr(id, monitorId,
-                                                                dbSchema);
 
-            SettableFuture<JsonNode> sf = SettableFuture.create();
+        String monitorString = JsonRpcWriterUtil.monitorStr(id, monitorId,
+                                                            dbSchema);
 
-            requestResult.put(id, sf);
-            requestMethod.put(id, "monitor");
+        SettableFuture<JsonNode> sf = SettableFuture.create();
 
-            channel.writeAndFlush(monitorString);
-            return sf;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return null;
+        requestResult.put(id, sf);
+        requestMethod.put(id, "monitor");
+
+        channel.writeAndFlush(monitorString);
+        return sf;
+
     }
 
     @Override
     public ListenableFuture<List<String>> listDbs() {
         String id = java.util.UUID.randomUUID().toString();
-        try {
-            String listDbsString = JsonRpcWriterUtil.listDbsStr(id);
 
-            SettableFuture<List<String>> sf = SettableFuture.create();
-            requestResult.put(id, sf);
-            requestMethod.put(id, "listDbs");
+        String listDbsString = JsonRpcWriterUtil.listDbsStr(id);
 
-            channel.writeAndFlush(listDbsString);
-            return sf;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return null;
+        SettableFuture<List<String>> sf = SettableFuture.create();
+        requestResult.put(id, sf);
+        requestMethod.put(id, "listDbs");
+
+        channel.writeAndFlush(listDbsString);
+        return sf;
+
     }
 
     @Override
     public ListenableFuture<List<JsonNode>> transact(DatabaseSchema dbSchema,
                                                      List<Operation> operations) {
         String id = java.util.UUID.randomUUID().toString();
-        try {
-            String transactString = JsonRpcWriterUtil.transactStr(id, dbSchema,
-                                                                  operations);
 
-            SettableFuture<List<JsonNode>> sf = SettableFuture.create();
+        String transactString = JsonRpcWriterUtil.transactStr(id, dbSchema,
+                                                              operations);
 
-            requestResult.put(id, sf);
-            requestMethod.put(id, "transact");
+        SettableFuture<List<JsonNode>> sf = SettableFuture.create();
 
-            channel.writeAndFlush(transactString);
-            return sf;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return null;
+        requestResult.put(id, sf);
+        requestMethod.put(id, "transact");
+
+        channel.writeAndFlush(transactString);
+        return sf;
+
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

@@ -20,6 +20,9 @@ import io.netty.channel.ChannelFutureListener;
 
 import org.onosproject.ovsdb.controller.driver.OvsdbProviderService;
 
+/**
+ * The listener class. Handles when the node disconnect.
+ */
 public class ChannelConnectionListener implements ChannelFutureListener {
 
     private final OvsdbProviderService providerService;
