@@ -43,33 +43,33 @@ public interface OvsdbEventSubject extends EventSubject {
      *
      * @return port name
      */
-    String portName();
+    OvsdbPortName portName();
 
     /**
      * Returns the Port number associated with the host.
      *
      * @return port number
      */
-    long portNumber();
+    OvsdbPortNumber portNumber();
 
     /**
      * Returns the Port type associated with the host.
      *
      * @return port type
      */
-    String portType();
+    OvsdbPortType portType();
 
     /**
      * Returns the Ovs dpid associated with the host.
      *
      * @return Ovs dpid
      */
-    long dpid();
+    OvsdbDatapathId dpid();
 
     /**
      * Returns the vm ifaceid associated with the host.
      *
      * @return vm ifaceid
      */
-    String ifaceid();
+    OvsdbIfaceId ifaceid();
 }

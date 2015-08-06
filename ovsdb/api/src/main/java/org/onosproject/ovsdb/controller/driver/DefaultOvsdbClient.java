@@ -41,6 +41,7 @@ import org.onosproject.ovsdb.rfc.message.OperationResult;
 import org.onosproject.ovsdb.rfc.message.TableUpdates;
 import org.onosproject.ovsdb.rfc.notation.Condition;
 import org.onosproject.ovsdb.rfc.notation.Mutation;
+import org.onosproject.ovsdb.rfc.notation.OvsdbSet;
 import org.onosproject.ovsdb.rfc.notation.Row;
 import org.onosproject.ovsdb.rfc.notation.UUID;
 import org.onosproject.ovsdb.rfc.operations.Delete;
@@ -249,11 +250,11 @@ public class DefaultOvsdbClient
 
             for (UUID uuid : ports) {
                 Row portRow = getRow(OvsdbConstant.DATABASENAME,
-                                     OvsdbConstant.PORT, uuid.toString());
+                                     OvsdbConstant.PORT, uuid.value());
                 Port port = (Port) TableGenerator.getTable(dbSchema, portRow,
                                                            OvsdbTable.PORT);
                 if (port != null && portName.equalsIgnoreCase(port.getName())) {
-                    return uuid.toString();
+                    return uuid.value();
                 }
             }
 
@@ -273,9 +274,9 @@ public class DefaultOvsdbClient
                                                    OvsdbTable.PORT);
 
         if (port != null) {
-            Set<UUID> interfaces;
+            OvsdbSet setInterfaces = (OvsdbSet) port.getInterfacesColumn().data();
+            Set<UUID> interfaces = setInterfaces.set();
 
-            interfaces = (Set<UUID>) port.getInterfacesColumn().data();
             if (interfaces == null || interfaces.size() == 0) {
                 log.warn("The interface uuid is null");
                 return null;
@@ -283,11 +284,11 @@ public class DefaultOvsdbClient
 
             for (UUID uuid : interfaces) {
                 Row intfRow = getRow(OvsdbConstant.DATABASENAME,
-                                     OvsdbConstant.PORT, uuid.toString());
+                                     OvsdbConstant.INTERFACE, uuid.value());
                 Interface intf = (Interface) TableGenerator
                         .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
                 if (intf != null && portName.equalsIgnoreCase(intf.getName())) {
-                    return uuid.toString();
+                    return uuid.value();
                 }
             }
 
@@ -409,7 +410,7 @@ public class DefaultOvsdbClient
             insertRow(OvsdbConstant.PORT, "_uuid", OvsdbConstant.BRIDGE,
                       "ports", bridgeUuid, port.getRow());
         } else {
-            updateRow("Port", "_uuid", portUuid, port.getRow());
+            updateRow(OvsdbConstant.PORT, "_uuid", portUuid, port.getRow());
         }
 
         return;
@@ -479,14 +480,14 @@ public class DefaultOvsdbClient
                     log.debug("the port is not null");
                     port.setName(bridgeName);
 
-                    insertRow("Port", "_uuid", "Bridge", "ports", bridgeUuid,
+                    insertRow(OvsdbConstant.PORT, "_uuid", "Bridge", "ports", bridgeUuid,
                               port.getRow());
                 }
             }
 
         } else {
             log.info("Update a bridge");
-            updateRow("Bridge", "_uuid", bridgeUuid, bridge.getRow());
+            updateRow(OvsdbConstant.BRIDGE, "_uuid", bridgeUuid, bridge.getRow());
         }
 
         setController(bridgeUuid);
@@ -529,7 +530,7 @@ public class DefaultOvsdbClient
                 Set<UUID> controllerUuids = new HashSet<>();
                 controllerUuids.add(UUID.uuid(controllerUuid));
                 bridge.setController(controllerUuids);
-                updateRow("Controller", "_uuid", bridgeUuid, bridge.getRow());
+                updateRow(OvsdbConstant.CONTROLLER, "_uuid", bridgeUuid, bridge.getRow());
 
             }
         }
@@ -676,18 +677,18 @@ public class DefaultOvsdbClient
                     .getColumnSchema(parentColumnName);
             List<Mutation> mutations = Lists.newArrayList();
             Mutation mutation = MutationUtil.delete(parentColumnSchema.name(),
-                                                    childUuid);
+                                                    UUID.uuid( childUuid));
             mutations.add(mutation);
             List<Condition> conditions = Lists.newArrayList();
             Condition condition = ConditionUtil.includes(parentColumnName,
-                                                         childUuid);
+                                                         UUID.uuid(childUuid));
             conditions.add(condition);
             Mutate op = new Mutate(parentTableSchema, conditions, mutations);
             operations.add(op);
         }
 
         List<Condition> conditions = Lists.newArrayList();
-        Condition condition = ConditionUtil.equals(childColumnName, childUuid);
+        Condition condition = ConditionUtil.equals(childColumnName, UUID.uuid(childUuid));
         conditions.add(condition);
         Delete del = new Delete(childTableSchema, conditions);
         operations.add(del);
@@ -712,7 +713,7 @@ public class DefaultOvsdbClient
         TableSchema tableSchema = dbSchema.getTableSchema(tableName);
 
         List<Condition> conditions = Lists.newArrayList();
-        Condition condition = ConditionUtil.equals(columnName, uuid);
+        Condition condition = ConditionUtil.equals(columnName, UUID.uuid(uuid));
         conditions.add(condition);
 
         Update update = new Update(tableSchema, row, conditions);
