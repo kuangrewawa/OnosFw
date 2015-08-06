@@ -102,6 +102,8 @@ public class DefaultOvsdbClient
 
     /**
      * Creates an OvsdbClient.
+     *
+     * @param nodeId ovsdb node id
      */
     public DefaultOvsdbClient(OvsdbNodeId nodeId) {
         this.nodeId = nodeId;

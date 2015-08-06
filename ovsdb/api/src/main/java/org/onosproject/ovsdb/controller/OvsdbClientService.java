@@ -117,6 +117,7 @@ public interface OvsdbClientService extends OvsdbRPC {
     /**
      * Gets the Bridge uuid.
      *
+     * @param bridgeName bridge name
      * @return bridge uuid, empty if no uuid is find
      */
     String getBridgeUuid(String bridgeName);
@@ -125,18 +126,16 @@ public interface OvsdbClientService extends OvsdbRPC {
      * Gets the Port uuid.
      *
      * @param portName port name
-     * @param bridgeName bridge name
      * @param bridgeUUID bridge uuid
-     *
      * @return port uuid, empty if no uuid is find
      */
     String getPortUuid(String portName, String bridgeUUID);
 
     /**
-     * Gets the Port uuid.
+     * Gets the Interface uuid.
      *
+     * @param portUuid port uuid
      * @param portName port name
-     *
      * @return interface uuid, empty if no uuid is find
      */
     String getInterfaceUuid(String portUuid, String portName);
@@ -146,24 +145,22 @@ public interface OvsdbClientService extends OvsdbRPC {
      *
      * @param controllerName controller name
      * @param controllerTarget controller target
-     *
      * @return controller uuid, empty if no uuid is find
      */
     String getControllerUuid(String controllerName, String controllerTarget);
 
     /**
-     * Gets the Controller uuid.
+     * Gets the Ovs uuid.
      *
-     * @param controllerName controller name
-     * @param controllerTarget controller target
-     *
-     * @return controller uuid, empty if no uuid is find
+     * @param dbName database name
+     * @return ovs uuid, empty if no uuid is find
      */
     String getOvsUuid(String dbName);
 
     /**
      * Gets the ovsdb database schema.
      *
+     * @param dbName database name
      * @return database schema
      */
     ListenableFuture<DatabaseSchema> getOvsdbSchema(String dbName);
@@ -171,6 +168,8 @@ public interface OvsdbClientService extends OvsdbRPC {
     /**
      * Gets the ovsdb table updates.
      *
+     * @param dbName database name
+     * @param id random uuid
      * @return table updates
      */
     ListenableFuture<TableUpdates> monitorTables(String dbName, String id);
@@ -178,34 +177,47 @@ public interface OvsdbClientService extends OvsdbRPC {
     /**
      * Gets the ovsdb config operation result.
      *
+     * @param dbName database name
+     * @param operations the list of operations
      * @return operation results
      */
     ListenableFuture<List<OperationResult>> transactConfig(String dbName,
                                                            List<Operation> operations);
 
     /**
-     * Gets the ovsdb config operation result.
+     * Gets the ovsdb database schema from local.
      *
-     * @return operation results
+     * @param  dbName database name
+     * @return database schema
      */
-    DatabaseSchema getDatabaseSchema(String dbSchema);
+    DatabaseSchema getDatabaseSchema(String dbName);
 
     /**
      * Gets the ovsdb row from the local ovsdb store.
      *
-     * @return row
+     * @param dbName database name
+     * @param tableName table name
+     * @param uuid row uuid
+     * @return row ovsdb row
      */
     Row getRow(String dbName, String tableName, String uuid);
 
     /**
      * Removes the ovsdb row from the local ovsdb store.
      *
+     * @param dbName database name
+     * @param tableName table name
+     * @param uuid row uuid
      */
     void removeRow(String dbName, String tableName, String uuid);
 
     /**
      * Update the local ovsdb store.
      *
+     * @param dbName database name
+     * @param tableName table name
+     * @param uuid row uuid
+     * @param row ovsdb row
      */
     void updateOvsdbStore(String dbName, String tableName, String uuid, Row row);
 
