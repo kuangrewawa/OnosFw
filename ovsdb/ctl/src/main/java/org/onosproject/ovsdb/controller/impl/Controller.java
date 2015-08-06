@@ -155,7 +155,7 @@ public class Controller {
     /**
      * Gets an ovsdb client instance.
      *
-     * @param OvsdbNodeId data ovsdb node id
+     * @param nodeId data ovsdb node id
      * @param agent OvsdbAgent
      * @param monitorCallback Callback
      * @param channel Channel

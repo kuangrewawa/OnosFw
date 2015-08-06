@@ -18,6 +18,7 @@ package org.onosproject.ovsdb.controller.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,17 +30,23 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Service;
+import org.onlab.packet.IpAddress;
 import org.onlab.packet.MacAddress;
 import org.onosproject.ovsdb.controller.DefaultEventSubject;
 import org.onosproject.ovsdb.controller.EventSubject;
 import org.onosproject.ovsdb.controller.OvsdbClientService;
 import org.onosproject.ovsdb.controller.OvsdbConstant;
 import org.onosproject.ovsdb.controller.OvsdbController;
+import org.onosproject.ovsdb.controller.OvsdbDatapathId;
 import org.onosproject.ovsdb.controller.OvsdbEvent;
 import org.onosproject.ovsdb.controller.OvsdbEvent.Type;
 import org.onosproject.ovsdb.controller.OvsdbEventListener;
+import org.onosproject.ovsdb.controller.OvsdbIfaceId;
 import org.onosproject.ovsdb.controller.OvsdbNodeId;
 import org.onosproject.ovsdb.controller.OvsdbNodeListener;
+import org.onosproject.ovsdb.controller.OvsdbPortName;
+import org.onosproject.ovsdb.controller.OvsdbPortNumber;
+import org.onosproject.ovsdb.controller.OvsdbPortType;
 import org.onosproject.ovsdb.controller.driver.OvsdbAgent;
 import org.onosproject.ovsdb.rfc.jsonrpc.Callback;
 import org.onosproject.ovsdb.rfc.message.TableUpdate;
@@ -60,6 +67,9 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * The implementation of OvsdbController.
+ */
 @Component(immediate = true)
 @Service
 public class OvsdbControllerImpl implements OvsdbController {
@@ -283,12 +293,12 @@ public class OvsdbControllerImpl implements OvsdbController {
             EventSubject eventSubject = new DefaultEventSubject(
                                                                 MacAddress
                                                                         .valueOf(macAndIfaceId[0]),
-                                                                null,
-                                                                port.getName(),
-                                                                localPort,
-                                                                dpid,
-                                                                portType,
-                                                                macAndIfaceId[1]);
+                                                                new HashSet<IpAddress>(),
+                                                                new OvsdbPortName(port.getName()),
+                                                                new OvsdbPortNumber(localPort),
+                                                                new OvsdbDatapathId(Long.toString(dpid)),
+                                                                new OvsdbPortType(portType),
+                                                                new OvsdbIfaceId(macAndIfaceId[1]));
             for (OvsdbEventListener listener : ovsdbEventListener) {
                 listener.handle(new OvsdbEvent<EventSubject>(eventType,
                                                              eventSubject));
@@ -331,7 +341,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      * Gets ofPorts number from table Interface.
      *
      * @param intf Interface instance
-     * @return ofport
+     * @return ofport the ofport number
      */
     @SuppressWarnings("unchecked")
     private long getOfPort(Interface intf) {
@@ -348,7 +358,7 @@ public class OvsdbControllerImpl implements OvsdbController {
      *
      * @param clientService OvsdbClientService instance
      * @param dbSchema ovsdb database schema
-     * @return datapathid
+     * @return datapathid the bridge datapathid
      */
     @SuppressWarnings("unchecked")
     private long getDataPathid(OvsdbClientService clientService,

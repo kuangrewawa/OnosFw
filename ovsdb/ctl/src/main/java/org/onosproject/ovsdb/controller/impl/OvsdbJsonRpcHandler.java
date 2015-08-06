@@ -76,7 +76,7 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     /**
      * Sets the ovsdb node id.
      *
-     * @param objectMapper the objectMapper to use
+     * @param ovsdbNodeId the ovsdbNodeId to use
      */
     public void setNodeId(OvsdbNodeId ovsdbNodeId) {
         this.ovsdbNodeId = ovsdbNodeId;
@@ -117,7 +117,6 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
             JsonNode jsonNode = (JsonNode) msg;
             processOvsdbMessage(jsonNode);
         }
-        // ctx.channel().close();
     }
 
     @Override
