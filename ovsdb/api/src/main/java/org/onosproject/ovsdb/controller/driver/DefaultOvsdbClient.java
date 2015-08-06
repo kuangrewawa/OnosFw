@@ -677,7 +677,7 @@ public class DefaultOvsdbClient
                     .getColumnSchema(parentColumnName);
             List<Mutation> mutations = Lists.newArrayList();
             Mutation mutation = MutationUtil.delete(parentColumnSchema.name(),
-                                                    UUID.uuid( childUuid));
+                                                    UUID.uuid(childUuid));
             mutations.add(mutation);
             List<Condition> conditions = Lists.newArrayList();
             Condition condition = ConditionUtil.includes(parentColumnName,
