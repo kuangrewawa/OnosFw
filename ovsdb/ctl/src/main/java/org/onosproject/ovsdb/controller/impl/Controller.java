@@ -155,7 +155,7 @@ public class Controller {
     /**
      * Gets an ovsdb client instance.
      *
-     * @param OvsdbNodeId data ovsdb node id
+     * @param nodeId data ovsdb node id
      * @param agent OvsdbAgent
      * @param monitorCallback Callback
      * @param channel Channel
@@ -173,16 +173,27 @@ public class Controller {
         return ovsdbProviderService;
     }
 
+    /**
+     * Starts controller.
+     *
+     * @param agent OvsdbAgent
+     * @param monitorCallback Callback
+     */
     public void start(OvsdbAgent agent, Callback monitorCallback) {
         this.agent = agent;
         this.monitorCallback = monitorCallback;
         try {
             this.run();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Interrupted while waiting to start");
+            Thread.currentThread().interrupt();
         }
     }
 
+    /**
+     * Stops controller.
+     *
+     */
     public void stop() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();

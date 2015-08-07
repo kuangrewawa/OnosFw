@@ -22,13 +22,13 @@ import org.onosproject.vtnrsc.TenantNetworkId;
 import org.onosproject.vtnrsc.tenantnetwork.TenantNetworkService;
 
 /**
- * Supports for querying TenantNetworks by networkid.
+ * Supports for querying TenantNetworks by network id.
  */
 @Command(scope = "onos", name = "tenantNetworks", description = "Supports for querying"
         + "tenantNetworks by networkid")
 public class TenantNetworkQueryCommand extends AbstractShellCommand {
 
-    @Option(name = "-i", aliases = "--id", description = "TenantNetworkId id", required = false,
+    @Option(name = "-i", aliases = "--id", description = "TenantNetwork id", required = false,
             multiValued = false)
     String id = null;
 

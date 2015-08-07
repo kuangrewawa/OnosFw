@@ -22,7 +22,7 @@ public final class OvsdbConstant {
 
     /**
      * Default constructor.
-     * <p>
+     *
      * The constructor is private to prevent creating an instance of this
      * utility class.
      */

@@ -26,6 +26,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 
+/**
+ * Channel handler deals with the node connection and dispatches
+ * ovsdb messages to the appropriate locations.
+ */
 public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     protected static final Logger log = LoggerFactory
             .getLogger(OvsdbJsonRpcHandler.class);
@@ -72,7 +76,7 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     /**
      * Sets the ovsdb node id.
      *
-     * @param objectMapper the objectMapper to use
+     * @param ovsdbNodeId the ovsdbNodeId to use
      */
     public void setNodeId(OvsdbNodeId ovsdbNodeId) {
         this.ovsdbNodeId = ovsdbNodeId;
@@ -89,12 +93,12 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
 
         if (jsonNode.has("result")) {
 
-            log.info("Handle ovsdb result");
+            log.debug("Handle ovsdb result");
             ovsdbProviderService.processResult(jsonNode);
 
         } else if (jsonNode.hasNonNull("method")) {
 
-            log.info("Handle ovsdb request");
+            log.debug("Handle ovsdb request");
             if (jsonNode.has("id")
                     && !Strings.isNullOrEmpty(jsonNode.get("id").asText())) {
                 ovsdbProviderService.processRequest(jsonNode);
@@ -108,12 +112,11 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
 
-        log.info("Receive message from ovsdb");
+        log.debug("Receive message from ovsdb");
         if (msg instanceof JsonNode) {
             JsonNode jsonNode = (JsonNode) msg;
             processOvsdbMessage(jsonNode);
         }
-        // ctx.channel().close();
     }
 
     @Override
