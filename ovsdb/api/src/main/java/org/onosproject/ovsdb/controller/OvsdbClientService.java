@@ -126,10 +126,10 @@ public interface OvsdbClientService extends OvsdbRPC {
      * Gets the Port uuid.
      *
      * @param portName port name
-     * @param bridgeUUID bridge uuid
+     * @param bridgeUuid bridge uuid
      * @return port uuid, empty if no uuid is find
      */
-    String getPortUuid(String portName, String bridgeUUID);
+    String getPortUuid(String portName, String bridgeUuid);
 
     /**
      * Gets the Interface uuid.

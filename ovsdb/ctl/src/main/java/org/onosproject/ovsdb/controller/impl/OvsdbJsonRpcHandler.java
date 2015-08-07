@@ -93,12 +93,12 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
 
         if (jsonNode.has("result")) {
 
-            log.info("Handle ovsdb result");
+            log.debug("Handle ovsdb result");
             ovsdbProviderService.processResult(jsonNode);
 
         } else if (jsonNode.hasNonNull("method")) {
 
-            log.info("Handle ovsdb request");
+            log.debug("Handle ovsdb request");
             if (jsonNode.has("id")
                     && !Strings.isNullOrEmpty(jsonNode.get("id").asText())) {
                 ovsdbProviderService.processRequest(jsonNode);
@@ -112,7 +112,7 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
 
-        log.info("Receive message from ovsdb");
+        log.debug("Receive message from ovsdb");
         if (msg instanceof JsonNode) {
             JsonNode jsonNode = (JsonNode) msg;
             processOvsdbMessage(jsonNode);

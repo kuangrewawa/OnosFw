@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
  */
 public class OvsdbTableStore {
 
-    ConcurrentMap<String, OvsdbRowStore> tableStore = Maps.newConcurrentMap();
+    private final ConcurrentMap<String, OvsdbRowStore> tableStore = Maps.newConcurrentMap();
 
     /**
      * Gets the ovsdbRowStore.
@@ -32,35 +32,26 @@ public class OvsdbTableStore {
      * @param tableName a ovsdb table name
      * @return OvsdbRowStore the data of the table
      */
-    public OvsdbRowStore getTableStore(String tableName) {
+    public OvsdbRowStore getRows(String tableName) {
         return tableStore.get(tableName);
     }
 
     /**
-     * Sets the tableStore.
-     *
-     * @param tableStore the tableStore to use
-     */
-    public void setTableStore(ConcurrentMap<String, OvsdbRowStore> tableStore) {
-        this.tableStore = tableStore;
-    }
-
-    /**
-     * Adds a value to tableStore.
+     * Create or update a value to tableStore.
      *
      * @param tableName key of the tableName
      * @param rowStore a row of the table
      */
-    public void setTableStore(String tableName, OvsdbRowStore rowStore) {
+    public void createOrUpdateTable(String tableName, OvsdbRowStore rowStore) {
         tableStore.put(tableName, rowStore);
     }
 
     /**
-     * Removes a value to table data.
+     * Drops a value to table data.
      *
      * @param tableName key of the tableName
      */
-    public void removeTableStore(String tableName) {
+    public void dropTable(String tableName) {
         tableStore.remove(tableName);
     }
 

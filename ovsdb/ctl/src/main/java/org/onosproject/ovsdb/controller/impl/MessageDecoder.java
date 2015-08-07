@@ -43,7 +43,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buf,
                           List<Object> out) throws Exception {
-        log.info("Message decoder");
+        log.debug("Message decoder");
         JsonRpcReaderUtil.readToJsonNode(buf, out, context);
     }
 
