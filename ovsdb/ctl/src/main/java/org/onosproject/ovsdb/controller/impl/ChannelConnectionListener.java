@@ -37,7 +37,7 @@ public class ChannelConnectionListener implements ChannelFutureListener {
     }
 
     @Override
-    public void operationComplete(ChannelFuture arg0) throws Exception {
+    public void operationComplete(ChannelFuture arg0) {
         providerService.nodeRemoved();
     }
 }

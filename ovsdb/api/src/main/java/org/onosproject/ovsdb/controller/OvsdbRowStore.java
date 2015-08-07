@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
  */
 public class OvsdbRowStore {
 
-    ConcurrentMap<String, Row> rowStore = Maps.newConcurrentMap();
+    private final ConcurrentMap<String, Row> rowStore = Maps.newConcurrentMap();
 
     /**
      * Gets the row.
@@ -34,35 +34,26 @@ public class OvsdbRowStore {
      * @param uuid the key of the rowStore
      * @return row the row of the rowStore
      */
-    public Row getRowStore(String uuid) {
+    public Row getRow(String uuid) {
         return rowStore.get(uuid);
     }
 
     /**
-     * Adds a value to rowStore.
+     * Inserts a row to rowStore.
      *
      * @param uuid key of the row
      * @param row a row of the table
      */
-    public void setRowStore(String uuid, Row row) {
+    public void insertRow(String uuid, Row row) {
         rowStore.put(uuid, row);
     }
 
     /**
-     * Sets the rowStore.
-     *
-     * @param rowStore the rowStore to use
-     */
-    public void setRowStore(ConcurrentMap<String, Row> rowStore) {
-        this.rowStore = rowStore;
-    }
-
-    /**
-     * Removes a value to rowStore.
+     * Deletes a row to rowStore.
      *
      * @param uuid key of the row
      */
-    public void removeRowStore(String uuid) {
+    public void deleteRow(String uuid) {
         rowStore.remove(uuid);
     }
 

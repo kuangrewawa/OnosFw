@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2014 Open Networking Laboratory
+  ~ Copyright 2015 Open Networking Laboratory
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -28,31 +28,32 @@
     <artifactId>onos-ovsdb-ctl</artifactId>
     <packaging>bundle</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.scr.annotations</artifactId>
         </dependency>
-	<dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
         </dependency>
         <dependency>
-        	<groupId>org.onosproject</groupId>
-        	<artifactId>onos-ovsdb-api</artifactId>
-        	<version>${project.version}</version>
+            <groupId>org.onosproject</groupId>
+            <artifactId>onos-ovsdb-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-        	<groupId>org.onosproject</groupId>
-        	<artifactId>onos-ovsdb-rfc</artifactId>
-        	<version>${project.version}</version>
+            <groupId>org.onosproject</groupId>
+            <artifactId>onos-ovsdb-rfc</artifactId>
+            <version>${project.version}</version>
         </dependency>
-	</dependencies>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
