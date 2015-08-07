@@ -35,8 +35,6 @@ import org.onosproject.net.flow.FlowRuleOperationsContext;
 import org.onosproject.net.flow.FlowRuleService;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
-import org.onosproject.net.flow.criteria.Criterion;
-import org.onosproject.net.flow.criteria.EthTypeCriterion;
 import org.onosproject.net.flowobjective.FilteringObjective;
 import org.onosproject.net.flowobjective.FlowObjectiveStore;
 import org.onosproject.net.flowobjective.ForwardingObjective;
@@ -44,8 +42,9 @@ import org.onosproject.net.flowobjective.NextObjective;
 import org.onosproject.net.flowobjective.Objective;
 import org.onosproject.net.flowobjective.ObjectiveError;
 import org.slf4j.Logger;
+
 /**
- * Driver for OpenVSwitch.
+ * Driver for standard OpenVSwitch.
  */
 public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
         implements Pipeliner {
@@ -62,8 +61,6 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
     private static final int TIME_OUT = 0;
     private static final int MAC_TABLE = 40;
     private static final int PORT_TABLE = 0;
-    private static final short ETH_TYPE_MAC = 40;
-    private static final short ETH_TYPE_PORT = 0;
 
     @Override
     public void init(DeviceId deviceId, PipelinerContext context) {
@@ -73,7 +70,8 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
         coreService = serviceDirectory.get(CoreService.class);
         flowRuleService = serviceDirectory.get(FlowRuleService.class);
         flowObjectiveStore = context.store();
-        coreService.registerApplication("org.onosproject.driver.OpenVSwitchPipeline");
+        coreService
+                .registerApplication("org.onosproject.driver.OpenVSwitchPipeline");
 
     }
 
@@ -84,7 +82,6 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
 
     @Override
     public void forward(ForwardingObjective fwd) {
-        log.info("process-------------flowrule---------------");
         Collection<FlowRule> rules;
         FlowRuleOperations.Builder flowOpsBuilder = FlowRuleOperations
                 .builder();
@@ -103,7 +100,7 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
             fail(fwd, ObjectiveError.UNKNOWN);
             log.warn("Unknown forwarding type {}", fwd.op());
         }
-        log.info("----------------call apply---------------------");
+
         flowRuleService.apply(flowOpsBuilder
                 .build(new FlowRuleOperationsContext() {
                     @Override
@@ -125,7 +122,6 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
     }
 
     private Collection<FlowRule> processForward(ForwardingObjective fwd) {
-        log.info("----------------" + fwd.flag() + "---------------------");
         switch (fwd.flag()) {
         case SPECIFIC:
             return processSpecific(fwd);
@@ -139,22 +135,14 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
     }
 
     private Collection<FlowRule> processVersatile(ForwardingObjective fwd) {
-        log.info("Processing versatile forwarding objective");
-        return Collections.emptySet();
+        log.debug("Processing versatile forwarding objective");
+        return Collections.emptyList();
     }
 
     private Collection<FlowRule> processSpecific(ForwardingObjective fwd) {
         log.debug("Processing specific forwarding objective");
         TrafficSelector.Builder selector = DefaultTrafficSelector.builder();
         TrafficTreatment tb = fwd.treatment();
-        EthTypeCriterion criterion = null;
-        for (Criterion c : fwd.selector().criteria()) {
-            if (c.type().equals(Criterion.Type.ETH_TYPE)) {
-                criterion = (EthTypeCriterion) c;
-            } else {
-                selector.add(c);
-            }
-        }
         FlowRule.Builder ruleBuilder = DefaultFlowRule.builder()
                 .fromApp(fwd.appId()).withPriority(fwd.priority())
                 .forDevice(deviceId).withSelector(selector.build())
@@ -163,14 +151,12 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
         if (fwd.permanent()) {
             ruleBuilder.makePermanent();
         }
-        if (ETH_TYPE_PORT == criterion.ethType().toShort()) {
-            ruleBuilder.withPriority(PORT_TABLE_PRIORITY);
-            ruleBuilder.forTable(PORT_TABLE);
-        } else if (ETH_TYPE_MAC == criterion.ethType().toShort()) {
+        if (tb.tableTransition().tableId() != MAC_TABLE) {
             ruleBuilder.withPriority(MAC_TABLE_PRIORITY);
             ruleBuilder.forTable(MAC_TABLE);
         } else {
-            log.info("Unknown table");
+            ruleBuilder.withPriority(PORT_TABLE_PRIORITY);
+            ruleBuilder.forTable(PORT_TABLE);
         }
         return Collections.singletonList(ruleBuilder.build());
     }
