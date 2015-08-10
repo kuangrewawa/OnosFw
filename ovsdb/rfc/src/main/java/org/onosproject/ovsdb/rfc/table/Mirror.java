@@ -33,11 +33,9 @@ public class Mirror extends AbstractOvsdbTableService {
      * Mirror table column name.
      */
     public enum MirrorColumn {
-        NAME("name"), SELECTSRCPORT("select_src_port"),
-        SELECTDSTPORT("select_dst_port"), SELECTVLAN("select_vlan"),
-        OUTPUTPORT("output_port"), EXTERNALIDS("external_ids"),
-        OUTPUTVLAN("output_vlan"), STATISTICS("statistics"),
-        SELECTALL("select_all");
+        NAME("name"), SELECTSRCPORT("select_src_port"), SELECTDSTPORT("select_dst_port"),
+        SELECTVLAN("select_vlan"), OUTPUTPORT("output_port"), EXTERNALIDS("external_ids"),
+        OUTPUTVLAN("output_vlan"), STATISTICS("statistics"), SELECTALL("select_all");
 
         private final String columnName;
 
@@ -69,9 +67,7 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "name"
      */
     public Column getNameColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.NAME
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.NAME.columnName(),
                                                              "getNameColumn",
                                                              VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
@@ -83,9 +79,7 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param name the column data which column name is "name"
      */
     public void setName(Set<String> name) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.NAME
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.NAME.columnName(),
                                                              "setName",
                                                              VersionNum.VERSION100);
         super.setDataHandler(columndesc, name);
@@ -97,9 +91,7 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the column data which column name is "name"
      */
     public Set<String> getName() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.NAME
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.NAME.columnName(),
                                                              "getName",
                                                              VersionNum.VERSION100);
         return (Set<String>) super.getDataHandler(columndesc);
@@ -111,11 +103,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "select_src_port"
      */
     public Column getSelectSrcPortColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTSRCPORT
-                                                                     .columnName(),
-                                                             "getSelectSrcPortColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTSRCPORT.columnName(),
+                                                             "getSelectSrcPortColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -126,11 +115,8 @@ public class Mirror extends AbstractOvsdbTableService {
      *            "select_src_port"
      */
     public void setSelectSrcPort(Set<UUID> selectSrcPort) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTSRCPORT
-                                                                     .columnName(),
-                                                             "setSelectSrcPort",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTSRCPORT.columnName(),
+                                                             "setSelectSrcPort", VersionNum.VERSION100);
         super.setDataHandler(columndesc, selectSrcPort);
     }
 
@@ -140,11 +126,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "select_dst_port"
      */
     public Column getSelectDstPortColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTDSTPORT
-                                                                     .columnName(),
-                                                             "getSelectDstPortColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTDSTPORT.columnName(),
+                                                             "getSelectDstPortColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -155,11 +138,8 @@ public class Mirror extends AbstractOvsdbTableService {
      *            "select_dst_port"
      */
     public void setSelectDstPort(Set<UUID> selectDstPrt) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTDSTPORT
-                                                                     .columnName(),
-                                                             "setSelectDstPort",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTDSTPORT.columnName(),
+                                                             "setSelectDstPort", VersionNum.VERSION100);
         super.setDataHandler(columndesc, selectDstPrt);
     }
 
@@ -169,11 +149,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "select_vlan"
      */
     public Column getSelectVlanColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTVLAN
-                                                                     .columnName(),
-                                                             "getSelectVlanColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTVLAN.columnName(),
+                                                             "getSelectVlanColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -183,11 +160,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param selectVlan the column data which column name is "select_vlan"
      */
     public void setSelectVlan(Set<Long> selectVlan) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTVLAN
-                                                                     .columnName(),
-                                                             "setSelectVlan",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTVLAN.columnName(),
+                                                             "setSelectVlan", VersionNum.VERSION100);
         super.setDataHandler(columndesc, selectVlan);
     }
 
@@ -197,11 +171,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "output_port"
      */
     public Column getOutputPortColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.OUTPUTPORT
-                                                                     .columnName(),
-                                                             "getOutputPortColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.OUTPUTPORT.columnName(),
+                                                             "getOutputPortColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -211,11 +182,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param outputPort the column data which column name is "output_port"
      */
     public void setOutputPort(Set<UUID> outputPort) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.OUTPUTPORT
-                                                                     .columnName(),
-                                                             "setOutputPort",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.OUTPUTPORT.columnName(),
+                                                             "setOutputPort", VersionNum.VERSION100);
         super.setDataHandler(columndesc, outputPort);
     }
 
@@ -225,11 +193,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "output_vlan"
      */
     public Column getOutputVlanColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.OUTPUTVLAN
-                                                                     .columnName(),
-                                                             "getOutputVlanColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.OUTPUTVLAN.columnName(),
+                                                             "getOutputVlanColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -239,11 +204,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param outputVlan the column data which column name is "output_vlan"
      */
     public void setOutputVlan(Set<Long> outputVlan) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.OUTPUTVLAN
-                                                                     .columnName(),
-                                                             "setOutputVlan",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.OUTPUTVLAN.columnName(),
+                                                             "setOutputVlan", VersionNum.VERSION100);
         super.setDataHandler(columndesc, outputVlan);
     }
 
@@ -253,11 +215,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "statistics"
      */
     public Column getStatisticsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.STATISTICS
-                                                                     .columnName(),
-                                                             "getStatisticsColumn",
-                                                             VersionNum.VERSION640);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.STATISTICS.columnName(),
+                                                             "getStatisticsColumn", VersionNum.VERSION640);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -267,11 +226,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param statistics the column data which column name is "statistics"
      */
     public void setStatistics(Map<String, Long> statistics) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.STATISTICS
-                                                                     .columnName(),
-                                                             "setStatistics",
-                                                             VersionNum.VERSION640);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.STATISTICS.columnName(),
+                                                             "setStatistics", VersionNum.VERSION640);
         super.setDataHandler(columndesc, statistics);
     }
 
@@ -281,11 +237,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "external_ids"
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -295,11 +248,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION100);
         super.setDataHandler(columndesc, externalIds);
     }
 
@@ -309,11 +259,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "select_all"
      */
     public Column getSelectAllColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTALL
-                                                                     .columnName(),
-                                                             "getSelectAllColumn",
-                                                             VersionNum.VERSION620);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTALL.columnName(),
+                                                             "getSelectAllColumn", VersionNum.VERSION620);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -323,11 +270,8 @@ public class Mirror extends AbstractOvsdbTableService {
      * @param selectAll the column data which column name is "select_all"
      */
     public void setSelectAll(Boolean selectAll) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             MirrorColumn.SELECTALL
-                                                                     .columnName(),
-                                                             "setSelectAll",
-                                                             VersionNum.VERSION620);
+        ColumnDescription columndesc = new ColumnDescription(MirrorColumn.SELECTALL.columnName(),
+                                                             "setSelectAll", VersionNum.VERSION620);
         super.setDataHandler(columndesc, selectAll);
     }
 }

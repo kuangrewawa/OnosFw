@@ -1,3 +1,18 @@
+/*
+ * Copyright 2015 Open Networking Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.onosproject.ovsdb.rfc.table;
 
 import java.util.Map;
@@ -17,9 +32,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * Netflow table column name.
      */
     public enum NetflowColumn {
-        TARGETS("targets"), ACTIVETIMEOUT("active_timeout"),
-        ENGINETYPE("engine_type"), EXTERNALIDS("external_ids"),
-        ADDIDTOINTERFACE("add_id_to_interface"), ENGINEID("engine_id");
+        TARGETS("targets"), ACTIVETIMEOUT("active_timeout"), ENGINETYPE("engine_type"),
+        EXTERNALIDS("external_ids"), ADDIDTOINTERFACE("add_id_to_interface"), ENGINEID("engine_id");
 
         private final String columnName;
 
@@ -51,11 +65,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getTargetsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.TARGETS
-                                                                     .columnName(),
-                                                             "getTargetsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.TARGETS.columnName(),
+                                                             "getTargetsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -65,11 +76,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @param targets the column data which column name is "targets"
      */
     public void setTargets(Set<String> targets) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.TARGETS
-                                                                     .columnName(),
-                                                             "setTargets",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.TARGETS.columnName(),
+                                                             "setTargets", VersionNum.VERSION100);
         super.setDataHandler(columndesc, targets);
     }
 
@@ -79,11 +87,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getActiveTimeoutColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ACTIVETIMEOUT
-                                                                     .columnName(),
-                                                             "getActiveTimeoutColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ACTIVETIMEOUT.columnName(),
+                                                             "getActiveTimeoutColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -94,11 +99,8 @@ public class Netflow extends AbstractOvsdbTableService {
      *            "active_timeout"
      */
     public void setActiveTimeout(Long activeTimeout) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ACTIVETIMEOUT
-                                                                     .columnName(),
-                                                             "setActiveTimeout",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ACTIVETIMEOUT.columnName(),
+                                                             "setActiveTimeout", VersionNum.VERSION100);
         super.setDataHandler(columndesc, activeTimeout);
     }
 
@@ -108,11 +110,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getEngineTypeColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ENGINETYPE
-                                                                     .columnName(),
-                                                             "getEngineTypeColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ENGINETYPE.columnName(),
+                                                             "getEngineTypeColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -122,11 +121,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @param engineType the column data which column name is "engine_type"
      */
     public void setEngineType(Set<Long> engineType) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ENGINETYPE
-                                                                     .columnName(),
-                                                             "setEngineType",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ENGINETYPE.columnName(),
+                                                             "setEngineType", VersionNum.VERSION100);
         super.setDataHandler(columndesc, engineType);
     }
 
@@ -136,11 +132,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -150,11 +143,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION100);
         super.setDataHandler(columndesc, externalIds);
     }
 
@@ -164,9 +154,7 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getAddIdToInterfaceColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ADDIDTOINTERFACE
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ADDIDTOINTERFACE.columnName(),
                                                              "getAddIdToInterfaceColumn",
                                                              VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
@@ -179,11 +167,8 @@ public class Netflow extends AbstractOvsdbTableService {
      *            "add_id_to_interface"
      */
     public void setAddIdToInterface(Boolean addIdToInterface) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ADDIDTOINTERFACE
-                                                                     .columnName(),
-                                                             "setAddIdToInterface",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ADDIDTOINTERFACE.columnName(),
+                                                             "setAddIdToInterface", VersionNum.VERSION100);
         super.setDataHandler(columndesc, addIdToInterface);
     }
 
@@ -193,11 +178,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getEngineIdColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ENGINETYPE
-                                                                     .columnName(),
-                                                             "getEngineIdColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ENGINETYPE.columnName(),
+                                                             "getEngineIdColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -207,11 +189,8 @@ public class Netflow extends AbstractOvsdbTableService {
      * @param engineId the column data which column name is "engine_id"
      */
     public void setEngineId(Set<Long> engineId) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             NetflowColumn.ENGINETYPE
-                                                                     .columnName(),
-                                                             "setEngineId",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(NetflowColumn.ENGINETYPE.columnName(),
+                                                             "setEngineId", VersionNum.VERSION100);
         super.setDataHandler(columndesc, engineId);
     }
 

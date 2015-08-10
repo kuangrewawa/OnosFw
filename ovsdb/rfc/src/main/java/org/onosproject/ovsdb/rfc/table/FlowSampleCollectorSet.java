@@ -56,8 +56,7 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @param row Row
      */
     public FlowSampleCollectorSet(DatabaseSchema dbSchema, Row row) {
-        super(dbSchema, row, OvsdbTable.FLOWSAMPLECOLLECTORSET,
-              VersionNum.VERSION710);
+        super(dbSchema, row, OvsdbTable.FLOWSAMPLECOLLECTORSET, VersionNum.VERSION710);
     }
 
     /**
@@ -66,11 +65,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "id"
      */
     public Column getIdColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.ID
-                                                                     .columnName(),
-                                                             "getIdColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.ID.columnName(),
+                                                             "getIdColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -80,11 +76,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @param id the column data which column name is "id"
      */
     public void setId(Long id) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.ID
-                                                                     .columnName(),
-                                                             "setId",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.ID.columnName(),
+                                                             "setId", VersionNum.VERSION710);
         super.setDataHandler(columndesc, id);
     }
 
@@ -94,11 +87,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "bridge"
      */
     public Column getBridgeColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.BRIDGE
-                                                                     .columnName(),
-                                                             "getBridgeColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.BRIDGE.columnName(),
+                                                             "getBridgeColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -108,11 +98,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @param bridge the column data which column name is "bridge"
      */
     public void setBridge(UUID bridge) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.BRIDGE
-                                                                     .columnName(),
-                                                             "setBridge",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.BRIDGE.columnName(),
+                                                             "setBridge", VersionNum.VERSION710);
         super.setDataHandler(columndesc, bridge);
     }
 
@@ -122,11 +109,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "ipfix"
      */
     public Column getIpfixColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.IPFIX
-                                                                     .columnName(),
-                                                             "getIpfixColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.IPFIX.columnName(),
+                                                             "getIpfixColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -136,11 +120,8 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @param ipfix the column data which column name is "ipfix"
      */
     public void setIpfix(UUID ipfix) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.IPFIX
-                                                                     .columnName(),
-                                                             "setIpfix",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.IPFIX.columnName(),
+                                                             "setIpfix", VersionNum.VERSION710);
         super.setDataHandler(columndesc, ipfix);
     }
 
@@ -150,11 +131,9 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "external_ids"
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.EXTERNALIDS
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.EXTERNALIDS
                                                                      .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION710);
+                                                             "getExternalIdsColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -164,11 +143,9 @@ public class FlowSampleCollectorSet extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowSampleCollectorSetColumn.EXTERNALIDS
+        ColumnDescription columndesc = new ColumnDescription(FlowSampleCollectorSetColumn.EXTERNALIDS
                                                                      .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION710);
+                                                             "setExternalIds", VersionNum.VERSION710);
         super.setDataHandler(columndesc, externalIds);
     }
 }
