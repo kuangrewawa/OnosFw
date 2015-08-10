@@ -1,3 +1,18 @@
+/*
+ * Copyright 2015 Open Networking Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.onosproject.ovsdb.rfc.table;
 
 import java.util.Map;
@@ -18,8 +33,7 @@ public class Qos extends AbstractOvsdbTableService {
      * Qos table column name.
      */
     public enum QosColumn {
-        QUEUES("queues"), TYPE("type"), OTHERCONFIG("other_config"),
-        EXTERNALIDS("external_ids");
+        QUEUES("queues"), TYPE("type"), OTHERCONFIG("other_config"), EXTERNALIDS("external_ids");
 
         private final String columnName;
 
@@ -51,11 +65,8 @@ public class Qos extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getQueuesColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.QUEUES
-                                                                     .columnName(),
-                                                             "getQueuesColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.QUEUES.columnName(),
+                                                             "getQueuesColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -65,10 +76,7 @@ public class Qos extends AbstractOvsdbTableService {
      * @param queues the column data which column name is "queues"
      */
     public void setQueues(Map<Long, UUID> queues) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.QUEUES
-                                                                     .columnName(),
-                                                             "setQueues",
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.QUEUES.columnName(), "setQueues",
                                                              VersionNum.VERSION100);
         super.setDataHandler(columndesc, queues);
     }
@@ -79,10 +87,7 @@ public class Qos extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getTypeColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.TYPE
-                                                                     .columnName(),
-                                                             "getTypeColumn",
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.TYPE.columnName(), "getTypeColumn",
                                                              VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
@@ -93,10 +98,7 @@ public class Qos extends AbstractOvsdbTableService {
      * @param type the column data which column name is "type"
      */
     public void setType(Set<String> type) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.TYPE
-                                                                     .columnName(),
-                                                             "setType",
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.TYPE.columnName(), "setType",
                                                              VersionNum.VERSION100);
         super.setDataHandler(columndesc, type);
     }
@@ -107,11 +109,8 @@ public class Qos extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getOtherConfigColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "getOtherConfigColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.OTHERCONFIG.columnName(),
+                                                             "getOtherConfigColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -121,11 +120,8 @@ public class Qos extends AbstractOvsdbTableService {
      * @param otherConfig the column data which column name is "other_config"
      */
     public void setOtherConfig(Map<String, String> otherConfig) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "setOtherConfig",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.OTHERCONFIG.columnName(),
+                                                             "setOtherConfig", VersionNum.VERSION100);
         super.setDataHandler(columndesc, otherConfig);
     }
 
@@ -135,11 +131,8 @@ public class Qos extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -149,11 +142,8 @@ public class Qos extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QosColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QosColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION100);
         super.setDataHandler(columndesc, externalIds);
     }
 }

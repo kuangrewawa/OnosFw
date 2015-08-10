@@ -32,9 +32,9 @@ public class Ipfix extends AbstractOvsdbTableService {
      * Ipfix table column name.
      */
     public enum IpfixColumn {
-        TARGETS("targets"), SAMPLING("sampling"), OBSDOMAINID("obs_domain_id"),
-        OBSPOINTID("obs_point_id"), CACHEACTIVETIMEOUT("cache_active_timeout"),
-        EXTERNALIDS("external_ids"), CACHEMAXFLOWS("cache_max_flows");
+        TARGETS("targets"), SAMPLING("sampling"), OBSDOMAINID("obs_domain_id"), OBSPOINTID("obs_point_id"),
+        CACHEACTIVETIMEOUT("cache_active_timeout"), EXTERNALIDS("external_ids"),
+        CACHEMAXFLOWS("cache_max_flows");
 
         private final String columnName;
 
@@ -66,11 +66,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "targets"
      */
     public Column getTargetsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.TARGETS
-                                                                     .columnName(),
-                                                             "getTargetsColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.TARGETS.columnName(),
+                                                             "getTargetsColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -80,9 +77,7 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @param targets the column data which column name is "targets"
      */
     public void setTargets(Set<String> targets) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.TARGETS
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.TARGETS.columnName(),
                                                              "setTargets",
                                                              VersionNum.VERSION710);
         super.setDataHandler(columndesc, targets);
@@ -94,11 +89,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "sampling"
      */
     public Column getSamplingColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.SAMPLING
-                                                                     .columnName(),
-                                                             "getSamplingColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.SAMPLING.columnName(),
+                                                             "getSamplingColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -108,11 +100,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @param sampling the column data which column name is "sampling"
      */
     public void setSampling(Set<Long> sampling) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.SAMPLING
-                                                                     .columnName(),
-                                                             "setSampling",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.SAMPLING.columnName(),
+                                                             "setSampling", VersionNum.VERSION710);
         super.setDataHandler(columndesc, sampling);
     }
 
@@ -122,11 +111,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "obs_domain_id"
      */
     public Column getObsDomainIdColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.OBSDOMAINID
-                                                                     .columnName(),
-                                                             "getObsDomainIdColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.OBSDOMAINID.columnName(),
+                                                             "getObsDomainIdColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -136,11 +122,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @param obsdomainid the column data which column name is "obs_domain_id"
      */
     public void setObsDomainId(Set<Long> obsdomainid) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.OBSDOMAINID
-                                                                     .columnName(),
-                                                             "setObsDomainId",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.OBSDOMAINID.columnName(),
+                                                             "setObsDomainId", VersionNum.VERSION710);
         super.setDataHandler(columndesc, obsdomainid);
     }
 
@@ -150,11 +133,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "obs_point_id"
      */
     public Column getObsPointIdColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.OBSPOINTID
-                                                                     .columnName(),
-                                                             "getObsPointIdColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.OBSPOINTID.columnName(),
+                                                             "getObsPointIdColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -164,11 +144,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @param obsPointId the column data which column name is "obs_point_id"
      */
     public void setObsPointId(Set<Long> obsPointId) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.OBSPOINTID
-                                                                     .columnName(),
-                                                             "setObsPointId",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.OBSPOINTID.columnName(),
+                                                             "setObsPointId", VersionNum.VERSION710);
         super.setDataHandler(columndesc, obsPointId);
     }
 
@@ -178,9 +155,7 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "cache_active_timeout"
      */
     public Column getCacheActiveTimeoutColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.CACHEACTIVETIMEOUT
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.CACHEACTIVETIMEOUT.columnName(),
                                                              "getCacheActiveTimeoutColumn",
                                                              VersionNum.VERSION730);
         return (Column) super.getColumnHandler(columndesc);
@@ -193,11 +168,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      *            "cache_active_timeout"
      */
     public void setCacheActiveTimeout(Set<Long> cacheActiveTimeout) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.CACHEACTIVETIMEOUT
-                                                                     .columnName(),
-                                                             "setCacheActiveTimeout",
-                                                             VersionNum.VERSION730);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.CACHEACTIVETIMEOUT.columnName(),
+                                                             "setCacheActiveTimeout", VersionNum.VERSION730);
         super.setDataHandler(columndesc, cacheActiveTimeout);
     }
 
@@ -207,11 +179,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "cache_max_flows"
      */
     public Column getCacheMaxFlowsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.CACHEMAXFLOWS
-                                                                     .columnName(),
-                                                             "getCacheMaxFlowsColumn",
-                                                             VersionNum.VERSION730);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.CACHEMAXFLOWS.columnName(),
+                                                             "getCacheMaxFlowsColumn", VersionNum.VERSION730);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -222,11 +191,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      *            "cache_max_flows"
      */
     public void setCacheMaxFlows(Set<Long> cacheMaxFlows) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.CACHEMAXFLOWS
-                                                                     .columnName(),
-                                                             "setCacheMaxFlows",
-                                                             VersionNum.VERSION730);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.CACHEMAXFLOWS.columnName(),
+                                                             "setCacheMaxFlows", VersionNum.VERSION730);
         super.setDataHandler(columndesc, cacheMaxFlows);
     }
 
@@ -236,11 +202,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "external_ids"
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION710);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -250,11 +213,8 @@ public class Ipfix extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             IpfixColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION710);
+        ColumnDescription columndesc = new ColumnDescription(IpfixColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION710);
         super.setDataHandler(columndesc, externalIds);
     }
 }

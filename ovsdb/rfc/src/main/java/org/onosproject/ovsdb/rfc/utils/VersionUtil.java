@@ -50,12 +50,14 @@ public final class VersionUtil {
      * @return an int number
      */
     public static int versionCompare(String fromVersion, String toVersion) {
-        int fromFirst = Integer.parseInt(fromVersion.split("\\.")[0]);
-        int fromMiddle = Integer.parseInt(fromVersion.split("\\.")[1]);
-        int fromEnd = Integer.parseInt(fromVersion.split("\\.")[2]);
-        int toFirst = Integer.parseInt(toVersion.split("\\.")[0]);
-        int toMiddle = Integer.parseInt(toVersion.split("\\.")[1]);
-        int toEnd = Integer.parseInt(toVersion.split("\\.")[2]);
+        String[] fromArr = fromVersion.split("\\.");
+        String[] toArr = toVersion.split("\\.");
+        int fromFirst = Integer.parseInt(fromArr[0]);
+        int fromMiddle = Integer.parseInt(fromArr[1]);
+        int fromEnd = Integer.parseInt(fromArr[2]);
+        int toFirst = Integer.parseInt(toArr[0]);
+        int toMiddle = Integer.parseInt(toArr[1]);
+        int toEnd = Integer.parseInt(toArr[2]);
         if (fromFirst - toFirst != 0) {
             return fromFirst - toFirst;
         } else if (fromMiddle - toMiddle != 0) {
