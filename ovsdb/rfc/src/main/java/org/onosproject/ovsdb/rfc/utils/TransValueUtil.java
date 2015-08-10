@@ -166,8 +166,8 @@ public final class TransValueUtil {
             if (valueNode.isArray()) {
                 if (valueNode.size() == 2) {
                     if (valueNode.get(0).isTextual()
-                            && "uuid".equals(valueNode.get(0).asText())
-                            || "named-uuid".equals(valueNode.get(0).asText())) {
+                            && ("uuid".equals(valueNode.get(0).asText())
+                            || "named-uuid".equals(valueNode.get(0).asText()))) {
                         return UUID.uuid(valueNode.get(1).asText());
                     }
                 }

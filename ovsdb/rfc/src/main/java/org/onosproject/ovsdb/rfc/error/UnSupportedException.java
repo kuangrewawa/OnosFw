@@ -16,25 +16,26 @@
 package org.onosproject.ovsdb.rfc.error;
 
 /**
- * This is a generic exception thrown by the Typed Schema utilities.
+ * This exception is thrown when a result does not meet any of the known formats
+ * in RFC7047.
  */
-public class TypedSchemaException extends RuntimeException {
-    private static final long serialVersionUID = -1452257990783176715L;
+public class UnSupportedException extends RuntimeException {
+    private static final long serialVersionUID = 1377011546616825375L;
 
     /**
-     * Constructs a TypedSchemaException object.
+     * Constructs a UnknownResultException object.
      * @param message error message
      */
-    public TypedSchemaException(String message) {
+    public UnSupportedException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a TypedSchemaException object.
+     * Constructs a UnknownResultException object.
      * @param message error message
      * @param cause Throwable
      */
-    public TypedSchemaException(String message, Throwable cause) {
+    public UnSupportedException(String message, Throwable cause) {
         super(message, cause);
     }
 }

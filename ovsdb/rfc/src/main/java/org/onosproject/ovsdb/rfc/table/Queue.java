@@ -1,3 +1,18 @@
+/*
+ * Copyright 2015 Open Networking Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.onosproject.ovsdb.rfc.table;
 
 import java.util.Map;
@@ -49,10 +64,7 @@ public class Queue extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getDscpColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.DSCP
-                                                                     .columnName(),
-                                                             "getDscpColumn",
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.DSCP.columnName(), "getDscpColumn",
                                                              VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
@@ -63,10 +75,7 @@ public class Queue extends AbstractOvsdbTableService {
      * @param dscp the column data which column name is "dscp"
      */
     public void setDscp(Set<Long> dscp) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.DSCP
-                                                                     .columnName(),
-                                                             "setDscp",
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.DSCP.columnName(), "setDscp",
                                                              VersionNum.VERSION100);
         super.setDataHandler(columndesc, dscp);
     }
@@ -77,11 +86,8 @@ public class Queue extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getOtherConfigColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "getOtherConfigColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.OTHERCONFIG.columnName(),
+                                                             "getOtherConfigColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -91,11 +97,8 @@ public class Queue extends AbstractOvsdbTableService {
      * @param otherConfig the column data which column name is "other_config"
      */
     public void setOtherConfig(Map<String, String> otherConfig) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "setOtherConfig",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.OTHERCONFIG.columnName(),
+                                                             "setOtherConfig", VersionNum.VERSION100);
         super.setDataHandler(columndesc, otherConfig);
     }
 
@@ -105,11 +108,8 @@ public class Queue extends AbstractOvsdbTableService {
      * @return the Column entity
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -119,11 +119,8 @@ public class Queue extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             QueueColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(QueueColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION100);
         super.setDataHandler(columndesc, externalIds);
     }
 }

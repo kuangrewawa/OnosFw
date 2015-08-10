@@ -32,9 +32,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * FlowTable table column name.
      */
     public enum FlowTableColumn {
-        FLOWLIMIT("flow_limit"), OVERFLOWPOLICY("overflow_policy"),
-        GROUPS("groups"), NAME("name"), PREFIXES("prefixes"),
-        EXTERNALIDS("external_ids");
+        FLOWLIMIT("flow_limit"), OVERFLOWPOLICY("overflow_policy"), GROUPS("groups"), NAME("name"),
+        PREFIXES("prefixes"), EXTERNALIDS("external_ids");
 
         private final String columnName;
 
@@ -66,11 +65,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "flow_limit"
      */
     public Column getFlowLimitColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.FLOWLIMIT
-                                                                     .columnName(),
-                                                             "getFlowLimitColumn",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.FLOWLIMIT.columnName(),
+                                                             "getFlowLimitColumn", VersionNum.VERSION650);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -80,11 +76,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @param flowLimit the column data which column name is "flow_limit"
      */
     public void setFlowLimit(Set<Long> flowLimit) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.FLOWLIMIT
-                                                                     .columnName(),
-                                                             "setFlowLimit",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.FLOWLIMIT.columnName(),
+                                                             "setFlowLimit", VersionNum.VERSION650);
         super.setDataHandler(columndesc, flowLimit);
     }
 
@@ -94,11 +87,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "overflow_policy"
      */
     public Column getOverflowPolicyColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.OVERFLOWPOLICY
-                                                                     .columnName(),
-                                                             "getOverflowPolicyColumn",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.OVERFLOWPOLICY.columnName(),
+                                                             "getOverflowPolicyColumn", VersionNum.VERSION650);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -109,11 +99,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      *            "overflow_policy"
      */
     public void setOverflowPolicy(Set<String> overflowPolicy) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.OVERFLOWPOLICY
-                                                                     .columnName(),
-                                                             "setOverflowPolicy",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.OVERFLOWPOLICY.columnName(),
+                                                             "setOverflowPolicy", VersionNum.VERSION650);
         super.setDataHandler(columndesc, overflowPolicy);
     }
 
@@ -123,11 +110,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "groups"
      */
     public Column getGroupsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.GROUPS
-                                                                     .columnName(),
-                                                             "getGroupsColumn",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.GROUPS.columnName(),
+                                                             "getGroupsColumn", VersionNum.VERSION650);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -137,11 +121,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @param groups the column data which column name is "groups"
      */
     public void setGroups(Set<String> groups) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.GROUPS
-                                                                     .columnName(),
-                                                             "setGroups",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.GROUPS.columnName(),
+                                                             "setGroups", VersionNum.VERSION650);
         super.setDataHandler(columndesc, groups);
     }
 
@@ -151,11 +132,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "name"
      */
     public Column getNameColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.NAME
-                                                                     .columnName(),
-                                                             "getNameColumn",
-                                                             VersionNum.VERSION650);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.NAME.columnName(),
+                                                             "getNameColumn", VersionNum.VERSION650);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -165,9 +143,7 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @param name the column data which column name is "name"
      */
     public void setName(Set<String> name) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.NAME
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.NAME.columnName(),
                                                              "setName",
                                                              VersionNum.VERSION650);
         super.setDataHandler(columndesc, name);
@@ -179,11 +155,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "prefixes"
      */
     public Column getPrefixesColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.PREFIXES
-                                                                     .columnName(),
-                                                             "getPrefixesColumn",
-                                                             VersionNum.VERSION740);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.PREFIXES.columnName(),
+                                                             "getPrefixesColumn", VersionNum.VERSION740);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -193,11 +166,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @param prefixes the column data which column name is "prefixes"
      */
     public void setPrefixes(Set<String> prefixes) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.PREFIXES
-                                                                     .columnName(),
-                                                             "setPrefixes",
-                                                             VersionNum.VERSION740);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.PREFIXES.columnName(),
+                                                             "setPrefixes", VersionNum.VERSION740);
         super.setDataHandler(columndesc, prefixes);
     }
 
@@ -207,11 +177,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "external_ids"
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION750);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION750);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -221,11 +188,8 @@ public class FlowTable extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             FlowTableColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION750);
+        ColumnDescription columndesc = new ColumnDescription(FlowTableColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION750);
         super.setDataHandler(columndesc, externalIds);
     }
 

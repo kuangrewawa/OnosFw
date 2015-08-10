@@ -32,9 +32,8 @@ public class Manager extends AbstractOvsdbTableService {
      * Manager table column name.
      */
     public enum ManagerColumn {
-        TARGET("target"), ISCONNECTED("is_connected"),
-        CONNECTIONMODE("connection_mode"), EXTERNALIDS("external_ids"),
-        STATUS("status"), INACTIVITYPROBE("inactivity_probe"),
+        TARGET("target"), ISCONNECTED("is_connected"), CONNECTIONMODE("connection_mode"),
+        EXTERNALIDS("external_ids"), STATUS("status"), INACTIVITYPROBE("inactivity_probe"),
         OTHERCONFIG("other_config"), MAXBACKOFF("max_backoff");
 
         private final String columnName;
@@ -67,11 +66,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "target"
      */
     public Column getTargetColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.TARGET
-                                                                     .columnName(),
-                                                             "getTargetColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.TARGET.columnName(),
+                                                             "getTargetColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -81,9 +77,7 @@ public class Manager extends AbstractOvsdbTableService {
      * @param target the column data which column name is "target"
      */
     public void setTarget(Set<String> target) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.TARGET
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.TARGET.columnName(),
                                                              "setTarget",
                                                              VersionNum.VERSION100);
         super.setDataHandler(columndesc, target);
@@ -95,11 +89,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "is_connected"
      */
     public Column getIsConnectedColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.ISCONNECTED
-                                                                     .columnName(),
-                                                             "getIsConnectedColumn",
-                                                             VersionNum.VERSION110);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.ISCONNECTED.columnName(),
+                                                             "getIsConnectedColumn", VersionNum.VERSION110);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -109,11 +100,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @param isConnected the column data which column name is "is_connected"
      */
     public void setIsConnected(Boolean isConnected) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.ISCONNECTED
-                                                                     .columnName(),
-                                                             "setIsConnected",
-                                                             VersionNum.VERSION110);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.ISCONNECTED.columnName(),
+                                                             "setIsConnected", VersionNum.VERSION110);
         super.setDataHandler(columndesc, isConnected);
     }
 
@@ -123,11 +111,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "other_config"
      */
     public Column getOtherConfigColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "getOtherConfigColumn",
-                                                             VersionNum.VERSION680);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.OTHERCONFIG.columnName(),
+                                                             "getOtherConfigColumn", VersionNum.VERSION680);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -137,11 +122,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @param otherConfig the column data which column name is "other_config"
      */
     public void setOtherConfig(Map<String, String> otherConfig) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.OTHERCONFIG
-                                                                     .columnName(),
-                                                             "setOtherConfig",
-                                                             VersionNum.VERSION680);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.OTHERCONFIG.columnName(),
+                                                             "setOtherConfig", VersionNum.VERSION680);
         super.setDataHandler(columndesc, otherConfig);
     }
 
@@ -151,11 +133,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "external_ids"
      */
     public Column getExternalIdsColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "getExternalIdsColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.EXTERNALIDS.columnName(),
+                                                             "getExternalIdsColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -165,11 +144,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @param externalIds the column data which column name is "external_ids"
      */
     public void setExternalIds(Map<String, String> externalIds) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.EXTERNALIDS
-                                                                     .columnName(),
-                                                             "setExternalIds",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.EXTERNALIDS.columnName(),
+                                                             "setExternalIds", VersionNum.VERSION100);
         super.setDataHandler(columndesc, externalIds);
     }
 
@@ -179,11 +155,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "max_backoff"
      */
     public Column getMaxBackoffColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.MAXBACKOFF
-                                                                     .columnName(),
-                                                             "getMaxBackoffColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.MAXBACKOFF.columnName(),
+                                                             "getMaxBackoffColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -193,11 +166,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @param maxBackoff the column data which column name is "max_backoff"
      */
     public void setMaxBackoff(Set<Long> maxBackoff) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.MAXBACKOFF
-                                                                     .columnName(),
-                                                             "setMaxBackoff",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.MAXBACKOFF.columnName(),
+                                                             "setMaxBackoff", VersionNum.VERSION100);
         super.setDataHandler(columndesc, maxBackoff);
     }
 
@@ -207,11 +177,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "status"
      */
     public Column getStatusColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.STATUS
-                                                                     .columnName(),
-                                                             "getStatusColumn",
-                                                             VersionNum.VERSION110);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.STATUS.columnName(),
+                                                             "getStatusColumn", VersionNum.VERSION110);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -221,9 +188,7 @@ public class Manager extends AbstractOvsdbTableService {
      * @param status the column data which column name is "status"
      */
     public void setStatus(Map<String, String> status) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.STATUS
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.STATUS.columnName(),
                                                              "setStatus",
                                                              VersionNum.VERSION110);
         super.setDataHandler(columndesc, status);
@@ -235,9 +200,7 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "inactivity_probe"
      */
     public Column getInactivityProbeColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.INACTIVITYPROBE
-                                                                     .columnName(),
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.INACTIVITYPROBE.columnName(),
                                                              "getInactivityProbeColumn",
                                                              VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
@@ -250,11 +213,8 @@ public class Manager extends AbstractOvsdbTableService {
      *            "inactivity_probe"
      */
     public void setInactivityProbe(Set<Long> inactivityProbe) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.INACTIVITYPROBE
-                                                                     .columnName(),
-                                                             "setInactivityProbe",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.INACTIVITYPROBE.columnName(),
+                                                             "setInactivityProbe", VersionNum.VERSION100);
         super.setDataHandler(columndesc, inactivityProbe);
     }
 
@@ -264,11 +224,8 @@ public class Manager extends AbstractOvsdbTableService {
      * @return the Column entity which column name is "connection_mode"
      */
     public Column getConnectionModeColumn() {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.CONNECTIONMODE
-                                                                     .columnName(),
-                                                             "getConnectionModeColumn",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.CONNECTIONMODE.columnName(),
+                                                             "getConnectionModeColumn", VersionNum.VERSION100);
         return (Column) super.getColumnHandler(columndesc);
     }
 
@@ -279,11 +236,8 @@ public class Manager extends AbstractOvsdbTableService {
      *            "connection_mode"
      */
     public void setConnectionMode(Set<String> connectionMode) {
-        ColumnDescription columndesc = new ColumnDescription(
-                                                             ManagerColumn.CONNECTIONMODE
-                                                                     .columnName(),
-                                                             "setConnectionMode",
-                                                             VersionNum.VERSION100);
+        ColumnDescription columndesc = new ColumnDescription(ManagerColumn.CONNECTIONMODE.columnName(),
+                                                             "setConnectionMode", VersionNum.VERSION100);
         super.setDataHandler(columndesc, connectionMode);
     }
 }

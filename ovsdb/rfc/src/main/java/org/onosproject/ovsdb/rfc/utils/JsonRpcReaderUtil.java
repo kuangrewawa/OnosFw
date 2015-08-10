@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
 
-import org.onosproject.ovsdb.rfc.error.UnsupportedEncodingException;
+import org.onosproject.ovsdb.rfc.error.UnSupportedException;
 import org.onosproject.ovsdb.rfc.jsonrpc.JsonReadContext;
 
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -55,8 +55,7 @@ public final class JsonRpcReaderUtil {
      * @throws IOException IOException
      * @throws JsonParseException JsonParseException
      */
-    public static void readToJsonNode(ByteBuf in, List<Object> out,
-                                      JsonReadContext jrContext)
+    public static void readToJsonNode(ByteBuf in, List<Object> out, JsonReadContext jrContext)
             throws JsonParseException, IOException {
         int lastReadBytes = jrContext.getLastReadBytes();
         if (lastReadBytes == 0) {
@@ -97,8 +96,7 @@ public final class JsonRpcReaderUtil {
 
             if (jrContext.isStartMatch() && bufStack.isEmpty()) {
                 ByteBuf buf = in.readSlice(i - in.readerIndex() + 1);
-                JsonParser jf = new MappingJsonFactory()
-                        .createParser(new ByteBufInputStream(buf));
+                JsonParser jf = new MappingJsonFactory().createParser(new ByteBufInputStream(buf));
                 JsonNode jsonNode = jf.readValueAsTree();
                 out.add(jsonNode);
                 lastReadBytes = 0;
@@ -159,13 +157,11 @@ public final class JsonRpcReaderUtil {
                                                                                            new BufferRecycler(),
                                                                                            null,
                                                                                            false),
-                                                                             buff,
-                                                                             inputStart,
+                                                                             buff, inputStart,
                                                                              inputLength);
         JsonEncoding jsonEncoding = strapper.detectEncoding();
         if (!JsonEncoding.UTF8.equals(jsonEncoding)) {
-            throw new UnsupportedEncodingException(
-                                                   "Only UTF-8 encoding is supported.");
+            throw new UnSupportedException("Only UTF-8 encoding is supported.");
         }
     }
 
