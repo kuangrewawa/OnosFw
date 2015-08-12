@@ -32,7 +32,7 @@ public final class DefaultHostRoute implements HostRoute {
 
     /**
      *
-     * Creates a DefaultHostRoute.
+     * Creates a DefaultHostRoute by using the next hop and the destination.
      *
      * @param nexthop of the DefaultHostRoute
      * @param destination of the DefaultHostRoute
@@ -43,9 +43,19 @@ public final class DefaultHostRoute implements HostRoute {
     }
 
     @Override
+    public IpAddress nexthop() {
+        return nexthop;
+    }
+
+    @Override
+    public IpPrefix destination() {
+        return destination;
+    }
+
+    @Override
     public String toString() {
-        return toStringHelper(this).add("nexthop", nexthop.toString())
-                .add("destination", destination.toString()).toString();
+        return toStringHelper(this).add("nexthop", nexthop)
+                .add("destination", destination).toString();
     }
 
     @Override
@@ -64,16 +74,6 @@ public final class DefaultHostRoute implements HostRoute {
                     && Objects.equals(this.destination, other.destination);
         }
         return false;
-    }
-
-    @Override
-    public IpAddress nexthop() {
-        return nexthop;
-    }
-
-    @Override
-    public IpPrefix destination() {
-        return destination;
     }
 
 }

@@ -64,7 +64,7 @@ public interface SubnetService {
      * Administratively removes the specified subnets from the store.
      *
      * @param subnetIds the iterable collection of  subnets identifier
-     * @return true if remove identifier subnets successfully
+     * @return false if remove identifier subnet failed
      */
     boolean removeSubnets(Iterable<SubnetId> subnetIds);
 

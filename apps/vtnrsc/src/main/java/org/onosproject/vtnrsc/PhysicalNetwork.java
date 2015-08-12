@@ -20,39 +20,40 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Immutable representation of a physicalnetwork identity.
+ * Immutable representation of a physical network identity.
  */
 public final class PhysicalNetwork {
 
-    private final String physicalnetwork;
+    private final String physicalNetwork;
 
     // Public construction is prohibited
-    private PhysicalNetwork(String physicalnetwork) {
-        checkNotNull(physicalnetwork, "Physicalnetwork cannot be null");
-        this.physicalnetwork = physicalnetwork;
+    private PhysicalNetwork(String physicalNetwork) {
+        checkNotNull(physicalNetwork, "PhysicalNetwork cannot be null");
+        this.physicalNetwork = physicalNetwork;
     }
 
     /**
-     * Creates a network id using the physicalnetwork.
+     * Creates a PhysicalNetwork object.
      *
-     * @param physicalnetwork network String
-     * @return physicalnetwork
+     * @param physicalNetwork physical network
+     * @return physical network
      */
-    public static PhysicalNetwork physicalNetwork(String physicalnetwork) {
-        return new PhysicalNetwork(physicalnetwork);
+    public static PhysicalNetwork physicalNetwork(String physicalNetwork) {
+        return new PhysicalNetwork(physicalNetwork);
     }
 
     /**
+     * Returns a physicalNetwork.
      *
-     * @return physicalnetwork
+     * @return physical network
      */
-    public String physicalnetwork() {
-        return physicalnetwork;
+    public String physicalNetwork() {
+        return physicalNetwork;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(physicalnetwork);
+        return Objects.hash(physicalNetwork);
     }
 
     @Override
@@ -63,15 +64,15 @@ public final class PhysicalNetwork {
         if (obj instanceof PhysicalNetwork) {
             final PhysicalNetwork that = (PhysicalNetwork) obj;
             return this.getClass() == that.getClass()
-                    && Objects.equals(this.physicalnetwork,
-                                      that.physicalnetwork);
+                    && Objects.equals(this.physicalNetwork,
+                                      that.physicalNetwork);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return physicalnetwork;
+        return physicalNetwork;
     }
 
 }

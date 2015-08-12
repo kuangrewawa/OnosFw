@@ -32,8 +32,8 @@ public final class FixedIpCodec extends JsonCodec<FixedIp> {
     public ObjectNode encode(FixedIp fixIp, CodecContext context) {
         checkNotNull(fixIp, "FixedIp cannot be null");
         ObjectNode result = context.mapper().createObjectNode()
-                .put("subnetId", fixIp.subnetId().toString())
-                .put("ipAddress", fixIp.ip().toString());
+                .put("subnet_id", fixIp.subnetId().toString())
+                .put("ip_address", fixIp.ip().toString());
         return result;
     }
 

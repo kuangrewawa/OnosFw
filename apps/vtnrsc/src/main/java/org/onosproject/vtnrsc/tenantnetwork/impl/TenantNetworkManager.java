@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -44,11 +43,13 @@ import org.slf4j.Logger;
 @Service
 public class TenantNetworkManager implements TenantNetworkService {
 
+    private static final String NETWORK_ID_NULL = "Network ID cannot be null";
+    private static final String NETWORK_NOT_NULL = "Network ID cannot be null";
+
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected StorageService storageService;
     private EventuallyConsistentMap<TenantNetworkId, TenantNetwork> networkIdAsKeyStore;
     private final Logger log = getLogger(getClass());
-    private static final String NETWORK_ID_NULL = "Network ID cannot be null";
 
     @Activate
     public void activate() {
@@ -70,6 +71,7 @@ public class TenantNetworkManager implements TenantNetworkService {
 
     @Override
     public boolean exists(TenantNetworkId networkId) {
+        checkNotNull(networkId, NETWORK_ID_NULL);
         return networkIdAsKeyStore.containsKey(networkId);
     }
 
@@ -91,30 +93,50 @@ public class TenantNetworkManager implements TenantNetworkService {
 
     @Override
     public boolean createNetworks(Iterable<TenantNetwork> networks) {
-        Iterator<TenantNetwork> networkors = networks.iterator();
-        while (networkors.hasNext()) {
-            TenantNetwork network = networkors.next();
+        checkNotNull(networks, NETWORK_NOT_NULL);
+        for (TenantNetwork network : networks) {
             networkIdAsKeyStore.put(network.id(), network);
+            if (!networkIdAsKeyStore.containsKey(network.id())) {
+                log.debug("The tenantNetwork is created failed which identifier was {}", network.id()
+                        .toString());
+                return false;
+            }
         }
         return true;
     }
 
     @Override
     public boolean updateNetworks(Iterable<TenantNetwork> networks) {
-        Iterator<TenantNetwork> networkors = networks.iterator();
-        while (networkors.hasNext()) {
-            TenantNetwork network = networkors.next();
+        checkNotNull(networks, NETWORK_NOT_NULL);
+        for (TenantNetwork network : networks) {
+            if (!networkIdAsKeyStore.containsKey(network.id())) {
+                log.debug("The tenantNetwork is not exist whose identifier was {} ",
+                          network.id().toString());
+                return false;
+            }
+
             networkIdAsKeyStore.put(network.id(), network);
+
+            if (!network.equals(networkIdAsKeyStore.get(network.id()))) {
+                log.debug("The tenantNetwork is updated failed whose identifier was {} ",
+                          network.id().toString());
+                return false;
+            }
+
         }
         return true;
     }
 
     @Override
-    public boolean removeNetworks(Iterable<TenantNetworkId> networks) {
-        Iterator<TenantNetworkId> networkors = networks.iterator();
-        while (networkors.hasNext()) {
-            TenantNetworkId network = networkors.next();
-            networkIdAsKeyStore.remove(network);
+    public boolean removeNetworks(Iterable<TenantNetworkId> networkIds) {
+        checkNotNull(networkIds, NETWORK_NOT_NULL);
+        for (TenantNetworkId networkId : networkIds) {
+            networkIdAsKeyStore.remove(networkId);
+            if (networkIdAsKeyStore.containsKey(networkId)) {
+                log.debug("The tenantNetwork is removed failed whose identifier was {}",
+                          networkId.toString());
+                return false;
+            }
         }
         return true;
     }

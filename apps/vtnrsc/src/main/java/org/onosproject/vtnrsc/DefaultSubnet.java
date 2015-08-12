@@ -22,13 +22,12 @@ import java.util.Objects;
 import org.onlab.packet.IpAddress;
 import org.onlab.packet.IpAddress.Version;
 import org.onlab.packet.IpPrefix;
-import org.onosproject.net.Annotations;
 
 /**
- * Default infrastructure subnet model implementation.
+ * Default implementation of Subnet interface .
  */
-public class DefaultSubnet  implements Subnet {
-    private SubnetId id = null;
+public final class DefaultSubnet implements Subnet {
+    private final SubnetId id;
     private final String subnetName;
     private final TenantNetworkId networkId;
     private final TenantId tenantId;
@@ -43,8 +42,22 @@ public class DefaultSubnet  implements Subnet {
     private final Iterable<AllocationPool> allocationPools;
 
     /**
-     * Creates a subnet element attributed to the specified provider.
+     * Creates a subnet object.
      *
+     * @param id subnet identifier
+     * @param subnetName the name of subnet
+     * @param networkId network identifier
+     * @param tenantId tenant identifier
+     * @param cidr the cidr
+     * @param gatewayIp gateway ip
+     * @param dhcpEnabled dhcp enabled or not
+     * @param shared indicates whether this network is shared across all
+     *            tenants, By default, only administrative user can change this
+     *            value
+     * @param hostRoutes a collection of host routes
+     * @param ipV6AddressMode ipV6AddressMode
+     * @param ipV6RaMode ipV6RaMode
+     * @param allocationPoolsIt a collection of allocationPools
      */
     public DefaultSubnet(SubnetId id, String subnetName,
                          TenantNetworkId networkId, TenantId tenantId,
@@ -52,8 +65,7 @@ public class DefaultSubnet  implements Subnet {
                          boolean dhcpEnabled, boolean shared,
                          Iterable<HostRoute> hostRoutes, Mode ipV6AddressMode,
                          Mode ipV6RaMode,
-                         Iterable<AllocationPool> allocationPoolsIt,
-                         Annotations... annotations) {
+                         Iterable<AllocationPool> allocationPoolsIt) {
         this.id = id;
         this.subnetName = subnetName;
         this.networkId = networkId;
@@ -67,38 +79,6 @@ public class DefaultSubnet  implements Subnet {
         this.ipV6RaMode = ipV6RaMode;
         this.hostRoutes = hostRoutes;
         this.allocationPools = allocationPoolsIt;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, subnetName, ipVersion, cidr, gatewayIp,
-                            dhcpEnabled, shared, tenantId);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof DefaultSubnet) {
-            final DefaultSubnet that = (DefaultSubnet) obj;
-            return Objects.equals(this.id, that.id)
-                    && Objects.equals(this.subnetName, that.subnetName)
-                    && Objects.equals(this.ipVersion, that.ipVersion)
-                    && Objects.equals(this.cidr, that.cidr)
-                    && Objects.equals(this.shared, that.shared)
-                    && Objects.equals(this.gatewayIp, that.gatewayIp)
-                    && Objects.equals(this.dhcpEnabled, that.dhcpEnabled);
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return toStringHelper(this).add("id", id).add("subnetName", subnetName)
-                .add("ipVersion", ipVersion).add("cidr", cidr)
-                .add("shared", shared).add("gatewayIp", gatewayIp)
-                .add("dhcpEnabled", dhcpEnabled).toString();
     }
 
     @Override
@@ -165,4 +145,37 @@ public class DefaultSubnet  implements Subnet {
     public Iterable<AllocationPool> allocationPools() {
         return allocationPools;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, subnetName, ipVersion, cidr, gatewayIp,
+                            dhcpEnabled, shared, tenantId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof DefaultSubnet) {
+            final DefaultSubnet that = (DefaultSubnet) obj;
+            return Objects.equals(this.id, that.id)
+                    && Objects.equals(this.subnetName, that.subnetName)
+                    && Objects.equals(this.ipVersion, that.ipVersion)
+                    && Objects.equals(this.cidr, that.cidr)
+                    && Objects.equals(this.shared, that.shared)
+                    && Objects.equals(this.gatewayIp, that.gatewayIp)
+                    && Objects.equals(this.dhcpEnabled, that.dhcpEnabled);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return toStringHelper(this).add("id", id).add("subnetName", subnetName)
+                .add("ipVersion", ipVersion).add("cidr", cidr)
+                .add("shared", shared).add("gatewayIp", gatewayIp)
+                .add("dhcpEnabled", dhcpEnabled).toString();
+    }
+
 }

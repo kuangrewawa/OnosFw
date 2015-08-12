@@ -15,6 +15,8 @@
  */
 package org.onosproject.vtnrsc.virtualport.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -45,7 +47,14 @@ import org.slf4j.LoggerFactory;
 @Component(immediate = true)
 @Service
 public class VirtualPortManager implements VirtualPortService {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
+
+    private static final String VIRTUALPORT_ID_NULL = "VirtualPort ID cannot be null";
+    private static final String VIRTUALPORT_NOT_NULL = "VirtualPort  cannot be null";
+    private static final String TENANTID_NOT_NULL = "TenantId  cannot be null";
+    private static final String NETWORKID_NOT_NULL = "NetworkId  cannot be null";
+    private static final String DEVICEID_NOT_NULL = "DeviceId  cannot be null";
 
     private EventuallyConsistentMap<VirtualPortId, VirtualPort> vPortStore;
 
@@ -74,14 +83,13 @@ public class VirtualPortManager implements VirtualPortService {
 
     @Override
     public boolean exists(VirtualPortId vPortId) {
+        checkNotNull(vPortId, VIRTUALPORT_ID_NULL);
         return vPortStore.containsKey(vPortId);
     }
 
     @Override
     public VirtualPort getPort(VirtualPortId vPortId) {
-        if (!exists(vPortId)) {
-            return null;
-        }
+        checkNotNull(vPortId, VIRTUALPORT_ID_NULL);
         return vPortStore.get(vPortId);
     }
 
@@ -92,81 +100,93 @@ public class VirtualPortManager implements VirtualPortService {
 
     @Override
     public Collection<VirtualPort> getPorts(TenantNetworkId networkId) {
-        Collection<VirtualPort> vPortWithNetworkId =
-            Collections.unmodifiableCollection(vPortStore.values());
-        if (networkId == null || !networkService.exists(networkId)) {
-            return null;
-        }
-        for (VirtualPort  vPort : vPortWithNetworkId) {
+        checkNotNull(networkId, NETWORKID_NOT_NULL);
+        Collection<VirtualPort> vPortWithNetworkIds = vPortStore.values();
+        for (VirtualPort vPort : vPortWithNetworkIds) {
             if (!vPort.networkId().equals(networkId)) {
-                vPortWithNetworkId.remove(vPort);
+                vPortWithNetworkIds.remove(vPort);
             }
         }
-        return vPortWithNetworkId;
+        return vPortWithNetworkIds;
     }
 
     @Override
     public Collection<VirtualPort> getPorts(TenantId tenantId) {
-        Collection<VirtualPort> vPortWithTenantId =
-                Collections.unmodifiableCollection(vPortStore.values());
-        if (tenantId == null) {
-            return null;
-        }
-        for (VirtualPort  vPort : vPortWithTenantId) {
+        checkNotNull(tenantId, TENANTID_NOT_NULL);
+        Collection<VirtualPort> vPortWithTenantIds = vPortStore.values();
+        for (VirtualPort vPort : vPortWithTenantIds) {
             if (!vPort.tenantId().equals(tenantId)) {
-                vPortWithTenantId.remove(vPort);
+                vPortWithTenantIds.remove(vPort);
             }
         }
-        return vPortWithTenantId;
+        return vPortWithTenantIds;
     }
 
     @Override
     public Collection<VirtualPort> getPorts(DeviceId deviceId) {
-        Collection<VirtualPort> vPortWithDeviceId =
-                Collections.unmodifiableCollection(vPortStore.values());
-        if (deviceId == null) {
-            return null;
-        }
-        for (VirtualPort  vPort : vPortWithDeviceId) {
+        checkNotNull(deviceId, DEVICEID_NOT_NULL);
+        Collection<VirtualPort> vPortWithDeviceIds = vPortStore.values();
+        for (VirtualPort vPort : vPortWithDeviceIds) {
             if (!vPort.deviceId().equals(deviceId)) {
-                vPortWithDeviceId.remove(vPort);
+                vPortWithDeviceIds.remove(vPort);
             }
         }
-        return vPortWithDeviceId;
+        return vPortWithDeviceIds;
     }
 
     @Override
     public boolean createPorts(Iterable<VirtualPort> vPorts) {
-        for (VirtualPort vPort:vPorts) {
-            log.info("vPortId is  {} ", vPort.portId().toString());
+        checkNotNull(vPorts, VIRTUALPORT_NOT_NULL);
+        for (VirtualPort vPort : vPorts) {
+            log.debug("vPortId is  {} ", vPort.portId().toString());
             vPortStore.put(vPort.portId(), vPort);
+            if (!vPortStore.containsKey(vPort.portId())) {
+                log.debug("The virtualPort is created failed whose identifier is {} ",
+                          vPort.portId().toString());
+                return false;
+            }
         }
         return true;
     }
 
     @Override
     public boolean updatePorts(Iterable<VirtualPort> vPorts) {
-        Boolean flag = false;
+        checkNotNull(vPorts, VIRTUALPORT_NOT_NULL);
         if (vPorts != null) {
-            for (VirtualPort vPort:vPorts) {
+            for (VirtualPort vPort : vPorts) {
                 vPortStore.put(vPort.portId(), vPort);
-                flag = true;
+                if (!vPortStore.containsKey(vPort.portId())) {
+                    log.debug("The virtualPort is not exist whose identifier is {}",
+                              vPort.portId().toString());
+                    return false;
+                }
+
+                vPortStore.put(vPort.portId(), vPort);
+
+                if (!vPort.equals(vPortStore.get(vPort.portId()))) {
+                    log.debug("The virtualPort is updated failed whose  identifier is {}",
+                              vPort.portId().toString());
+                    return false;
+                }
             }
         }
-        return flag;
+        return true;
     }
 
     @Override
     public boolean removePorts(Iterable<VirtualPortId> vPortIds) {
-        Boolean flag = false;
+        checkNotNull(vPortIds, VIRTUALPORT_ID_NULL);
         if (vPortIds != null) {
-            for (VirtualPortId vPortId:vPortIds) {
+            for (VirtualPortId vPortId : vPortIds) {
                 vPortStore.remove(vPortId);
-                flag = true;
-                log.info("The result of removing vPortId is {}", flag.toString());
+                if (vPortStore.containsKey(vPortId)) {
+                    log.debug("The virtualPort is removed failed whose identifier is {}",
+                              vPortId.toString());
+                    return false;
+                }
             }
         }
-        return flag;
+        return true;
     }
 
 }

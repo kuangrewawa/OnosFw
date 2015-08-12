@@ -16,7 +16,7 @@
 package org.onosproject.vtnrsc;
 
 /**
- * Representation of the tenantNetwork.
+ * Representation of the TenantNetwork.
  */
 public interface TenantNetwork {
 
@@ -71,14 +71,14 @@ public interface TenantNetwork {
      * Returns the administrative state of the tenantNetwork,which is up(true)
      * or down(false).
      *
-     * @return network admin state up
+     * @return true or false
      */
     boolean adminStateUp();
 
     /**
-     * Returns the tenantNetwork state.
+     * Returns the tenant network state.
      *
-     * @return tenantNetwork state
+     * @return tenant network state
      */
     State state();
 
@@ -86,7 +86,7 @@ public interface TenantNetwork {
      * Indicates whether this tenantNetwork is shared across all tenants. By
      * default,only administrative user can change this value.
      *
-     * @return tenantNetwork shared
+     * @return true or false
      */
     boolean shared();
 
@@ -95,7 +95,7 @@ public interface TenantNetwork {
      * tenant can be different from the tenant that makes the create
      * tenantNetwork request.
      *
-     * @return tenantNetwork tenant identifier
+     * @return the tenant identifier
      */
     TenantId tenantId();
 
@@ -103,7 +103,7 @@ public interface TenantNetwork {
      * Returns the routerExternal.Indicates whether this network is externally
      * accessible.
      *
-     * @return true if tenantNetwork router external
+     * @return true or false
      */
     boolean routerExternal();
 
@@ -124,7 +124,7 @@ public interface TenantNetwork {
     /**
      * Returns the tenantNetwork segmentation id.
      *
-     * @return tenantNetwork segmentation id
+     * @return segmentation identifier
      */
     SegmentationId segmentationId();
 }

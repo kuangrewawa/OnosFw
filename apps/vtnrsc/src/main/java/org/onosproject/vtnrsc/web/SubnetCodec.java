@@ -42,6 +42,8 @@ public final class SubnetCodec extends JsonCodec<Subnet> {
                 .put("tenant_id", subnet.tenantId().toString());
         result.set("alloction_pools", new AllocationPoolsCodec().encode(subnet
                 .allocationPools(), context));
+        result.set("host_routes",
+                   new HostRoutesCodec().encode(subnet.hostRoutes(), context));
         return result;
     }
 }

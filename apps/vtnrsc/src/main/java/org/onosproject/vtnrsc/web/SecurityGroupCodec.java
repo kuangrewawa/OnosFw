@@ -32,7 +32,7 @@ public final class SecurityGroupCodec extends JsonCodec<SecurityGroup> {
     public ObjectNode encode(SecurityGroup securGroup, CodecContext context) {
         checkNotNull(securGroup, "SecurityGroup cannot be null");
         ObjectNode result = context.mapper().createObjectNode()
-                .put("securityGroup", securGroup.securityGroup());
+                .put("security_group", securGroup.securityGroup());
         return result;
     }
 

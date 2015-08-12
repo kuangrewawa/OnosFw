@@ -38,13 +38,14 @@ import org.onosproject.vtnrsc.tenantnetwork.TenantNetworkService;
 import org.slf4j.Logger;
 
 /**
- * Provides implementation of the subnet service.
+ * Provides implementation of the Subnet service.
  */
 @Component(immediate = true)
 @Service
 public class SubnetManager implements SubnetService {
 
     private static final String SUBNET_ID_NULL = "Subnet ID cannot be null";
+    private static final String SUBNET_NOT_NULL = "Subnet cannot be null";
 
     private final Logger log = getLogger(getClass());
 
@@ -58,7 +59,6 @@ public class SubnetManager implements SubnetService {
 
     @Activate
     public void activate() {
-
         KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
                 .register(MultiValuedTimestamp.class);
         subnetStore = storageService
@@ -95,20 +95,41 @@ public class SubnetManager implements SubnetService {
 
     @Override
     public boolean createSubnets(Iterable<Subnet> subnets) {
+        checkNotNull(subnets, SUBNET_NOT_NULL);
         for (Subnet subnet : subnets) {
             if (!tenantNetworkService.exists(subnet.networkId())) {
+                log.debug("The network identifier that the subnet {} belong to is not exist",
+                          subnet.networkId().toString(), subnet.id().toString());
                 return false;
             }
             subnetStore.put(subnet.id(), subnet);
+            if (!subnetStore.containsKey(subnet.id())) {
+                log.debug("The identified subnet whose identifier is {}  create failed",
+                          subnet.id().toString());
+                return false;
+            }
         }
         return true;
     }
 
     @Override
     public boolean updateSubnets(Iterable<Subnet> subnets) {
+        checkNotNull(subnets, SUBNET_NOT_NULL);
         if (subnets != null) {
             for (Subnet subnet : subnets) {
+                if (!subnetStore.containsKey(subnet.id())) {
+                    log.debug("The subnet is not exist whose identifier is {}",
+                              subnet.id().toString());
+                    return false;
+                }
+
                 subnetStore.put(subnet.id(), subnet);
+
+                if (!subnet.equals(subnetStore.get(subnet.id()))) {
+                    log.debug("The subnet is updated failed whose identifier is {}",
+                              subnet.id().toString());
+                    return false;
+                }
             }
         }
         return true;
@@ -116,9 +137,15 @@ public class SubnetManager implements SubnetService {
 
     @Override
     public boolean removeSubnets(Iterable<SubnetId> subnetIds) {
+        checkNotNull(subnetIds, SUBNET_ID_NULL);
         if (subnetIds != null) {
             for (SubnetId subnetId : subnetIds) {
                 subnetStore.remove(subnetId);
+                if (subnetStore.containsKey(subnetId)) {
+                    log.debug("The subnet created is failed whose identifier is {}",
+                              subnetId.toString());
+                    return false;
+                }
             }
         }
         return true;

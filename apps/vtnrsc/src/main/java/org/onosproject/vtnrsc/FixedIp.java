@@ -23,36 +23,19 @@ import java.util.Objects;
 import org.onlab.packet.IpAddress;
 
 /**
- * Immutable representation of a IP address for the port, Include the IP address
- * and subnet identity.
+ * Immutable representation of a IP address for the virtual port, Includes a IP
+ * address and a subnet identifier.
  */
 public final class FixedIp {
     private final SubnetId subnetId;
     private final IpAddress ip;
+
     // Public construction is prohibited
     private FixedIp(SubnetId subnetId, IpAddress ip) {
         checkNotNull(subnetId, "SubnetId cannot be null");
         checkNotNull(ip, "IpAddress cannot be null");
         this.subnetId = subnetId;
         this.ip = ip;
-    }
-
-    /**
-     * Returns the FixedIp subnet identifier.
-     *
-     * @return subnet identifier
-     */
-    public SubnetId subnetId() {
-        return subnetId;
-    }
-
-    /**
-     * Returns the FixedIp IP address.
-     *
-     * @return IP address
-     */
-    public IpAddress ip() {
-        return ip;
     }
 
     /**
@@ -64,6 +47,24 @@ public final class FixedIp {
      */
     public static FixedIp fixedIp(SubnetId subnetId, IpAddress ip) {
         return new FixedIp(subnetId, ip);
+    }
+
+    /**
+     * Returns the subnet identifier.
+     *
+     * @return subnet identifier
+     */
+    public SubnetId subnetId() {
+        return subnetId;
+    }
+
+    /**
+     * Returns the IP address.
+     *
+     * @return IP address
+     */
+    public IpAddress ip() {
+        return ip;
     }
 
     @Override

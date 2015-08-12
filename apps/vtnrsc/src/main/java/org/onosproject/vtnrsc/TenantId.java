@@ -20,22 +20,22 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Immutable representation of a network identity.
+ * Immutable representation of a tenant identifier.
  */
 public final class TenantId {
 
-    private final String tenantid;
+    private final String tenantId;
 
     // Public construction is prohibited
-    private TenantId(String tenantid) {
-        this.tenantid = tenantid;
+    private TenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     /**
-     * Creates a network id using the tenantid.
+     * Creates a network id by using the tenantid.
      *
-     * @param tenantid network String
-     * @return TenantId
+     * @param tenantid the tenant identifier
+     * @return the tenant identifier
      */
     public static TenantId tenantId(String tenantid) {
         checkNotNull(tenantid, "Tenantid can not be null");
@@ -43,16 +43,17 @@ public final class TenantId {
     }
 
     /**
+     * Returns the tenant identifier.
      *
-     * @return tenantid
+     * @return the tenant identifier
      */
-    public String tenantid() {
-        return tenantid;
+    public String tenantId() {
+        return tenantId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tenantid);
+        return Objects.hash(tenantId);
     }
 
     @Override
@@ -63,14 +64,14 @@ public final class TenantId {
         if (obj instanceof TenantId) {
             final TenantId that = (TenantId) obj;
             return this.getClass() == that.getClass()
-                    && Objects.equals(this.tenantid, that.tenantid);
+                    && Objects.equals(this.tenantId, that.tenantId);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return tenantid;
+        return tenantId;
     }
 
 }

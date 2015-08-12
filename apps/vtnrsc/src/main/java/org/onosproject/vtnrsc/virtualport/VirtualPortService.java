@@ -45,15 +45,13 @@ public interface VirtualPortService {
 
     /**
      * Returns the collection of the currently known virtualPort.
-     *
-     * @return virtualPort.
      */
     Collection<VirtualPort> getPorts();
 
     /**
      * Returns the collection of the virtualPorts associated with the networkId.
      *
-     * @param networkId
+     * @param networkId  the network identifer
      * @return collection of virtualPort.
      */
     Collection<VirtualPort> getPorts(TenantNetworkId networkId);
@@ -61,15 +59,15 @@ public interface VirtualPortService {
     /**
      * Returns the collection of the virtualPorts associated with the tenantId.
      *
-     * @param tenantId
-     * @return collection of virtualPort.
+     * @param tenantId   the tenant identifier
+     * @return collection of virtualPorts.
      */
     Collection<VirtualPort> getPorts(TenantId tenantId);
 
     /**
      * Returns the collection of the virtualPorts associated with the deviceId.
      *
-     * @param deviceId
+     * @param deviceId   the device identifier
      * @return collection of virtualPort.
      */
     Collection<VirtualPort> getPorts(DeviceId deviceId);

@@ -10,13 +10,13 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+
 	<artifactId>onos-app-vtnrsc</artifactId>
 	<packaging>bundle</packaging>
 
-	<properties>
-        <onos.app.name>org.onosproject.vtnrsc</onos.app.name>
-    </properties>
-
+    <properties>
+		<onos.app.name>org.onosproject.vtnrsc</onos.app.name>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
@@ -33,13 +33,19 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr.annotations</artifactId>
-        </dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.scr.annotations</artifactId>
+		</dependency>
 		<dependency>
-            <groupId>org.apache.karaf.shell</groupId>
-            <artifactId>org.apache.karaf.shell.console</artifactId>
-        </dependency>
+			<groupId>org.apache.karaf.shell</groupId>
+			<artifactId>org.apache.karaf.shell.console</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.onosproject</groupId>
+			<artifactId>onlab-junit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
+
 
 </project>

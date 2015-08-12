@@ -74,7 +74,7 @@ public interface TenantNetworkService {
      * Deletes tenantNetwork by tenantNetworkIds.
      *
      * @param networksId the collection of tenantNetworkIds
-     * @return true if the specified tenantNetwork deleted successfully.
+     * @return true if the identify tenantNetwork deleted successfully.
      */
-    boolean removeNetworks(Iterable<TenantNetworkId> networksId);
+    boolean removeNetworks(Iterable<TenantNetworkId> networksIds);
 }

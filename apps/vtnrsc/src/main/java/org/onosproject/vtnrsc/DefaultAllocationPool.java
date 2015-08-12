@@ -27,19 +27,36 @@ import org.onlab.packet.IpAddress;
  */
 public final class DefaultAllocationPool implements AllocationPool {
 
-    private final IpAddress startIP;
-    private final IpAddress endIP;
+    private final IpAddress startIp;
+    private final IpAddress endIp;
 
-    public DefaultAllocationPool(IpAddress startIP, IpAddress endIP) {
-        checkNotNull(startIP, "StartIP cannot be null");
-        checkNotNull(endIP, "EndIP cannot be null");
-        this.startIP = startIP;
-        this.endIP = endIP;
+    /**
+     * Creates an AllocationPool by using the start IP address and the end IP
+     * address.
+     *
+     * @param startIp the start IP address of the allocation pool
+     * @param endIp the end IP address of the allocation pool
+     */
+    public DefaultAllocationPool(IpAddress startIp, IpAddress endIp) {
+        checkNotNull(startIp, "StartIp cannot be null");
+        checkNotNull(endIp, "EndIp cannot be null");
+        this.startIp = startIp;
+        this.endIp = endIp;
+    }
+
+    @Override
+    public IpAddress startIp() {
+        return startIp;
+    }
+
+    @Override
+    public IpAddress endIp() {
+        return endIp;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startIP, endIP);
+        return Objects.hash(startIp, endIp);
     }
 
     @Override
@@ -49,25 +66,15 @@ public final class DefaultAllocationPool implements AllocationPool {
         }
         if (obj instanceof DefaultAllocationPool) {
             final DefaultAllocationPool other = (DefaultAllocationPool) obj;
-            return Objects.equals(this.startIP, other.startIP)
-                    && Objects.equals(this.endIP, other.endIP);
+            return Objects.equals(this.startIp, other.startIp)
+                    && Objects.equals(this.endIp, other.endIp);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this).add("startIP", startIP).add("endIP", endIP)
+        return toStringHelper(this).add("startIp", startIp).add("endIp", endIp)
                 .toString();
-    }
-
-    @Override
-    public IpAddress startIP() {
-        return startIP;
-    }
-
-    @Override
-    public IpAddress endIP() {
-        return endIP;
     }
 }

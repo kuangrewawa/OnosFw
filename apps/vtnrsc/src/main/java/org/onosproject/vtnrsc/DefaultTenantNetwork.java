@@ -20,7 +20,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.util.Objects;
 
 /**
- * Default TenantNetwork model implementation.
+ * Default implementation of  TenantNetwork interface.
  */
 public final class DefaultTenantNetwork implements TenantNetwork {
     private final TenantNetworkId id;
@@ -29,43 +29,43 @@ public final class DefaultTenantNetwork implements TenantNetwork {
     private final State state;
     private final boolean shared;
     private final Type type;
-    private final TenantId tenantID;
+    private final TenantId tenantId;
     private final boolean routerExternal;
     private final PhysicalNetwork physicalNetwork;
-    private final SegmentationId segmentationID;
+    private final SegmentationId segmentationId;
 
     /**
      * Creates a neutronNetwork element attributed to the specified provider.
      *
-     * @param id identity of the NetworkId
+     * @param id  network identifier
      * @param name the network name
      * @param adminStateUp administrative state of the network
      * @param state the network state
-     * @param shared Indicates whether this network is shared across all
-     *            tenants,By default,only administrative user can change this
-     *            value.
+     * @param shared indicates whether this network is shared across all
+     *            tenants, By default, only administrative user can change this
+     *            value
+     * @param tenantId tenant identifier
+     * @param routerExternal network routerExternal
      * @param type the network type
-     * @param tenantID tenant ID
-     * @param routeExternal network routerExternal.
-     * @param physicalNetwork physical network identity of the physicalNetwork.
-     * @param segmentationID Segmentation id identity of the SegmentationID
+     * @param physicalNetwork physicalNetwork identifier
+     * @param segmentationId segmentation identifier
      */
     public DefaultTenantNetwork(TenantNetworkId id, String name,
-                                 boolean adminStateUp, State state,
-                                 boolean shared, TenantId tenantID,
-                                 boolean routerExternal, Type type,
-                                 PhysicalNetwork physicalNetwork,
-                                 SegmentationId segmentationID) {
+                                boolean adminStateUp, State state,
+                                boolean shared, TenantId tenantId,
+                                boolean routerExternal, Type type,
+                                PhysicalNetwork physicalNetwork,
+                                SegmentationId segmentationId) {
         this.id = id;
         this.name = name;
         this.adminStateUp = adminStateUp;
         this.state = state;
         this.shared = shared;
         this.type = type;
-        this.tenantID = tenantID;
+        this.tenantId = tenantId;
         this.routerExternal = routerExternal;
         this.physicalNetwork = physicalNetwork;
-        this.segmentationID = segmentationID;
+        this.segmentationId = segmentationId;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class DefaultTenantNetwork implements TenantNetwork {
 
     @Override
     public TenantId tenantId() {
-        return tenantID;
+        return tenantId;
     }
 
     @Override
@@ -115,14 +115,14 @@ public final class DefaultTenantNetwork implements TenantNetwork {
 
     @Override
     public SegmentationId segmentationId() {
-        return segmentationID;
+        return segmentationId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, adminStateUp, state, shared, tenantID,
+        return Objects.hash(id, name, adminStateUp, state, shared, tenantId,
                             routerExternal, type, physicalNetwork,
-                            segmentationID);
+                            segmentationId);
     }
 
     @Override
@@ -137,12 +137,12 @@ public final class DefaultTenantNetwork implements TenantNetwork {
                     && Objects.equals(this.adminStateUp, that.adminStateUp)
                     && Objects.equals(this.state, that.state)
                     && Objects.equals(this.shared, that.shared)
-                    && Objects.equals(this.tenantID, that.tenantID)
+                    && Objects.equals(this.tenantId, that.tenantId)
                     && Objects.equals(this.routerExternal, that.routerExternal)
                     && Objects.equals(this.type, that.type)
                     && Objects.equals(this.physicalNetwork,
                                       that.physicalNetwork)
-                    && Objects.equals(this.segmentationID, that.segmentationID);
+                    && Objects.equals(this.segmentationId, that.segmentationId);
         }
         return false;
     }
@@ -151,10 +151,10 @@ public final class DefaultTenantNetwork implements TenantNetwork {
     public String toString() {
         return toStringHelper(this).add("id", id).add("name", name)
                 .add("adminStateUp", adminStateUp).add("state", state)
-                .add("shared", shared).add("tenantID", tenantID)
+                .add("shared", shared).add("tenantId", tenantId)
                 .add("routeExternal", routerExternal).add("type", type)
                 .add("physicalNetwork", physicalNetwork)
-                .add("segmentationID", segmentationID).toString();
+                .add("segmentationId", segmentationId).toString();
     }
 
 }

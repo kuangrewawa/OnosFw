@@ -19,21 +19,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.onosproject.codec.CodecContext;
 import org.onosproject.codec.JsonCodec;
-import org.onosproject.vtnrsc.AllocationPool;
+import org.onosproject.vtnrsc.HostRoute;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Subnet AllocationPool codec.
+ * Subnet HostRoute codec.
  */
-public final class AllocationPoolsCodec extends JsonCodec<AllocationPool> {
+public final class HostRoutesCodec extends JsonCodec<HostRoute> {
 
     @Override
-    public ObjectNode encode(AllocationPool alocPool, CodecContext context) {
-        checkNotNull(alocPool, "AllocationPools cannot be null");
+    public ObjectNode encode(HostRoute hostRoute, CodecContext context) {
+        checkNotNull(hostRoute, "HostRoutes cannot be null");
         ObjectNode result = context.mapper().createObjectNode()
-                .put("start", alocPool.startIp().toString())
-                .put("end", alocPool.endIp().toString());
+                .put("nexthop", hostRoute.nexthop().toString())
+                .put("destination", hostRoute.destination().toString());
         return result;
     }
 

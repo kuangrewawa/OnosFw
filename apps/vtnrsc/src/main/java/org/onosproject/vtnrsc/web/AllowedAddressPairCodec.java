@@ -32,8 +32,8 @@ public final class AllowedAddressPairCodec extends JsonCodec<AllowedAddressPair>
     public ObjectNode encode(AllowedAddressPair alocAddPair, CodecContext context) {
         checkNotNull(alocAddPair, "AllowedAddressPair cannot be null");
         ObjectNode result = context.mapper().createObjectNode()
-                .put("ip", alocAddPair.ip().toString())
-                .put("mac", alocAddPair.mac().toString());
+                .put("ip_address", alocAddPair.ip().toString())
+                .put("mac_address", alocAddPair.mac().toString());
         return result;
     }
 

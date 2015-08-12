@@ -34,23 +34,23 @@ public final class VirtualPortCodec extends JsonCodec<VirtualPort> {
                 .mapper()
                 .createObjectNode()
                 .put("id", vPort.portId().toString())
-                .put("networkId", vPort.networkId().toString())
-                .put("adminStateUp", vPort.adminStateUp().toString())
+                .put("network_id", vPort.networkId().toString())
+                .put("admin_state_up", vPort.adminStateUp())
                 .put("name", vPort.name().toString())
-                .put("state", vPort.state().toString())
-                .put("macAddress", vPort.macAddress().toString())
-                .put("tenantId", vPort.tenantId().toString())
-                .put("deviceId", vPort.deviceId().toString())
-                .put("deviceOwner", vPort.deviceOwner().toString())
-                .put("bindingVnicType", vPort.bindingVnicType().toString())
-                .put("bindingVifType", vPort.bindingVifType().toString())
-                .put("bindingHostId", vPort.bindingHostId().toString())
-                .put("bindingvifDetails", vPort.bindingvifDetails().toString());
-        result.set("allowedAddressPairs", new AllowedAddressPairCodec().encode(
+                .put("status", vPort.state().toString())
+                .put("mac_address", vPort.macAddress().toString())
+                .put("tenant_id", vPort.tenantId().toString())
+                .put("device_id", vPort.deviceId().toString())
+                .put("device_owner", vPort.deviceOwner().toString())
+                .put("binding:vnic_type", vPort.bindingVnicType().toString())
+                .put("binding:Vif_type", vPort.bindingVifType().toString())
+                .put("binding:host_id", vPort.bindingHostId().mac().toString())
+                .put("binding:vif_details", vPort.bindingVifDetails().toString());
+        result.set("allowed_address_pairs", new AllowedAddressPairCodec().encode(
                                                                                vPort.allowedAddressPairs(), context));
-        result.set("fixedIp", new FixedIpCodec().encode(
+        result.set("fixed_ips", new FixedIpCodec().encode(
                                                         vPort.fixedIps(), context));
-        result.set("securityGroups", new SecurityGroupCodec().encode(
+        result.set("security_groups", new SecurityGroupCodec().encode(
                                                         vPort.securityGroups(), context));
         return result;
     }
