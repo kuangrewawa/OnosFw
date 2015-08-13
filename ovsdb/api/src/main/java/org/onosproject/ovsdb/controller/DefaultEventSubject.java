@@ -34,6 +34,9 @@ public class DefaultEventSubject implements OvsdbEventSubject {
     private final OvsdbDatapathId dpid;
     private final OvsdbPortType portType;
     private final OvsdbIfaceId ifaceid;
+    private final OvsdbPortNumber dstPortNumber;
+    private final OvsdbDatapathId dstDpid;
+    private final OvsdbPortName dstPortName;
 
     /**
      * Creates an end-station event subject using the supplied information.
@@ -44,10 +47,10 @@ public class DefaultEventSubject implements OvsdbEventSubject {
      * @param portnumber port number
      * @param dpid ovs dpid
      * @param portType port type
-     * @param ifaceid  vm ifaceid
+     * @param ifaceid vm ifaceid
      */
-    public DefaultEventSubject(MacAddress mac, Set<IpAddress> ips,
-                               OvsdbPortName portname, OvsdbPortNumber portnumber, OvsdbDatapathId dpid,
+    public DefaultEventSubject(MacAddress mac, Set<IpAddress> ips, OvsdbPortName portname,
+                               OvsdbPortNumber portnumber, OvsdbDatapathId dpid,
                                OvsdbPortType portType, OvsdbIfaceId ifaceid) {
         super();
         this.mac = mac;
@@ -57,6 +60,41 @@ public class DefaultEventSubject implements OvsdbEventSubject {
         this.dpid = dpid;
         this.portType = portType;
         this.ifaceid = ifaceid;
+        this.dstPortNumber = null;
+        this.dstDpid = null;
+        this.dstPortName = null;
+    }
+
+    /**
+     * Creates an end-station event subject using the supplied information.
+     *
+     * @param mac host MAC address
+     * @param ips host MAC ips
+     * @param portname port name
+     * @param portnumber port number
+     * @param dpid ovs dpid
+     * @param portType port type
+     * @param ifaceid vm ifaceid
+     * @param dstPortNumber remote port number
+     * @param dstDpid remote ovs dpid
+     * @param dstPortName remote port name
+     */
+    public DefaultEventSubject(MacAddress mac, Set<IpAddress> ips, OvsdbPortName portname,
+                               OvsdbPortNumber portnumber, OvsdbDatapathId dpid,
+                               OvsdbPortType portType, OvsdbIfaceId ifaceid,
+                               OvsdbPortNumber dstPortNumber, OvsdbDatapathId dstDpid,
+                               OvsdbPortName dstPortName) {
+        super();
+        this.mac = mac;
+        this.ips = ips;
+        this.portname = portname;
+        this.portnumber = portnumber;
+        this.dpid = dpid;
+        this.portType = portType;
+        this.ifaceid = ifaceid;
+        this.dstPortNumber = dstPortNumber;
+        this.dstDpid = dstDpid;
+        this.dstPortName = dstPortName;
     }
 
     @Override
@@ -95,6 +133,21 @@ public class DefaultEventSubject implements OvsdbEventSubject {
     }
 
     @Override
+    public OvsdbPortNumber dstPortNumber() {
+        return dstPortNumber;
+    }
+
+    @Override
+    public OvsdbDatapathId dstDpid() {
+        return dstDpid;
+    }
+
+    @Override
+    public OvsdbPortName dstPortName() {
+        return dstPortName;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(mac, portname, portnumber, dpid, portType, ifaceid);
     }
@@ -119,8 +172,8 @@ public class DefaultEventSubject implements OvsdbEventSubject {
     @Override
     public String toString() {
         return toStringHelper(this).add("mac", mac).add("portname", portname)
-                .add("portnumber", portnumber).add("portType", portType)
-                .add("ipAddresses", ips).add("dpid", dpid).add("ifaceid", ifaceid)
-                .toString();
+                .add("portnumber", portnumber).add("portType", portType).add("ipAddresses", ips)
+                .add("dpid", dpid).add("ifaceid", ifaceid).toString();
     }
+
 }

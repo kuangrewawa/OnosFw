@@ -64,6 +64,11 @@
             <artifactId>onos-ovsdb-provider-tunnel</artifactId>
             <version>${project.version}</version>
         </dependency>
+         <dependency>
+            <groupId>org.onosproject</groupId>
+            <artifactId>onos-ovsdb-provider-link</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

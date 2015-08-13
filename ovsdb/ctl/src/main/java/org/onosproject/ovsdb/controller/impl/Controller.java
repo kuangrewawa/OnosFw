@@ -144,10 +144,10 @@ public class Controller {
                 channel.pipeline().addLast(ovsdbJsonRpcHandler);
 
                 ovsdbProviderService.nodeAdded();
-                ChannelFuture closeFuture = channel.closeFuture();
-                closeFuture
-                        .addListener(new ChannelConnectionListener(
-                                                                   ovsdbProviderService));
+//                ChannelFuture closeFuture = channel.closeFuture();
+//                closeFuture
+//                        .addListener(new ChannelConnectionListener(
+//                                                                   ovsdbProviderService));
             }
         });
     }

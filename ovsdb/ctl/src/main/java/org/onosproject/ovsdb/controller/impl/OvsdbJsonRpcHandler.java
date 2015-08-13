@@ -18,13 +18,13 @@ package org.onosproject.ovsdb.controller.impl;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import org.apache.commons.lang.StringUtils;
 import org.onosproject.ovsdb.controller.OvsdbNodeId;
 import org.onosproject.ovsdb.controller.driver.OvsdbProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Strings;
 
 /**
  * Channel handler deals with the node connection and dispatches
@@ -100,7 +100,7 @@ public final class OvsdbJsonRpcHandler extends ChannelInboundHandlerAdapter {
 
             log.debug("Handle ovsdb request");
             if (jsonNode.has("id")
-                    && !Strings.isNullOrEmpty(jsonNode.get("id").asText())) {
+                    && StringUtils.isNotEmpty(jsonNode.get("id").asText())) {
                 ovsdbProviderService.processRequest(jsonNode);
             }
 
