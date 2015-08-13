@@ -72,4 +72,25 @@ public interface OvsdbEventSubject extends EventSubject {
      * @return vm ifaceid
      */
     OvsdbIfaceId ifaceid();
+
+    /**
+     * Returns the remote Port number.
+     *
+     * @return remote port number
+     */
+    OvsdbPortNumber dstPortNumber();
+
+    /**
+     * Returns the dst Port name .
+     *
+     * @return dst port name
+     */
+    OvsdbPortName dstPortName();
+
+    /**
+     * Returns the remote Ovs dpid .
+     *
+     * @return remote Ovs dpid
+     */
+    OvsdbDatapathId dstDpid();
 }
