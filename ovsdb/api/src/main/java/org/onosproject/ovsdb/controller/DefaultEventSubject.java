@@ -149,7 +149,8 @@ public class DefaultEventSubject implements OvsdbEventSubject {
 
     @Override
     public int hashCode() {
-        return Objects.hash(mac, portname, portnumber, dpid, portType, ifaceid);
+        return Objects.hash(mac, portname, portnumber, dpid, portType, ifaceid, dstPortNumber,
+                            dstDpid, dstPortName);
     }
 
     @Override
@@ -164,7 +165,10 @@ public class DefaultEventSubject implements OvsdbEventSubject {
                     && Objects.equals(this.portnumber, other.portnumber)
                     && Objects.equals(this.dpid, other.dpid)
                     && Objects.equals(this.portType, other.portType)
-                    && Objects.equals(this.ifaceid, other.ifaceid);
+                    && Objects.equals(this.ifaceid, other.ifaceid)
+                    && Objects.equals(this.dstPortNumber, other.dstPortNumber)
+                    && Objects.equals(this.dstDpid, other.dstDpid)
+                    && Objects.equals(this.dstPortName, other.dstPortName);
         }
         return false;
     }
@@ -173,7 +177,8 @@ public class DefaultEventSubject implements OvsdbEventSubject {
     public String toString() {
         return toStringHelper(this).add("mac", mac).add("portname", portname)
                 .add("portnumber", portnumber).add("portType", portType).add("ipAddresses", ips)
-                .add("dpid", dpid).add("ifaceid", ifaceid).toString();
+                .add("dpid", dpid).add("ifaceid", ifaceid).add("dstPortNumber", dstPortNumber)
+                .add("dstPortName", dstPortName).add("dstDpid", dstDpid).toString();
     }
 
 }
