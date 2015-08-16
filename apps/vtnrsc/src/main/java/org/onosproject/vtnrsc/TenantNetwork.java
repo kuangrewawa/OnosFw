@@ -16,7 +16,7 @@
 package org.onosproject.vtnrsc;
 
 /**
- * Representation of the TenantNetwork.
+ * Representation of the tenantNetwork.
  */
 public interface TenantNetwork {
 
@@ -76,7 +76,7 @@ public interface TenantNetwork {
     boolean adminStateUp();
 
     /**
-     * Returns the tenant network state.
+     * Returns the tenantNetwork state.
      *
      * @return tenant network state
      */
@@ -124,7 +124,7 @@ public interface TenantNetwork {
     /**
      * Returns the tenantNetwork segmentation id.
      *
-     * @return segmentation identifier
+     * @return tenantNetwork segmentation id
      */
     SegmentationId segmentationId();
 }

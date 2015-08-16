@@ -19,7 +19,7 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Immutable representation of a TenantNetwork identifier.
+ * Immutable representation of a tenantNetwork identity.
  */
 public final class TenantNetworkId {
 

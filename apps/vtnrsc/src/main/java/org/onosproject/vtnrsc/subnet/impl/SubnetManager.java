@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -26,11 +27,7 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.Service;
-import org.onlab.util.KryoNamespace;
-import org.onosproject.store.service.EventuallyConsistentMap;
-import org.onosproject.store.service.MultiValuedTimestamp;
 import org.onosproject.store.service.StorageService;
-import org.onosproject.store.service.WallClockTimestamp;
 import org.onosproject.vtnrsc.Subnet;
 import org.onosproject.vtnrsc.SubnetId;
 import org.onosproject.vtnrsc.subnet.SubnetService;
@@ -49,8 +46,8 @@ public class SubnetManager implements SubnetService {
 
     private final Logger log = getLogger(getClass());
 
-    private EventuallyConsistentMap<SubnetId, Subnet> subnetStore;
-
+    protected ConcurrentHashMap<SubnetId, Subnet> subnetStore =
+            new ConcurrentHashMap<>();
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected StorageService storageService;
 
@@ -59,20 +56,12 @@ public class SubnetManager implements SubnetService {
 
     @Activate
     public void activate() {
-        KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
-                .register(MultiValuedTimestamp.class);
-        subnetStore = storageService
-                .<SubnetId, Subnet>eventuallyConsistentMapBuilder()
-                .withName("all_subnet").withSerializer(serializer)
-                .withTimestampProvider((k, v) -> new WallClockTimestamp())
-                .build();
-
-        log.info("SubnetManager  started");
+        log.info("SubnetManager started");
     }
 
     @Deactivate
     public void deactivate() {
-        subnetStore.destroy();
+        subnetStore.clear();
         log.info("SubnetManager stopped");
     }
 

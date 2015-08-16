@@ -29,7 +29,6 @@ import org.onlab.packet.MacAddress;
 public final class AllowedAddressPair {
     private final IpAddress ip;
     private final MacAddress mac;
-
     // Public construction is prohibited
     private AllowedAddressPair(IpAddress ip, MacAddress mac) {
         checkNotNull(ip, "IpAddress cannot be null");
@@ -37,9 +36,27 @@ public final class AllowedAddressPair {
         this.ip = ip;
         this.mac = mac;
     }
+    /**
+     * Returns the AllowedAddressPair ip address.
+     *
+     * @return ip address
+     */
+    public IpAddress ip() {
+        return ip;
+    }
 
     /**
-     * Creates a allowedAddressPair by using the supplied ipAddress &amp;
+     * Returns the AllowedAddressPair MAC address.
+     *
+     * @return MAC address
+     */
+    public MacAddress mac() {
+        return mac;
+    }
+
+
+    /**
+     * Creates a allowedAddressPair using the supplied ipAddress &amp;
      * macAddress.
      *
      * @param ip IP address
@@ -49,24 +66,6 @@ public final class AllowedAddressPair {
     public static AllowedAddressPair allowedAddressPair(IpAddress ip,
                                                         MacAddress mac) {
         return new AllowedAddressPair(ip, mac);
-    }
-
-    /**
-     * Returns the IP address.
-     *
-     * @return IP address
-     */
-    public IpAddress ip() {
-        return ip;
-    }
-
-    /**
-     * Returns the MAC address.
-     *
-     * @return MAC address
-     */
-    public MacAddress mac() {
-        return mac;
     }
 
     @Override

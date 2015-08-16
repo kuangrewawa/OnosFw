@@ -53,6 +53,8 @@ import org.onosproject.ovsdb.rfc.jsonrpc.Callback;
 import org.onosproject.ovsdb.rfc.message.TableUpdate;
 import org.onosproject.ovsdb.rfc.message.TableUpdates;
 import org.onosproject.ovsdb.rfc.message.UpdateNotification;
+import org.onosproject.ovsdb.rfc.notation.OvsdbMap;
+import org.onosproject.ovsdb.rfc.notation.OvsdbSet;
 import org.onosproject.ovsdb.rfc.notation.Row;
 import org.onosproject.ovsdb.rfc.notation.UUID;
 import org.onosproject.ovsdb.rfc.schema.DatabaseSchema;
@@ -91,6 +93,7 @@ public class OvsdbControllerImpl implements OvsdbController {
 
     protected ConcurrentHashMap<String, String> requestDbName = new ConcurrentHashMap<String, String>();
 
+    protected ConcurrentHashMap<UUID, UUID> interfaceUUIDs = new ConcurrentHashMap<UUID, UUID>();
     private final Controller controller = new Controller();
 
     @Activate
@@ -221,16 +224,30 @@ public class OvsdbControllerImpl implements OvsdbController {
                     boolean isNewRow = (row == null) ? true : false;
                     if (isNewRow) {
                         if (OvsdbConstant.PORT.equals(tableName)) {
-                            dispatchEvent(clientService, update.getNew(uuid), null,
-                                          OvsdbEvent.Type.PORT_ADDED, dbSchema);
+                            dispatchPortEvent(clientService, uuid,
+                                              update.getNew(uuid), null,
+                                              OvsdbEvent.Type.PORT_ADDED,
+                                              dbSchema);
+                        } else if (OvsdbConstant.INTERFACE.equals(tableName)) {
+                            dispatchInterfaceEvent(clientService, uuid,
+                                                   update.getNew(uuid), null,
+                                                   OvsdbEvent.Type.PORT_ADDED,
+                                                   dbSchema);
                         }
                     }
                 } else if (update.getOld(uuid) != null) {
-                    clientService.removeRow(dbName, tableName, uuid.toString());
+                    clientService.removeRow(dbName, tableName, uuid.value());
                     if (update.getOld(uuid) != null) {
                         if (OvsdbConstant.PORT.equals(tableName)) {
-                            dispatchEvent(clientService, null, update.getOld(uuid),
-                                          OvsdbEvent.Type.PORT_REMOVED, dbSchema);
+                            dispatchPortEvent(clientService, uuid, null,
+                                              update.getOld(uuid),
+                                              OvsdbEvent.Type.PORT_REMOVED,
+                                              dbSchema);
+                        } else if (OvsdbConstant.INTERFACE.equals(tableName)) {
+                            dispatchInterfaceEvent(clientService, uuid,
+                                                   null, update.getOld(uuid),
+                                                   OvsdbEvent.Type.PORT_ADDED,
+                                                   dbSchema);
                         }
                     }
                 }
@@ -247,8 +264,62 @@ public class OvsdbControllerImpl implements OvsdbController {
      * @param eventType type of event
      * @param dbSchema ovsdb database schema
      */
-    private void dispatchEvent(OvsdbClientService clientService, Row newRow, Row oldRow,
-                               Type eventType, DatabaseSchema dbSchema) {
+    private void dispatchInterfaceEvent(OvsdbClientService clientService,
+                                        UUID uuid, Row newRow, Row oldRow,
+                                        Type eventType,
+                                        DatabaseSchema dbSchema) {
+        UUID portUuid = interfaceUUIDs.get(uuid);
+        if (portUuid == null) {
+            return;
+        }
+        interfaceUUIDs.remove(uuid);
+        log.info("========portUuid {}", portUuid);
+        long dpid = getDataPathid(clientService, dbSchema);
+        Interface intf = (Interface) TableGenerator
+                .getTable(dbSchema, newRow, OvsdbTable.INTERFACE);
+        if (intf == null) {
+            log.info("========intf is null");
+        }
+        log.info("========interface uuid {}", uuid);
+        String portType = (String) intf.getTypeColumn().data();
+        long localPort = getOfPort(intf);
+        log.info("========localport {}", localPort);
+        String[] macAndIfaceId = getMacAndIfaceid(intf);
+        if (macAndIfaceId == null) {
+            log.info("========ifaceid is null ");
+            return;
+        }
+        log.info("========mac {}; ifaceid {}", macAndIfaceId[0], macAndIfaceId[1]);
+        EventSubject eventSubject = new DefaultEventSubject(MacAddress.valueOf(
+                                                                               macAndIfaceId[0]),
+                                                            new HashSet<IpAddress>(),
+                                                            new OvsdbPortName(intf
+                                                                    .getName()),
+                                                            new OvsdbPortNumber(localPort),
+                                                            new OvsdbDatapathId(Long
+                                                                    .toString(dpid)),
+                                                            new OvsdbPortType(portType),
+                                                            new OvsdbIfaceId(macAndIfaceId[1]));
+        log.info("generate eventsubject=======");
+        for (OvsdbEventListener listener : ovsdbEventListener) {
+            log.info("generate eventsubject=======");
+            listener.handle(new OvsdbEvent<EventSubject>(eventType,
+                                                         eventSubject));
+        }
+    }
+
+    /**
+     * Dispatches event to the north.
+     *
+     * @param clientService OvsdbClientService instance
+     * @param newRow a new row
+     * @param oldRow an old row
+     * @param eventType type of event
+     * @param dbSchema ovsdb database schema
+     */
+    private void dispatchPortEvent(OvsdbClientService clientService, UUID uuid,
+                                   Row newRow, Row oldRow, Type eventType,
+                                   DatabaseSchema dbSchema) {
         Port port = null;
         if (OvsdbEvent.Type.PORT_ADDED.equals(eventType)) {
             port = (Port) TableGenerator.getTable(dbSchema, newRow, OvsdbTable.PORT);
@@ -260,44 +331,33 @@ public class OvsdbControllerImpl implements OvsdbController {
         }
 
         long dpid = getDataPathid(clientService, dbSchema);
-        @SuppressWarnings({ "unchecked" })
-        Set<UUID> intfUuids = (Set<UUID>) port.getInterfacesColumn().data();
+
+        OvsdbSet intfUuidSets = (OvsdbSet) port.getInterfacesColumn().data();
+        @SuppressWarnings("unchecked")
+        Set<UUID> intfUuids = intfUuidSets.set();
         for (UUID intfUuid : intfUuids) {
 
-            Row intfRow = clientService.getRow(OvsdbConstant.DATABASENAME, "Interface",
-                                               intfUuid.toString());
-            Interface intf = (Interface) TableGenerator.getTable(dbSchema, intfRow,
-                                                                 OvsdbTable.INTERFACE);
+            Row intfRow = clientService.getRow(OvsdbConstant.DATABASENAME,
+                                               OvsdbConstant.INTERFACE, intfUuid.value());
+            if (intfRow == null) {
+                interfaceUUIDs.put(intfUuid, uuid);
+                log.warn("the interface row is null {}", intfUuid.value());
+                continue;
+            }
+            interfaceUUIDs.remove(intfUuid);
+            Interface intf = (Interface) TableGenerator
+                    .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
 
             String portType = (String) intf.getTypeColumn().data();
             long localPort = getOfPort(intf);
             String[] macAndIfaceId = getMacAndIfaceid(intf);
             if (macAndIfaceId == null) {
-                return;
+                continue;
             }
-            // Get remote dpid and portnumber
-            long dstDpid = 0;
-            OvsdbPortNumber dstPortNumber = null;
-            OvsdbPortName dstPortName = null;
-            if (OvsdbConstant.TYPEVXLAN.equals(portType)) {
-                OvsdbClientService dstClientService = getDstClientService(port);
-                String srcIp = clientService.nodeId().getIpAddress();
-                String portName = OvsdbConstant.TYPEVXLAN + "-" + srcIp;
-                dstPortName = new OvsdbPortName(portName);
-                Set<OvsdbPort> ports = dstClientService.getPorts();
-                for (OvsdbPort po : ports) {
-                    if (po.portName().value().equals(portName)) {
-                        dstPortNumber = po.portNumber();
-                    }
-                }
-                dstDpid = getDataPathid(dstClientService,
-                                        dstClientService
-                                                .getDatabaseSchema(OvsdbConstant.DATABASENAME));
-
-            }
-            EventSubject eventSubject = new DefaultEventSubject(MacAddress.valueOf(macAndIfaceId[0]),
-                                                                new HashSet<IpAddress>(),
-                                                                new OvsdbPortName(port.getName()),
+            EventSubject eventSubject = new DefaultEventSubject(MacAddress
+                    .valueOf(macAndIfaceId[0]), new HashSet<IpAddress>(),
+                                                                new OvsdbPortName(port
+                                                                        .getName()),
                                                                 new OvsdbPortNumber(localPort),
                                                                 new OvsdbDatapathId(Long.toString(dpid)),
                                                                 new OvsdbPortType(portType),
@@ -336,8 +396,10 @@ public class OvsdbControllerImpl implements OvsdbController {
      * @return attachedMac, ifaceid
      */
     private String[] getMacAndIfaceid(Interface intf) {
+        OvsdbMap ovsdbMap = (OvsdbMap) intf
+                .getExternalIdsColumn().data();
         @SuppressWarnings("unchecked")
-        Map<String, String> externalIds = (Map<String, String>) intf.getExternalIdsColumn().data();
+        Map<String, String> externalIds = ovsdbMap.map();
         if (externalIds == null) {
             log.warn("The external_ids is null");
             return null;
@@ -353,7 +415,7 @@ public class OvsdbControllerImpl implements OvsdbController {
             log.warn("The ifaceid is null");
             return null;
         }
-        return new String[] {attachedMac, ifaceid };
+        return new String[] {attachedMac, ifaceid};
     }
 
     /**
@@ -363,8 +425,9 @@ public class OvsdbControllerImpl implements OvsdbController {
      * @return ofport the ofport number
      */
     private long getOfPort(Interface intf) {
+        OvsdbSet ofPortSet = (OvsdbSet) intf.getOpenFlowPortColumn().data();
         @SuppressWarnings("unchecked")
-        Set<Long> ofPorts = (Set<Long>) intf.getOpenFlowPortColumn().data();
+        Set<Long> ofPorts = (Set<Long>) ofPortSet.set();
         while (ofPorts == null || ofPorts.size() <= 0) {
             log.debug("The ofport is null in {}", intf.getName());
             return 0;
@@ -387,10 +450,13 @@ public class OvsdbControllerImpl implements OvsdbController {
             return 0;
         }
 
-        Row bridgeRow = clientService.getRow(OvsdbConstant.DATABASENAME, "Bridge", bridgeUuid);
-        Bridge bridge = (Bridge) TableGenerator.getTable(dbSchema, bridgeRow, OvsdbTable.BRIDGE);
+        Row bridgeRow = clientService.getRow(OvsdbConstant.DATABASENAME,
+                                             OvsdbConstant.BRIDGE, bridgeUuid);
+        Bridge bridge = (Bridge) TableGenerator.getTable(dbSchema, bridgeRow,
+                                                         OvsdbTable.BRIDGE);
+        OvsdbSet dpidSet = (OvsdbSet) bridge.getDatapathIdColumn().data();
         @SuppressWarnings("unchecked")
-        Set<String> dpids = (Set<String>) bridge.getDatapathIdColumn().data();
+        Set<String> dpids = (Set<String>) dpidSet.set();
         if (dpids == null || dpids.size() == 0) {
             return 0;
         }
@@ -398,7 +464,8 @@ public class OvsdbControllerImpl implements OvsdbController {
     }
 
     private long stringToLong(String values) {
-        long value = (new BigInteger(values.replaceAll(":", ""), 16)).longValue();
+        long value = (new BigInteger(values.replaceAll(":", ""), 16))
+                .longValue();
         return value;
     }
 

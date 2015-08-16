@@ -65,6 +65,7 @@ public class OvsdbDeviceProvider extends AbstractProvider
     private DeviceProviderService providerService;
     private OvsdbNodeListener innerNodeListener = new InnerOvsdbNodeListener();
     protected static final String ISNOTNULL = "OvsdbNodeId is not null";
+    private static final String UNKNOWN = "unknown";
 
     @Activate
     public void activate() {
@@ -91,7 +92,7 @@ public class OvsdbDeviceProvider extends AbstractProvider
 
     @Override
     public void roleChanged(DeviceId deviceId, MastershipRole newRole) {
-
+        // TODO: This will be implemented later.
     }
 
     @Override
@@ -113,8 +114,8 @@ public class OvsdbDeviceProvider extends AbstractProvider
             DeviceDescription deviceDescription = new DefaultDeviceDescription(
                                                                                uri,
                                                                                Device.Type.CONTROLLER,
-                                                                               "", "",
-                                                                               "", "",
+                                                                               UNKNOWN, UNKNOWN,
+                                                                               UNKNOWN, UNKNOWN,
                                                                                cid,
                                                                                annotations);
             providerService.deviceConnected(deviceId, deviceDescription);

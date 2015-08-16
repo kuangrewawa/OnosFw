@@ -402,7 +402,7 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
 
         DatabaseSchema dbSchema = schema.get(OvsdbConstant.DATABASENAME);
         if (dbSchema == null) {
-            log.warn("The schema is nullr");
+            log.warn("The schema is null");
             return;
         }
 
@@ -551,21 +551,9 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
         }
 
         if (interfaceUuid != null) {
-            OvsdbRowStore rowStore = getRowStore(OvsdbConstant.DATABASENAME,
-                                                 OvsdbConstant.INTERFACE);
-            if (rowStore == null) {
-                log.debug("The bridge uuid is null");
-                return;
-            }
 
-            ConcurrentMap<String, Row> intfTableRows = rowStore.getRowStore();
-            if (intfTableRows == null) {
-                log.debug("The bridge uuid is null");
-                return;
-            }
+            Interface tunInterface = (Interface) TableGenerator.createTable(dbSchema, OvsdbTable.INTERFACE);
 
-            Interface tunInterface = (Interface) TableGenerator.getTable(dbSchema, intfTableRows
-                    .get(interfaceUuid), OvsdbTable.INTERFACE);
             if (tunInterface != null) {
 
                 tunInterface.setType(OvsdbConstant.TYPEVXLAN);
@@ -574,7 +562,8 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
                 options.put("local_ip", srcIp.toString());
                 options.put("remote_ip", dstIp.toString());
                 tunInterface.setOptions(options);
-                updateConfig(OvsdbConstant.INTERFACE, "_uuid", interfaceUuid, tunInterface.getRow());
+                updateConfig(OvsdbConstant.INTERFACE, "_uuid", interfaceUuid,
+                          tunInterface.getRow());
                 log.info("Tunnel added success", tunInterface);
 
             }
@@ -707,7 +696,7 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
             Mutate op = new Mutate(parentTableSchema, conditions, mutations);
             operations.add(op);
         }
-        if (childtableName.equalsIgnoreCase("Port")) {
+        if (childtableName.equalsIgnoreCase(OvsdbConstant.PORT)) {
             log.info("Handle port insert");
             Insert intfInsert = handlePortInsertTable(OvsdbConstant.INTERFACE, row);
 
@@ -716,7 +705,8 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
             }
 
             Insert ins = (Insert) operations.get(0);
-            ins.getRow().put(OvsdbConstant.INTERFACE, UUID.uuid(OvsdbConstant.INTERFACE));
+            ins.getRow().put("interfaces",
+                             UUID.uuid(OvsdbConstant.INTERFACE));
         }
 
         List<OperationResult> results;
@@ -797,16 +787,9 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
 
             ListenableFuture<JsonNode> input = getSchema(dbNames);
             if (input != null) {
-                try {
-                    log.info("input message: {}", input.get().toString());
-                } catch (InterruptedException e) {
-                    log.warn("Interrupted while waiting to get message");
-                    Thread.currentThread().interrupt();
-                } catch (ExecutionException e) {
-                    log.error("Exception thrown while to get message");
-                }
+                 return Futures.transform(input, rowFunction);
             }
-            return Futures.transform(input, rowFunction);
+            return null;
         } else {
             return Futures.immediateFuture(databaseSchema);
         }

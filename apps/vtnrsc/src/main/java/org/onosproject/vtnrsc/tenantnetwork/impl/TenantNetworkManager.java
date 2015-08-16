@@ -19,18 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.Service;
-import org.onlab.util.KryoNamespace;
-import org.onosproject.store.service.EventuallyConsistentMap;
-import org.onosproject.store.service.MultiValuedTimestamp;
-import org.onosproject.store.service.StorageService;
-import org.onosproject.store.service.WallClockTimestamp;
 import org.onosproject.vtnrsc.TenantNetwork;
 import org.onosproject.vtnrsc.TenantNetworkId;
 import org.onosproject.vtnrsc.tenantnetwork.TenantNetworkService;
@@ -46,26 +40,19 @@ public class TenantNetworkManager implements TenantNetworkService {
     private static final String NETWORK_ID_NULL = "Network ID cannot be null";
     private static final String NETWORK_NOT_NULL = "Network ID cannot be null";
 
-    @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
-    protected StorageService storageService;
-    private EventuallyConsistentMap<TenantNetworkId, TenantNetwork> networkIdAsKeyStore;
+    protected ConcurrentHashMap<TenantNetworkId, TenantNetwork> networkIdAsKeyStore =
+            new ConcurrentHashMap<>();
+
     private final Logger log = getLogger(getClass());
 
     @Activate
     public void activate() {
-        KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
-                .register(MultiValuedTimestamp.class);
-        networkIdAsKeyStore = storageService
-                .<TenantNetworkId, TenantNetwork>eventuallyConsistentMapBuilder()
-                .withName("all_network").withSerializer(serializer)
-                .withTimestampProvider((k, v) -> new WallClockTimestamp())
-                .build();
         log.info("Started");
     }
 
     @Deactivate
     public void deactivate() {
-        networkIdAsKeyStore.destroy();
+        networkIdAsKeyStore.clear();
         log.info("Stopped");
     }
 

@@ -25,8 +25,8 @@ import org.apache.karaf.shell.commands.Command;
 import org.onlab.packet.MacAddress;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.net.DeviceId;
-import org.onosproject.net.HostId;
 import org.onosproject.vtnrsc.AllowedAddressPair;
+import org.onosproject.vtnrsc.BindingHostId;
 import org.onosproject.vtnrsc.DefaultVirtualPort;
 import org.onosproject.vtnrsc.FixedIp;
 import org.onosproject.vtnrsc.SecurityGroup;
@@ -63,9 +63,9 @@ public class VirtualPortUpdateCommand extends AbstractShellCommand {
     String deviceOwner = null;
     @Argument(index = 8, name = "deviceId", description = "device id.", required = true, multiValued = false)
     String deviceId = null;
-    @Argument(index = 9, name = "fixedIp", description = " a IP address for the port,Include the IP address and "
+    @Argument(index = 9, name = "fixedIps", description = " set of IP address for the port,Include the IP address and "
             + "subnet identity..", required = true, multiValued = false)
-    FixedIp fixedIp = null;
+    Set<FixedIp> fixedIps = null;
     @Argument(index = 10, name = "bindingHostId", description = "virtualPort bindingHostId.",
             required = true, multiValued = false)
     String bindingHostId = null;
@@ -106,8 +106,8 @@ public class VirtualPortUpdateCommand extends AbstractShellCommand {
                                                                  .valueOf(macAddress),
                                                          TenantId.tenantId(tenantId),
                                                          DeviceId.deviceId(deviceId),
-                                                         fixedIp,
-                                                         HostId.hostId(bindingHostId),
+                                                         fixedIps,
+                                                         BindingHostId.bindingHostId(bindingHostId),
                                                          allowedAddressPairs,
                                                          securityGroups);
         Set<VirtualPort> virtualPorts = new HashSet<VirtualPort>();

@@ -30,7 +30,7 @@ public final class HostRoutesCodec extends JsonCodec<HostRoute> {
 
     @Override
     public ObjectNode encode(HostRoute hostRoute, CodecContext context) {
-        checkNotNull(hostRoute, "HostRoutes cannot be null");
+        checkNotNull(hostRoute, "HostRoute cannot be null");
         ObjectNode result = context.mapper().createObjectNode()
                 .put("nexthop", hostRoute.nexthop().toString())
                 .put("destination", hostRoute.destination().toString());

@@ -16,10 +16,10 @@
 package org.onosproject.vtnrsc;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.onlab.packet.MacAddress;
 import org.onosproject.net.DeviceId;
-import org.onosproject.net.HostId;
 
 /**
  * Representation of the VirtualPort.
@@ -112,19 +112,19 @@ public interface VirtualPort {
     Collection<AllowedAddressPair> allowedAddressPairs();
 
     /**
-     * Returns the IP address for the port, Include the IP address and subnet
+     * Returns set of IP addresses for the port, include the IP addresses and subnet
      * identity.
      *
-     * @return port fixedIps
+     * @return Set<FixedIp> fixedIps
      */
-    FixedIp fixedIps();
+    Set<FixedIp> fixedIps();
 
     /**
      * Returns the virtualPort bindinghostId.
      *
      * @return virtualPort bindinghostId
      */
-    HostId bindingHostId();
+    BindingHostId bindingHostId();
 
     /**
      * Returns the virtualPort bindingVnicType.

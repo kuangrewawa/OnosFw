@@ -20,11 +20,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Objects;
 
 /**
- * Immutable representation of a VirtualPort identifier.
+ * Immutable representation of a virtual port identifier.
  */
 public final class VirtualPortId {
     private final String portId;
-
     // Public construction is prohibited
     private VirtualPortId(String virtualPortId) {
         checkNotNull(virtualPortId, "VirtualPortId cannot be null");
@@ -36,10 +35,10 @@ public final class VirtualPortId {
     }
 
     /**
-     * Creates a VirtualPort identifier.
+     * Creates a virtualPort id using the supplied portId.
      *
-     * @param portId the virtualPort identifier
-     * @return the virtualPort identifier
+     * @param portId virtualport identifier
+     * @return VirtualPortId
      */
     public static VirtualPortId portId(String portId) {
         return new VirtualPortId(portId);

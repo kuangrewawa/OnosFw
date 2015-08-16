@@ -26,22 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class SecurityGroup {
     private final String securityGroup;
 
-    // Public construction is prohibited
-    private SecurityGroup(String securityGroup) {
-        checkNotNull(securityGroup, "SecurityGroup cannot be null");
-        this.securityGroup = securityGroup;
-    }
-
-    /**
-     * Creates a SecurityGroup object.
-     *
-     * @param securityGroup security group
-     * @return securityGroup
-     */
-    public static SecurityGroup securityGroup(String securityGroup) {
-        return new SecurityGroup(securityGroup);
-    }
-
     /**
      * Returns the securityGroup.
      *
@@ -49,6 +33,21 @@ public final class SecurityGroup {
      */
     public String securityGroup() {
         return securityGroup;
+    }
+    // Public construction is prohibited
+    private SecurityGroup(String securityGroup) {
+        checkNotNull(securityGroup, "SecurityGroup cannot be null");
+        this.securityGroup = securityGroup;
+    }
+
+    /**
+     * Creates a securityGroup using the supplied securityGroup.
+     *
+     * @param securityGroup security group
+     * @return securityGroup
+     */
+    public static SecurityGroup securityGroup(String securityGroup) {
+        return new SecurityGroup(securityGroup);
     }
 
     @Override

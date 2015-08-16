@@ -75,17 +75,24 @@ public class Controller {
     /**
      * Accepts incoming connections.
      */
-    private void startAcceptingConnections() throws InterruptedException {
-        ServerBootstrap b = new ServerBootstrap();
+    private void startAcceptingConnections() {
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(bossGroup, workerGroup).channel(serverChannelClass)
+                    .childHandler(new OnosCommunicationChannelInitializer());
+            b.option(ChannelOption.SO_BACKLOG, 128);
+            b.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
+            b.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024);
+            b.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+            b.childOption(ChannelOption.SO_KEEPALIVE, true);
+            b.bind(ovsdbPort).sync();
+            //ChannelFuture cf = b.bind(ovsdbPort).sync();
+            //cf.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            log.warn("Interrupted while waiting to start");
+            Thread.currentThread().interrupt();
+        }
 
-        b.group(bossGroup, workerGroup).channel(serverChannelClass)
-                .childHandler(new OnosCommunicationChannelInitializer());
-        b.option(ChannelOption.SO_BACKLOG, 128);
-        b.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024);
-        b.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024);
-        b.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-        b.childOption(ChannelOption.SO_KEEPALIVE, true);
-        b.bind(ovsdbPort).sync();
     }
 
     /**

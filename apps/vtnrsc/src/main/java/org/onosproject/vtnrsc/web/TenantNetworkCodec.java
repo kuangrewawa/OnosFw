@@ -35,13 +35,13 @@ public final class TenantNetworkCodec extends JsonCodec<TenantNetwork> {
                 .put("id", network.id().toString())
                 .put("name", network.name().toString())
                 .put("admin_state_up", network.adminStateUp())
-                .put("state", "" + network.state())
+                .put("status", "" + network.state())
                 .put("shared", network.shared())
                 .put("tenant_id", network.tenantId().toString())
-                .put("routerExternal", network.routerExternal())
-                .put("type", "" + network.type())
-                .put("physicalNetwork", network.physicalNetwork().toString())
-                .put("segmentationID", network.segmentationId().toString());
+                .put("router:external", network.routerExternal())
+                .put("provider:network_type", "" + network.type())
+                .put("provider:physical_network", network.physicalNetwork().toString())
+                .put("provider:segmentation_id", network.segmentationId().toString());
         return result;
     }
 }

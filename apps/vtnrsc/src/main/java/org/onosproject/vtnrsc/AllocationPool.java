@@ -18,22 +18,21 @@ package org.onosproject.vtnrsc;
 import org.onlab.packet.IpAddress;
 
 /**
- * The continuous IP address range between the start address and the end address
- * for the allocation pools.
+ * The continuous IP address range between the start address and the end address for the allocation pools.
  */
 public interface AllocationPool {
 
     /**
      * The start address for the allocation pool.
      *
-     * @return start IP address of the allocation pool
+     * @return startIp
      */
     IpAddress startIp();
 
     /**
      * The end address for the allocation pool.
      *
-     * @return end IP address of the allocation pool
+     * @return endIp
      */
     IpAddress endIp();
 }

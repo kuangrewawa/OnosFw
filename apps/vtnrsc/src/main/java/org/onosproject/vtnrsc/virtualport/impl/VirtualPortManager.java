@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -26,12 +27,8 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.Service;
-import org.onlab.util.KryoNamespace;
 import org.onosproject.net.DeviceId;
-import org.onosproject.store.service.EventuallyConsistentMap;
-import org.onosproject.store.service.MultiValuedTimestamp;
 import org.onosproject.store.service.StorageService;
-import org.onosproject.store.service.WallClockTimestamp;
 import org.onosproject.vtnrsc.TenantId;
 import org.onosproject.vtnrsc.TenantNetworkId;
 import org.onosproject.vtnrsc.VirtualPort;
@@ -56,8 +53,8 @@ public class VirtualPortManager implements VirtualPortService {
     private static final String NETWORKID_NOT_NULL = "NetworkId  cannot be null";
     private static final String DEVICEID_NOT_NULL = "DeviceId  cannot be null";
 
-    private EventuallyConsistentMap<VirtualPortId, VirtualPort> vPortStore;
-
+    protected ConcurrentHashMap<VirtualPortId, VirtualPort> vPortStore =
+            new ConcurrentHashMap<>();
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected StorageService storageService;
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
@@ -65,19 +62,12 @@ public class VirtualPortManager implements VirtualPortService {
 
     @Activate
     public void activate() {
-        KryoNamespace.Builder seriallizer = KryoNamespace.newBuilder()
-                .register(MultiValuedTimestamp.class);
-        vPortStore = storageService
-                .<VirtualPortId, VirtualPort>eventuallyConsistentMapBuilder()
-                .withName("vPortId_vPort").withSerializer(seriallizer)
-                .withTimestampProvider((k, v) -> new WallClockTimestamp())
-                .build();
         log.info("Started");
     }
 
     @Deactivate
     public void deactivate() {
-        vPortStore.destroy();
+        vPortStore.clear();
         log.info("Stoppped");
     }
 

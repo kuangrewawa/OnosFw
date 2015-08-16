@@ -20,10 +20,10 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.onlab.packet.MacAddress;
 import org.onosproject.net.DeviceId;
-import org.onosproject.net.HostId;
 
 /**
  * Default implementation of VirtualPort interface .
@@ -38,8 +38,8 @@ public final class DefaultVirtualPort implements VirtualPort {
     private final TenantId tenantId;
     private final String deviceOwner;
     private final DeviceId deviceId;
-    private final FixedIp fixedIp;
-    private final HostId bindingHostId;
+    private final Set<FixedIp> fixedIps;
+    private final BindingHostId bindingHostId;
     private final String bindingVnicType;
     private final String bindingVifType;
     private final String bindingVifDetails;
@@ -70,8 +70,8 @@ public final class DefaultVirtualPort implements VirtualPort {
                               MacAddress macAddress,
                               TenantId tenantId,
                               DeviceId deviceId,
-                              FixedIp fixedIp,
-                              HostId bindingHostId,
+                              Set<FixedIp> fixedIps,
+                              BindingHostId bindingHostId,
                               Collection<AllowedAddressPair> allowedAddressPairs,
                               Collection<SecurityGroup> securityGroups) {
         this.id = id;
@@ -83,7 +83,7 @@ public final class DefaultVirtualPort implements VirtualPort {
         this.tenantId = tenantId;
         this.deviceOwner = strMap.get("deviceOwner");
         this.deviceId = deviceId;
-        this.fixedIp = fixedIp;
+        this.fixedIps = fixedIps;
         this.bindingHostId = bindingHostId;
         this.bindingVnicType = strMap.get("bindingVnicType");
         this.bindingVifType = strMap.get("bindingVifType");
@@ -143,12 +143,12 @@ public final class DefaultVirtualPort implements VirtualPort {
     }
 
     @Override
-    public FixedIp fixedIps() {
-        return fixedIp;
+    public Set<FixedIp> fixedIps() {
+        return fixedIps;
     }
 
     @Override
-    public HostId bindingHostId() {
+    public BindingHostId bindingHostId() {
         return bindingHostId;
     }
 
@@ -176,7 +176,7 @@ public final class DefaultVirtualPort implements VirtualPort {
     public int hashCode() {
         return Objects.hash(id, networkId, adminStateUp, name, state,
                             macAddress, tenantId, deviceId, deviceOwner,
-                            allowedAddressPairs, fixedIp, bindingHostId,
+                            allowedAddressPairs, fixedIps, bindingHostId,
                             bindingVnicType, bindingVifType, bindingVifDetails,
                             securityGroups);
     }
@@ -199,7 +199,7 @@ public final class DefaultVirtualPort implements VirtualPort {
                     && Objects.equals(this.deviceOwner, that.deviceOwner)
                     && Objects.equals(this.allowedAddressPairs,
                                       that.allowedAddressPairs)
-                    && Objects.equals(this.fixedIp, that.fixedIp)
+                    && Objects.equals(this.fixedIps, that.fixedIps)
                     && Objects.equals(this.bindingHostId, that.bindingHostId)
                     && Objects.equals(this.bindingVifDetails,
                                       that.bindingVifDetails)
@@ -219,7 +219,7 @@ public final class DefaultVirtualPort implements VirtualPort {
                 .add("macAddress", macAddress).add("tenantId", tenantId)
                 .add("deviced", deviceId).add("deviceOwner", deviceOwner)
                 .add("allowedAddressPairs", allowedAddressPairs)
-                .add("fixedIp", fixedIp).add("bindingHostId", bindingHostId)
+                .add("fixedIp", fixedIps).add("bindingHostId", bindingHostId)
                 .add("bindingVnicType", bindingVnicType)
                 .add("bindingVifDetails", bindingVifDetails)
                 .add("bindingVifType", bindingVifType)

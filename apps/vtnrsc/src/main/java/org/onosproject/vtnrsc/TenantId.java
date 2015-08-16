@@ -32,10 +32,10 @@ public final class TenantId {
     }
 
     /**
-     * Creates a network id by using the tenantid.
+     * Creates a network id using the tenantid.
      *
-     * @param tenantid the tenant identifier
-     * @return the tenant identifier
+     * @param tenantid network String
+     * @return TenantId
      */
     public static TenantId tenantId(String tenantid) {
         checkNotNull(tenantid, "Tenantid can not be null");

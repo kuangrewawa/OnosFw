@@ -44,7 +44,7 @@ public final class VirtualPortCodec extends JsonCodec<VirtualPort> {
                 .put("device_owner", vPort.deviceOwner().toString())
                 .put("binding:vnic_type", vPort.bindingVnicType().toString())
                 .put("binding:Vif_type", vPort.bindingVifType().toString())
-                .put("binding:host_id", vPort.bindingHostId().mac().toString())
+                .put("binding:host_id", vPort.bindingHostId().toString())
                 .put("binding:vif_details", vPort.bindingVifDetails().toString());
         result.set("allowed_address_pairs", new AllowedAddressPairCodec().encode(
                                                                                vPort.allowedAddressPairs(), context));

@@ -175,21 +175,18 @@ public class VTNManager implements VTNService {
     public void onServerVanished(Device device) {
         Iterable<Device> devices = deviceService.getAvailableDevices();
         String ipAddress = device.annotations().value(CONTROLLER_IP_KEY);
-        IpAddress src = IpAddress.valueOf(ipAddress);
+        IpAddress dst = IpAddress.valueOf(ipAddress);
         Sets.newHashSet(devices)
                 .stream()
-                .filter(d -> Device.Type.CONTROLLER == d.type())
+                .filter(d -> d.type() == Device.Type.CONTROLLER)
                 .filter(d -> !device.id().equals(d.id()))
                 .forEach(d -> {
-                             if (!device.id().equals(d.id())
-                                     && Device.Type.CONTROLLER == d.type()) {
-                                 String ipAddress1 = d.annotations()
-                                         .value(CONTROLLER_IP_KEY);
-                                 DriverHandler handler = driverService
-                                         .createHandler(d.id());
-                                 IpAddress dst = IpAddress.valueOf(ipAddress1);
-                                 removeTunnelConfig(src, dst, handler);
-                             }
+                             String ipAddress1 = d.annotations()
+                                     .value(CONTROLLER_IP_KEY);
+                             DriverHandler handler = driverService
+                                     .createHandler(d.id());
+                             IpAddress src = IpAddress.valueOf(ipAddress1);
+                             removeTunnelConfig(src, dst, handler);
                          });
     }
 
