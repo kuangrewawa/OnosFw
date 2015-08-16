@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.math.BigInteger;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -123,7 +124,6 @@ public class OvsdbControllerImpl implements OvsdbController {
     @Override
     public void addOvsdbEventListener(OvsdbEventListener listener) {
         if (!ovsdbEventListener.contains(listener)) {
-            log.info("add listener=======");
             this.ovsdbEventListener.add(listener);
         }
     }
@@ -253,7 +253,7 @@ public class OvsdbControllerImpl implements OvsdbController {
                         } else if (OvsdbConstant.INTERFACE.equals(tableName)) {
                             dispatchInterfaceEvent(clientService, uuid,
                                                    null, update.getOld(uuid),
-                                                   OvsdbEvent.Type.PORT_ADDED,
+                                                   OvsdbEvent.Type.PORT_REMOVED,
                                                    dbSchema);
                         }
                     }
@@ -340,19 +340,20 @@ public class OvsdbControllerImpl implements OvsdbController {
         }
 
         long dpid = getDataPathid(clientService, dbSchema);
-
+        log.info("===={}", eventType.toString());
         OvsdbSet intfUuidSets = (OvsdbSet) port.getInterfacesColumn().data();
         @SuppressWarnings("unchecked")
         Set<UUID> intfUuids = intfUuidSets.set();
         for (UUID intfUuid : intfUuids) {
-
+            log.info("====interfaceuuid {}", intfUuid);
             Row intfRow = clientService.getRow(OvsdbConstant.DATABASENAME,
-                                               "Interface", intfUuid.value());
+                                               OvsdbConstant.INTERFACE, intfUuid.value());
             if (intfRow == null) {
                 interfaceUUIDs.put(intfUuid, uuid);
                 log.warn("the interface row is null {}", intfUuid.value());
                 continue;
             }
+            log.info("===={}", intfRow.toString());
             interfaceUUIDs.remove(intfUuid);
             Interface intf = (Interface) TableGenerator
                     .getTable(dbSchema, intfRow, OvsdbTable.INTERFACE);
@@ -420,12 +421,14 @@ public class OvsdbControllerImpl implements OvsdbController {
     private long getOfPort(Interface intf) {
         OvsdbSet ofPortSet = (OvsdbSet) intf.getOpenFlowPortColumn().data();
         @SuppressWarnings("unchecked")
-        Set<Long> ofPorts = (Set<Long>) ofPortSet.set();
+        Set<Integer> ofPorts = ofPortSet.set();
         while (ofPorts == null || ofPorts.size() <= 0) {
             log.debug("The ofport is null in {}", intf.getName());
             return 0;
         }
-        return (long) ofPorts.toArray()[0];
+        //return (long) ofPorts.toArray()[0];
+        Iterator<Integer> it = ofPorts.iterator();
+        return (long) Long.parseLong(it.next().toString());
     }
 
     /**
@@ -451,7 +454,7 @@ public class OvsdbControllerImpl implements OvsdbController {
                                                          OvsdbTable.BRIDGE);
         OvsdbSet dpidSet = (OvsdbSet) bridge.getDatapathIdColumn().data();
         @SuppressWarnings("unchecked")
-        Set<String> dpids = (Set<String>) dpidSet.set();
+        Set<String> dpids = dpidSet.set();
         if (dpids == null || dpids.size() == 0) {
             return 0;
         }

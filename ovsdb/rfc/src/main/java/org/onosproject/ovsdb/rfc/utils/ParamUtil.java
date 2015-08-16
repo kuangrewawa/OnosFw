@@ -82,6 +82,9 @@ public final class ParamUtil {
      */
     public static List<Object> getTransactParams(DatabaseSchema dbSchema,
                                                  List<Operation> operations) {
-        return Lists.newArrayList(dbSchema.name(), operations);
+        //return Lists.newArrayList(dbSchema.name(), operations);
+        List<Object> lists = Lists.newArrayList((Object) dbSchema.name());
+        lists.addAll(operations);
+        return lists;
     }
 }

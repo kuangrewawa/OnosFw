@@ -123,7 +123,8 @@ public class ECHostStore
                         hostDescription.hwAddress(),
                         hostDescription.vlan(),
                         hostDescription.location(),
-                        ImmutableSet.copyOf(hostDescription.ipAddress()));
+                        ImmutableSet.copyOf(hostDescription.ipAddress()),
+                        hostDescription.annotations());
             hosts.put(hostId, newhost);
             return new HostEvent(HOST_ADDED, newhost);
         }

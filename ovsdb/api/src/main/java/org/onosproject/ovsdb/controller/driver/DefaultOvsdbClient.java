@@ -398,8 +398,8 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
 
     @Override
     public void createBridge(String bridgeName) {
-        log.debug("create bridge {}", bridgeName);
-
+        //log.debug("create bridge {}", bridgeName);
+        log.info("create bridge {}", bridgeName);
         DatabaseSchema dbSchema = schema.get(OvsdbConstant.DATABASENAME);
         if (dbSchema == null) {
             log.warn("The schema is null");
@@ -408,7 +408,7 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
 
         Bridge bridge = (Bridge) TableGenerator.createTable(dbSchema, OvsdbTable.BRIDGE);
         if (bridge == null) {
-            log.debug("Can not create bridge");
+            log.warn("Can not create bridge");
             return;
         }
 
@@ -428,8 +428,8 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
 
         String bridgeUuid = getBridgeUuid(bridgeName);
         if (bridgeUuid == null) {
-            log.debug("Create a new bridge");
-
+            //log.debug("Create a new bridge");
+            log.info("Create a new bridge {}", ovsUuid);
             bridge.setName(bridgeName);
             bridgeUuid = insertConfig(OvsdbConstant.BRIDGE, "_uuid", OvsdbConstant.DATABASENAME,
                                       "bridges", ovsUuid, bridge.getRow());
@@ -908,7 +908,6 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
                                                      List<Operation> operations) {
         String id = java.util.UUID.randomUUID().toString();
         String transactString = JsonRpcWriterUtil.transactStr(id, dbSchema, operations);
-
         SettableFuture<List<JsonNode>> sf = SettableFuture.create();
         requestResult.put(id, sf);
         requestMethod.put(id, "transact");
@@ -921,7 +920,8 @@ public class DefaultOvsdbClient implements OvsdbProviderService, OvsdbClientServ
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void processResult(JsonNode response) {
-        log.debug("Handle result");
+        //log.debug("Handle result");
+        log.info("Handle result {}", response.toString());
         String requestId = response.get("id").asText();
         SettableFuture sf = requestResult.get(requestId);
         if (sf == null) {

@@ -146,12 +146,12 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
         FlowRule.Builder ruleBuilder = DefaultFlowRule.builder()
                 .fromApp(fwd.appId()).withPriority(fwd.priority())
                 .forDevice(deviceId).withSelector(selector.build())
-                .withTreatment(tb).makeTemporary(TIME_OUT).forTable(PORT_TABLE);
+                .withTreatment(tb).makeTemporary(TIME_OUT);
 
         if (fwd.permanent()) {
             ruleBuilder.makePermanent();
         }
-        if (tb.tableTransition().tableId() != MAC_TABLE) {
+        if (tb.tableTransition().tableId() != null) {
             ruleBuilder.withPriority(MAC_TABLE_PRIORITY);
             ruleBuilder.forTable(MAC_TABLE);
         } else {
