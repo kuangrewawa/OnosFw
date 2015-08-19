@@ -15,9 +15,13 @@
  */
 package org.onosproject.net.behaviour;
 
-import com.google.common.primitives.UnsignedInteger;
+import java.util.Set;
+
+import org.onosproject.net.PortNumber;
 import org.onosproject.net.device.PortDescription;
 import org.onosproject.net.driver.HandlerBehaviour;
+
+import com.google.common.primitives.UnsignedInteger;
 
 /**
  * Means to configure a logical port at the device.
@@ -26,6 +30,7 @@ public interface PortConfig extends HandlerBehaviour {
 
     /**
      * Apply QoS configuration on a device.
+     *
      * @param port a port description
      * @param queueId an unsigned integer
      */
@@ -33,8 +38,15 @@ public interface PortConfig extends HandlerBehaviour {
 
     /**
      * Remove a QoS configuration.
+     *
      * @param port a port description
      */
     void removeQoS(PortDescription port);
 
+    /**
+     * Remove a QoS configuration.
+     *
+     * @param port a port description
+     */
+    Set<PortNumber> getPorts();
 }

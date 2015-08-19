@@ -245,6 +245,7 @@ public abstract class AbstractOpenFlowSwitch extends AbstractHandlerBehaviour
 
     @Override
     public void setPortDescReply(OFPortDescStatsReply portDescReply) {
+        log.info("port==== {}", portDescReply.toString());
         this.ports.add(portDescReply);
     }
 

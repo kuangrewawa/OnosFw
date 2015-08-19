@@ -15,10 +15,22 @@
  */
 package org.onosproject.provider.of.device.impl;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.onlab.util.Tools.get;
+import static org.onosproject.net.DeviceId.deviceId;
+import static org.onosproject.net.Port.Type.COPPER;
+import static org.onosproject.net.Port.Type.FIBER;
+import static org.onosproject.openflow.controller.Dpid.dpid;
+import static org.onosproject.openflow.controller.Dpid.uri;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -75,22 +87,10 @@ import org.projectfloodlight.openflow.protocol.OFVersion;
 import org.projectfloodlight.openflow.types.PortSpeed;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.onlab.util.Tools.get;
-import static org.onosproject.net.DeviceId.deviceId;
-import static org.onosproject.net.Port.Type.COPPER;
-import static org.onosproject.net.Port.Type.FIBER;
-import static org.onosproject.openflow.controller.Dpid.dpid;
-import static org.onosproject.openflow.controller.Dpid.uri;
-import static org.slf4j.LoggerFactory.getLogger;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Provider which uses an OpenFlow controller to detect network
@@ -289,7 +289,7 @@ public class OpenFlowDeviceProvider extends AbstractProvider implements DevicePr
             }
             DeviceId did = deviceId(uri(dpid));
             OpenFlowSwitch sw = controller.getSwitch(dpid);
-
+            LOG.info("sw ===== {}", sw.toString());
             Device.Type deviceType = sw.isOptical() ? Device.Type.ROADM :
                     Device.Type.SWITCH;
             ChassisId cId = new ChassisId(dpid.value());
@@ -335,6 +335,7 @@ public class OpenFlowDeviceProvider extends AbstractProvider implements DevicePr
             }
             DeviceId did = deviceId(uri(dpid));
             OpenFlowSwitch sw = controller.getSwitch(dpid);
+            LOG.info("sw ===== {}", sw.toString());
             providerService.updatePorts(did, buildPortDescriptions(sw));
         }
 
@@ -378,6 +379,7 @@ public class OpenFlowDeviceProvider extends AbstractProvider implements DevicePr
          * @return list of portdescriptions
          */
         private List<PortDescription> buildPortDescriptions(OpenFlowSwitch sw) {
+            LOG.info("---------------------buildPortDescriptions----------------------------");
             final List<PortDescription> portDescs = new ArrayList<>(sw.getPorts().size());
             sw.getPorts().forEach(port -> portDescs.add(buildPortDescription(port)));
             if (sw.isOptical()) {
@@ -385,6 +387,7 @@ public class OpenFlowDeviceProvider extends AbstractProvider implements DevicePr
                 opsw.getPortTypes().forEach(type -> {
                     opsw.getPortsOf(type).forEach(
                         op -> {
+                            LOG.info("of optional {}", op.toString());
                             portDescs.add(buildPortDescription(type, (OFPortOptical) op));
                         }
                     );
@@ -422,6 +425,7 @@ public class OpenFlowDeviceProvider extends AbstractProvider implements DevicePr
                     !port.getState().contains(OFPortState.LINK_DOWN) &&
                             !port.getConfig().contains(OFPortConfig.PORT_DOWN);
             Port.Type type = port.getCurr().contains(OFPortFeatures.PF_FIBER) ? FIBER : COPPER;
+            LOG.info("====portName {}", port.getName());
             SparseAnnotations annotations = makePortNameAnnotation(port.getName());
             return new DefaultPortDescription(portNo, enabled, type,
                                               portSpeed(port), annotations);

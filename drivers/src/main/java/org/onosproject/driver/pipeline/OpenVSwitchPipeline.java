@@ -28,13 +28,15 @@ import org.onosproject.net.behaviour.PipelinerContext;
 import org.onosproject.net.device.DeviceService;
 import org.onosproject.net.driver.AbstractHandlerBehaviour;
 import org.onosproject.net.flow.DefaultFlowRule;
-import org.onosproject.net.flow.DefaultTrafficSelector;
+import org.onosproject.net.flow.DefaultTrafficTreatment;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleOperations;
 import org.onosproject.net.flow.FlowRuleOperationsContext;
 import org.onosproject.net.flow.FlowRuleService;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
+import org.onosproject.net.flow.criteria.Criterion.Type;
+import org.onosproject.net.flow.instructions.Instructions;
 import org.onosproject.net.flowobjective.FilteringObjective;
 import org.onosproject.net.flowobjective.FlowObjectiveStore;
 import org.onosproject.net.flowobjective.ForwardingObjective;
@@ -42,6 +44,7 @@ import org.onosproject.net.flowobjective.NextObjective;
 import org.onosproject.net.flowobjective.Objective;
 import org.onosproject.net.flowobjective.ObjectiveError;
 import org.slf4j.Logger;
+
 
 /**
  * Driver for standard OpenVSwitch.
@@ -56,8 +59,6 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
     protected DeviceId deviceId;
     protected FlowRuleService flowRuleService;
     protected DeviceService deviceService;
-    private static final int MAC_TABLE_PRIORITY = 0xffff;
-    private static final int PORT_TABLE_PRIORITY = 0xffff;
     private static final int TIME_OUT = 0;
     private static final int MAC_TABLE = 40;
     private static final int PORT_TABLE = 0;
@@ -141,21 +142,25 @@ public class OpenVSwitchPipeline extends AbstractHandlerBehaviour
 
     private Collection<FlowRule> processSpecific(ForwardingObjective fwd) {
         log.debug("Processing specific forwarding objective");
-        TrafficSelector.Builder selector = DefaultTrafficSelector.builder();
+        TrafficSelector selector = fwd.selector();
         TrafficTreatment tb = fwd.treatment();
         FlowRule.Builder ruleBuilder = DefaultFlowRule.builder()
                 .fromApp(fwd.appId()).withPriority(fwd.priority())
-                .forDevice(deviceId).withSelector(selector.build())
+                .forDevice(deviceId).withSelector(selector)
                 .withTreatment(tb).makeTemporary(TIME_OUT);
-
+        ruleBuilder.withPriority(fwd.priority());
         if (fwd.permanent()) {
             ruleBuilder.makePermanent();
         }
-        if (tb.tableTransition().tableId() != null) {
-            ruleBuilder.withPriority(MAC_TABLE_PRIORITY);
+        if (selector.getCriterion(Type.ETH_DST) != null
+                || tb.allInstructions().contains(Instructions.createDrop())) {
+            ruleBuilder.withTreatment(tb);
             ruleBuilder.forTable(MAC_TABLE);
         } else {
-            ruleBuilder.withPriority(PORT_TABLE_PRIORITY);
+            TrafficTreatment.Builder newTraffic = DefaultTrafficTreatment.builder();
+            tb.allInstructions().forEach(t -> newTraffic.add(t));
+            newTraffic.transition(MAC_TABLE);
+            ruleBuilder.withTreatment(newTraffic.build());
             ruleBuilder.forTable(PORT_TABLE);
         }
         return Collections.singletonList(ruleBuilder.build());

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.onlab.packet.IpAddress;
-
 import org.onosproject.ovsdb.rfc.jsonrpc.OvsdbRPC;
 import org.onosproject.ovsdb.rfc.message.OperationResult;
 import org.onosproject.ovsdb.rfc.message.TableUpdates;
@@ -187,7 +186,7 @@ public interface OvsdbClientService extends OvsdbRPC {
     /**
      * Gets the ovsdb database schema from local.
      *
-     * @param  dbName database name
+     * @param dbName database name
      * @return database schema
      */
     DatabaseSchema getDatabaseSchema(String dbName);
@@ -219,6 +218,6 @@ public interface OvsdbClientService extends OvsdbRPC {
      * @param uuid row uuid
      * @param row ovsdb row
      */
-    void updateOvsdbStore(String dbName, String tableName, String uuid, Row row);
-
+    void updateOvsdbStore(String dbName, String tableName, String uuid,
+                          Row row);
 }
