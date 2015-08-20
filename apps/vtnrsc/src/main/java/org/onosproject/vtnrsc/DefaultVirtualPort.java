@@ -57,7 +57,7 @@ public final class DefaultVirtualPort implements VirtualPort {
      * @param macAddress the MAC address
      * @param tenantId the tenant identifier
      * @param deviceId the device identifier
-     * @param fixedIp the fixed IP
+     * @param fixedIps set of fixed IP
      * @param bindingHostId the binding host identifier
      * @param allowedAddressPairs the collection of allowdeAddressPairs
      * @param securityGroups the collection of securityGroups

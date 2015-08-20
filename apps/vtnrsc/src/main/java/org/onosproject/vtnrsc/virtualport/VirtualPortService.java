@@ -45,6 +45,7 @@ public interface VirtualPortService {
 
     /**
      * Returns the collection of the currently known virtualPort.
+     * @return collection of VirtualPort.
      */
     Collection<VirtualPort> getPorts();
 

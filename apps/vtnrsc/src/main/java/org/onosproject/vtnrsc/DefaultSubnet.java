@@ -48,6 +48,7 @@ public final class DefaultSubnet implements Subnet {
      * @param subnetName the name of subnet
      * @param networkId network identifier
      * @param tenantId tenant identifier
+     * @param ipVersion Version of ipv4 or ipv6
      * @param cidr the cidr
      * @param gatewayIp gateway ip
      * @param dhcpEnabled dhcp enabled or not

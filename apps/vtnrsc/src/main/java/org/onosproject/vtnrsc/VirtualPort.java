@@ -115,7 +115,7 @@ public interface VirtualPort {
      * Returns set of IP addresses for the port, include the IP addresses and subnet
      * identity.
      *
-     * @return Set<FixedIp> fixedIps
+     * @return FixedIps Set of fixedIp
      */
     Set<FixedIp> fixedIps();
 
