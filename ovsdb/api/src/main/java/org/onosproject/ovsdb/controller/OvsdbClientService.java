@@ -220,4 +220,12 @@ public interface OvsdbClientService extends OvsdbRPC {
      */
     void updateOvsdbStore(String dbName, String tableName, String uuid,
                           Row row);
+
+    /**
+     * Get ovsdb local ports.
+     *
+     * @param ifaceids the ifaceid that needed
+     * @return ovsdb ports
+     */
+    Set<OvsdbPort> getLocalPorts(Iterable<String> ifaceids);
 }

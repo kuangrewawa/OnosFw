@@ -153,4 +153,18 @@ public class OvsdbBridgeConfig extends AbstractHandlerBehaviour
         });
         return ports;
     }
+
+    @Override
+    public Set<PortNumber> getLocalPorts(Iterable<String> ifaceids) {
+        Set<PortNumber> ports = new HashSet<>();
+        DriverHandler handler = handler();
+        OvsdbClientService ovsdbNode = getOvsdbNode(handler);
+        Set<OvsdbPort> ovsdbSet = ovsdbNode.getLocalPorts(ifaceids);
+        ovsdbSet.forEach(o -> {
+            PortNumber port = PortNumber.portNumber(o.portNumber().value(),
+                                                    o.portName().value());
+            ports.add(port);
+        });
+        return ports;
+    }
 }

@@ -75,4 +75,12 @@ public interface BridgeConfig extends HandlerBehaviour {
      * return collection of port
      */
     Set<PortNumber> getOvsdbPorts();
+
+    /**
+     * Get local ports by the ifaceids.
+     *
+     * @param ifaceids the ifaceid selected by segmentationid
+     * @return collection of port
+     */
+    Set<PortNumber> getLocalPorts(Iterable<String> ifaceids);
 }
